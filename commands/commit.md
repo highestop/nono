@@ -1,16 +1,17 @@
 ---
 allowed-tools: Bash(git checkout*, git branch*, git commit*, git status*, git diff*, git log*)
-description: 在主分支上创建提交
+description: 在主分支上创建提交并推送到远程仓库
 ---
 
 ## 任务
 
-在主分支上创建提交本地修改的代码
+在主分支上创建提交本地修改的代码，成功后推送到远程仓库
 
 ### 主要流程
 
 1. 在 main 分支上提交修改，创建 commit
-1. 返回创建成功的 commit 信息，以及展示最近的 5 条 commit 标题
+1. 返回创建成功的 commit 信息
+1. 推送到远程 main 分支
 
 ## 状态
 

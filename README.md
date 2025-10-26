@@ -1,3 +1,3 @@
 # My Claude
 
-在本地根目录下 clone 此仓库。
+在本地 `~/.claude` 下 clone 此仓库。
