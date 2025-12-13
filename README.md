@@ -1,3 +1,4 @@
-# My Claude Prompts
+# My Claude Code Agent App
 
-在本地 `~/.claude` 下 clone 此仓库。
+* Directly include Claude Code global prompts (slash commands, skills and plugins), clone this repo into `~/.claude` to use it.
+* Also include customized CLI tools, based on Claude Code Agent SDK.
