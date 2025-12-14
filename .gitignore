@@ -1,8 +1,10 @@
-# 忽略所有文件
+# Ignore all files
 *
 
-# 白名单：只保留以下文件和目录
+# Whitelist specific files and directories
 !.gitignore
+!.claude/
+!.claude/**
 !CLAUDE.md
 !README.md
 !agents/
@@ -11,3 +13,8 @@
 !commands/**
 !skills/
 !skills/**
+!cli
+!cli/**
+!tsconfig.json
+!package.json
+!pnpm-lock.yaml
