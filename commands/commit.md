@@ -1,27 +1,27 @@
 ---
 allowed-tools: Bash(git checkout*, git branch*, git commit*, git status*, git diff*, git log*)
-description: 在主分支上创建提交并推送到远程仓库
+description: Create commits on main branch and push to remote repository
 ---
 
-## 任务
+## Task
 
-在主分支上创建提交本地修改的代码，成功后推送到远程仓库
+Create commits for local code modifications on the main branch, then push to remote repository after successful commit
 
-### 主要流程
+### Main Workflow
 
-1. 在 main 分支上提交修改，创建 commit
-1. 返回创建成功的 commit 信息
-1. 推送到远程 main 分支
+1. Commit changes on main branch, create commit
+1. Return successful commit information
+1. Push to remote main branch
 
-## 状态
+## Status
 
-- 当前分支: !`git branch --show-current`
-- 本地修改的文件: !`git status --porcelain | head -10`
-- 最近的 commit 记录：!`git log --oneline | head -5`
+- Current branch: !`git branch --show-current`
+- Locally modified files: !`git status --porcelain | head -10`
+- Recent commit history: !`git log --oneline | head -5`
 
-## 注意事项
+## Important Notes
 
-- 提交信息应遵循 Angular Conventional Commit 规范，简单格式满足：`<type>: <subject>`。其中 `type: feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert`，subject 要求简洁描述，动词原形，首字母小写，结尾不加句号
-- 如果修改文件或内容较多，需要相应补充提交的描述信息
-- 如果修改的文件明显做了不同的几件事，可以拆分成几个 commit 提交
-- 不要使用 `--amend` 合并到已有的提交中，始终创建新的 commit 提交代码
+- Commit messages should follow Angular Conventional Commit specification, simple format: `<type>: <subject>`. Where `type: feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert`, subject should be concise description, verb in base form, lowercase first letter, no ending punctuation
+- If many files or extensive content are modified, provide appropriate additional commit description
+- If modified files clearly represent different tasks, split into multiple commits
+- Do not use `--amend` to merge into existing commits, always create new commits for code submission
