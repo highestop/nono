@@ -1,6 +1,7 @@
 # Claude Code Guidelines
 
 ## Language Requirements
+* When chatting with me, use the same language I'm using to communicate with you.
 * All file content must be written in English.
 
 ## Development Standards
