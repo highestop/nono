@@ -1,9 +1,9 @@
 ---
-description: 玩赛博徒步
+description: Play Cyber Hiking
 allowed-tools: "mcp__playwright__*
 ---
 
-游戏名称：cyber-hiking
-游戏地址：https://cyberhiking.com
+Game Name: cyber-hiking
+Game URL: https://cyberhiking.com
 
-使用 Skill(play-game) 来玩游戏。
+Use Skill(play-game) to play.
