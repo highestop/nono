@@ -7,7 +7,9 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(tree:*)",
-      "Skill(deepwiki-github-search)"
+      "Skill(deepwiki-github-search)",
+      "Bash(node skills/budget-export-csv-formatter/scripts/formatter.js:*)",
+      "Bash(git remote:*)"
     ]
   }
 }
