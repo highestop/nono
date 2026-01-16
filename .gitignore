@@ -1,20 +1,19 @@
-# Ignore all files
+# Ignore all files by default
 *
 
-# Whitelist specific files and directories
+# Includes these root files
 !.gitignore
-!.claude/
-!.claude/**
 !CLAUDE.md
-!README.md
-!agents/
-!agents/**
+
+# Include these folders
+!skills
+!skills/**/*
+
+!rules
+!rules/**/*
+
 !commands/
-!commands/**
-!skills/
-!skills/**
-!cli
-!cli/**
-!tsconfig.json
-!package.json
-!pnpm-lock.yaml
+!commands/**/*
+
+# Ignored local configs anyway in any place
+**/*.local.*

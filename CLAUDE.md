@@ -1,10 +1,7 @@
-# Claude Code Guidelines
+# Global Rules
 
-## Language Requirements
-* When chatting with me, use the same language I'm using to communicate with you.
-* All file content must be written in English.
+**Meta Rule**: This file must only reference rule files, never directly describe rules inline.
 
-## Development Standards
-* TypeScript code files must be free of TypeScript type errors or lint errors (if lint tools are provided) before completion.
+Load the following rules that apply to all interactions:
 
-IMPORTANT: These instructions OVERRIDE any default behavior and you MUST follow them exactly as written.
+- Language preferences, see `@rules/language.md`
