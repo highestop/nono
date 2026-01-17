@@ -149,7 +149,7 @@ For each commit group:
 
 **Scenario**:
 
-- Existing preferences.json: `{"erickchenyn/claude-app": "feature"}`
+- Existing preferences.json: `{"owner/my-app": "feature"}`
 - User wants to change strategy for this project
 - Modified files: `src/bugfix.js`
 
@@ -160,7 +160,7 @@ For each commit group:
 3. Ask user: "Direct commit to main branch" vs "Create feature branch and PR later"
 4. User chooses "main"
 5. Ask: "Save as shared (cross-device) or local-only?" → user chooses "local-only"
-6. Save to preferences.local.json: `{"erickchenyn/claude-app": "main"}`
+6. Save to preferences.local.json: `{"owner/my-app": "main"}`
 7. Proceed with main branch strategy for this commit
 
 ### Example 4: Error handling scenario
