@@ -8,12 +8,18 @@ paths: ["skills/**/*"]
 - Skills are **exclusively** written for Claude's execution, not user documentation
 - Focus solely on actionable execution steps and technical specifications
 
-## 2. Privacy Protection
+## 2. User Interaction Guidelines
+
+- **Use AskUserQuestion tool**: When skills require user confirmation or choices, explicitly specify using `AskUserQuestion` tool instead of free text prompts
+- **Provide clear options**: Define specific choice options with clear labels and descriptions
+- **Improve user experience**: Button-based selections are preferred over text input when possible
+
+## 3. Privacy Protection
 
 - **NEVER** include absolute paths that expose usernames or system details
 - Use relative paths from Claude root directory when referencing skill files
 
-## 3. File Organization
+## 4. File Organization
 
 ### Required Structure
 
@@ -34,7 +40,7 @@ skills/
 - **All other files**: MUST be placed in subdirectories
 - **Single version only**: Each skill can only have one version - no multi-version support
 
-## 4. User Preferences
+## 5. User Preferences
 
 ### Dual Preference File Strategy
 
@@ -60,7 +66,7 @@ skills/
 - **Trigger keywords**: Watch for phrases like "reset preferences", "clear settings", "change my preference", "override setting"
 - **Force re-configuration**: Always ask for both preference value and storage location when reset is requested
 
-## 5. Complex Skills
+## 6. Complex Skills
 
 - **Examples**: Complex skills MUST include example scenarios for understanding and validation. Examples can be writen in GWT (Given/Scenario, When/Trigger, Then/Expected) patterns.
 - **Documentation Splitting**: If SKILL.md becomes too long, split content into separate markdown files in `docs/` directory and reference them from the main file

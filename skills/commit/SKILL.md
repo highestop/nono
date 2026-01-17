@@ -17,7 +17,7 @@ Execute the following steps when this skill is triggered:
   - File type (source code, docs, tests, config)
   - Change type (feat, fix, docs, style, refactor, perf, test, chore)
 - If multiple unrelated changes detected, suggest splitting into separate commits
-- Present analysis and ask user for confirmation to proceed with commit
+- Present analysis and use AskUserQuestion tool to confirm: "Proceed with commit?"
 
 ### 2. Load User Preferences
 
@@ -29,11 +29,12 @@ Execute the following steps when this skill is triggered:
 - Merge preferences with local file taking priority over shared file
 - Create empty `{}` files if they don't exist (in `skills/commit/configs/` directory)
 - **If reset requested**: Skip existing preference check and force re-configuration
-- **If no reset and no existing preference**: Ask user for new preference
-- **Preference options**:
-  - "Direct commit to main branch" → save as "main"
-  - "Create feature branch and PR later" → save as "feature"
-- Ask user: "Save preference as shared (cross-device) or local-only?"
+- **If no reset and no existing preference**: Use AskUserQuestion tool with options:
+  - Option 1: "Direct commit to main branch" → save as "main"
+  - Option 2: "Create feature branch and PR later" → save as "feature"
+- Use AskUserQuestion tool to ask: "Save preference as shared (cross-device) or local-only?"
+  - Option 1: "Shared (cross-device sync)"
+  - Option 2: "Local-only (this machine)"
 - Save user choice to selected file with repo identifier as key
 
 ### 3. Execute Branch Strategy
@@ -92,7 +93,7 @@ For each commit group:
 
 - Use TodoWrite to track all steps at the beginning and update status throughout
 - If any new file changes appear at ANY point during execution, restart the entire commit workflow from beginning
-- Ask for user confirmation before committing
+- Use AskUserQuestion tool for all user interactions instead of free text prompts
 - Commit messages in English
 - Handle git errors gracefully with clear error messages
 
@@ -111,9 +112,9 @@ For each commit group:
 **Expected flow**:
 
 1. Get repo identifier: "owner/my-app"
-2. No preferences found in either file, ask user: "Direct commit to main branch" vs "Create feature branch and PR later"
+2. No preferences found in either file, use AskUserQuestion with options: "Direct commit to main branch" vs "Create feature branch and PR later"
 3. User chooses "feature"
-4. Ask: "Save as shared (cross-device) or local-only?" → user chooses "shared"
+4. Use AskUserQuestion: "Save as shared (cross-device) or local-only?" → user chooses "shared"
 5. Save to preferences.json: `{"owner/my-app": "feature"}`
 6. Analyze changes: single logical group (auth fix + tests)
 7. Create feature branch: `feature/fix-login-validation`
@@ -157,9 +158,9 @@ For each commit group:
 
 1. Detect reset keywords: "reset my commit preferences"
 2. Skip loading existing preferences for this repo
-3. Ask user: "Direct commit to main branch" vs "Create feature branch and PR later"
+3. Use AskUserQuestion: "Direct commit to main branch" vs "Create feature branch and PR later"
 4. User chooses "main"
-5. Ask: "Save as shared (cross-device) or local-only?" → user chooses "local-only"
+5. Use AskUserQuestion: "Save as shared (cross-device) or local-only?" → user chooses "local-only"
 6. Save to preferences.local.json: `{"owner/my-app": "main"}`
 7. Proceed with main branch strategy for this commit
 
