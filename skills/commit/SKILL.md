@@ -25,9 +25,9 @@ Execute the following steps when this skill is triggered:
 - Extract owner/repo from URL using regex (e.g., "owner/repo" from https://github.com/owner/repo)
 - If no remote exists, ABORT the process
 - Check if user request contains reset keywords: "reset", "clear", "override", "change settings"
-- Read preferences from both `skills/commit/configs/preferences.json` and `skills/commit/configs/preferences.local.json`
+- Read preferences from both `~/.claude/skills/commit/configs/preferences.json` and `~/.claude/skills/commit/configs/preferences.local.json`
 - Merge preferences with local file taking priority over shared file
-- Create empty `{}` files if they don't exist (in `skills/commit/configs/` directory)
+- Create empty `{}` files if they don't exist (in `~/.claude/skills/commit/configs/` directory)
 - **If reset requested**: Skip existing preference check and force re-configuration
 - **If no reset and no existing preference**: Use AskUserQuestion tool with options:
   - Option 1: "Direct commit to main branch" → save as "main"
@@ -65,7 +65,7 @@ For each commit group:
 
 ### Shared Preferences
 
-`skills/commit/configs/preferences.json` (committed, cross-device sync):
+`~/.claude/skills/commit/configs/preferences.json` (committed, cross-device sync):
 
 ```json
 {
@@ -75,7 +75,7 @@ For each commit group:
 
 ### Local Preferences
 
-`skills/commit/configs/preferences.local.json` (git-ignored, machine-specific):
+`~/.claude/skills/commit/configs/preferences.local.json` (git-ignored, machine-specific):
 
 ```json
 {
