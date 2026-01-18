@@ -16,6 +16,9 @@ Execute the following steps when this skill is triggered:
 - Categorize changes by:
   - File type (source code, docs, tests, config)
   - Change type (feat, fix, docs, style, refactor, perf, test, chore)
+- Determine scope type by:
+    - With scope (rule, skill, command, plugin) for Claude Agent functionality and ability changed
+    - Without scope for other changes
 - If multiple unrelated changes detected, suggest splitting into separate commits
 - Present analysis and use AskUserQuestion tool to confirm: "Proceed with commit?"
 
