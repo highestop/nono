@@ -1,6 +1,6 @@
 ---
 description: Play Big Tech Simulator
-allowed-tools: "mcp__playwright__*
+allowed-tools: "mcp__playwright__*"
 ---
 
 Game Name: bigtech-simulater
