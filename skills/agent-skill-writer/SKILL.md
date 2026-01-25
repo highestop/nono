@@ -3,6 +3,8 @@ name: agent-skill-writer
 description: Use this skill when writing/editing skills
 ---
 
+Follow the Agent Skills specification: <https://agentskills.io/specification>
+
 **Description Format:**
 - Use directive format like: "Use this skill to/when..."
 - Clearly convey **what** the skill does and **when** to use it
