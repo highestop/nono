@@ -10,7 +10,12 @@ allowed-tools:
 
 ## Configuration API
 
-The skill reads configuration from `skills/commit/config.json` relative to the current working directory. You can choose whether to commit this file to share team conventions or keep it local by adding to .gitignore.
+The skill reads configuration from `.claude/config/commit.config.json` using a proximity-based search:
+
+1. **Project Config**: `.claude/config/commit.config.json` relative to current working directory
+2. **Global Config**: `~/.claude/config/commit.config.json` if project config not found
+
+You can choose whether to commit the project config file to share team conventions or keep it local by adding to .gitignore.
 
 ### Configuration Schema
 
@@ -23,6 +28,30 @@ The skill reads configuration from `skills/commit/config.json` relative to the c
 | `coAuthor` | `boolean` | Add Claude co-author tag to commits | `true` |
 | `types` | `string[]` | Allowed commit types | `["feat", "fix", "docs", "style", "refactor", "perf", "test", "chore"]` |
 | `scopes` | `string[]` | Allowed scopes for this project | `["rule", "skill", "command", "plugin"]` |
+
+### Command-line Configuration Overrides
+
+Users can override any configuration setting directly in their request using natural language. The skill should intelligently parse the user's intent and map it to appropriate configuration overrides.
+
+**Priority Order** (highest to lowest):
+1. **User arguments** - Settings inferred from current request
+2. **Config file values** - Project config or global configuration
+3. **Default values** - System defaults
+
+**Semantic Parsing Guidelines**:
+- Parse user intent rather than matching exact phrases
+- Look for indicators of configuration preferences in the request
+- Map natural language expressions to configuration field overrides
+- Support various ways users might express the same preference
+
+**Common Override Patterns**:
+| Configuration Field | Natural Language Indicators | Example Expressions |
+|---------------------|----------------------------|-------------------|
+| `strategy` | Branch strategy preferences | "use feature branch", "commit to main", "create branch" |
+| `autoPush` | Push behavior preferences | "don't push", "without push", "and push", "skip push" |
+| `createPullRequest` | PR creation preferences | "create PR", "make pull request", "no PR", "skip PR" |
+| `splitCommits` | Commit splitting preferences | "single commit", "one commit", "split commits", "separate" |
+| `coAuthor` | Co-author preferences | "no co-author", "without co-author", "skip co-author" |
 
 ### Example Configuration
 
@@ -41,19 +70,28 @@ The skill reads configuration from `skills/commit/config.json` relative to the c
 ### Configuration Management
 
 - **Reset configuration**: When user mentions "reset", "clear", "override", or "change settings", delete existing config file and use defaults
-- **Config location**: `skills/commit/config.json` in current working directory
-- **Team sharing**: Choose whether to commit config file for team conventions or add to .gitignore for local-only settings
+- **Config locations**:
+  - Project Config: `.claude/config/commit.config.json` (current working directory)
+  - Global Config: `~/.claude/config/commit.config.json`
+- **Search priority**: Project config takes precedence over global config
+- **Team sharing**: Choose whether to commit project config file for team conventions or add to .gitignore for local-only settings
 
 ## Workflow
 
 Execute the following steps when this skill is triggered:
 
-### 1. Load Configuration
+### 1. Load Configuration and Parse Arguments
 
-- Check if `skills/commit/config.json` exists in current directory
-- If exists, merge with defaults (config values override defaults)
-- If not exists or if reset requested, use default values
-- Create `skills/commit/` directory if it doesn't exist
+- Analyze user input to identify configuration intent and preferences
+- Extract configuration overrides from natural language expressions
+- Search for config file in order:
+  1. `.claude/config/commit.config.json` (current working directory)
+  2. `~/.claude/config/commit.config.json` (global config)
+- Merge configurations with priority order (highest to lowest):
+  1. **User arguments** (parsed from current request)
+  2. **Config file values** (project config or global config)
+  3. **Default values**
+- Create `.claude/config/` directory if it doesn't exist when saving new config
 
 ### 2. Analyze Changes
 
@@ -94,19 +132,31 @@ For each commit group:
   - Create PR using `gh pr create`
   - Return PR URL to user
 
-### 7. Handle Configuration File
+### 7. Handle Configuration Updates
 
-- Check if config file should be version controlled or ignored
-- If this is the first time creating config, ask user whether to add to .gitignore
+- If user provided configuration overrides during this session, use AskUserQuestion tool:
+  - Question: "Save these settings for future use?"
+  - Options: ["Yes, save settings", "No, use only for this commit"]
+- If user chooses to save, use AskUserQuestion tool:
+  - Question: "Where should these settings be saved?"
+  - Options: ["Project Config (current project only)", "Global Config (all projects)"]
+- When creating project config for the first time, use AskUserQuestion tool:
+  - Question: "Should the config file be added to .gitignore?"
+  - Options: ["Yes, keep config local only", "No, share with team"]
+- Update existing config file with only the overridden values, keeping other settings unchanged
 
 ## Critical Rules
 
 - Use TaskCreate to track all steps at the beginning and update status throughout
 - If any new file changes appear at ANY point during execution, restart the entire commit workflow from beginning
-- Execute automatically without user confirmation (removed interactive prompts)
+- Intelligently parse user input for configuration intent using semantic analysis, not fixed phrase matching
+- Execute automatically without user confirmation for commit operations (removed interactive prompts)
+- Only use AskUserQuestion tool when saving configuration overrides for future use
+- Always provide clear options for user selection rather than free text input
 - Commit messages in English
 - Handle git errors gracefully with clear error messages
-- Never commit the config.json file itself
+- Never automatically commit the config file itself during the commit process
+- When updating config files, preserve existing settings and only update overridden values
 
 ## Examples
 
@@ -115,7 +165,7 @@ For each commit group:
 **Trigger**: "Help me commit my changes"
 
 **Scenario**:
-- No `skills/commit/config.json` exists
+- No `.claude/config/commit.config.json` exists (neither project config nor global config)
 - Modified files: `src/auth.js`, `tests/auth.test.js`
 - All changes related to fixing login validation
 
@@ -128,7 +178,7 @@ For each commit group:
 
 ### Example 2: Feature branch strategy
 
-**Configuration** (`skills/commit/config.json`):
+**Configuration** (`.claude/config/commit.config.json`):
 ```json
 {
   "strategy": "feature"
@@ -142,7 +192,7 @@ For each commit group:
 
 ### Example 3: Disable commit splitting
 
-**Configuration** (`skills/commit/config.json`):
+**Configuration** (`.claude/config/commit.config.json`):
 ```json
 {
   "splitCommits": false
@@ -159,7 +209,7 @@ For each commit group:
 
 ### Example 4: Disable auto-push
 
-**Configuration** (`skills/commit/config.json`):
+**Configuration** (`.claude/config/commit.config.json`):
 ```json
 {
   "autoPush": false
@@ -173,7 +223,7 @@ For each commit group:
 
 ### Example 5: Enable automatic PR creation
 
-**Configuration** (`skills/commit/config.json`):
+**Configuration** (`.claude/config/commit.config.json`):
 ```json
 {
   "strategy": "feature",
@@ -189,7 +239,7 @@ For each commit group:
 
 ### Example 6: Disable co-author tag
 
-**Configuration** (`skills/commit/config.json`):
+**Configuration** (`.claude/config/commit.config.json`):
 ```json
 {
   "coAuthor": false
@@ -202,7 +252,7 @@ For each commit group:
 
 ### Example 7: Custom commit types
 
-**Configuration** (`skills/commit/config.json`):
+**Configuration** (`.claude/config/commit.config.json`):
 ```json
 {
   "types": ["feat", "fix", "docs", "refactor"]
@@ -216,7 +266,7 @@ For each commit group:
 
 ### Example 8: Custom scopes
 
-**Configuration** (`skills/commit/config.json`):
+**Configuration** (`.claude/config/commit.config.json`):
 ```json
 {
   "scopes": ["api", "ui", "auth", "database"]
@@ -231,7 +281,40 @@ For each commit group:
    - Auth modules → `fix(auth): ...`
    - Database files → `chore(database): ...`
 
-### Example 9: Configuration reset
+### Example 9: Command-line overrides with config save
+
+**Trigger**: "commit with feature branch and create PR"
+
+**Scenario**:
+- User has existing config: `{"strategy": "main", "createPullRequest": false}`
+- User wants to override for this commit
+
+**Expected flow**:
+1. Analyze user intent: infer strategy="feature" from "with feature branch", createPullRequest=true from "create PR"
+2. Apply overridden values for this commit
+3. Create feature branch and PR as requested
+4. Ask via AskUserQuestion: "Save these settings for future use?" with options ["Yes, save settings", "No, use only for this commit"]
+5. If yes, ask via AskUserQuestion: "Where should these settings be saved?" with options ["Project Config (current project only)", "Global Config (all projects)"]
+6. Update config file with new values
+
+### Example 10: Command-line override without existing config
+
+**Trigger**: "commit without push"
+
+**Scenario**:
+- No existing config file
+- User wants to commit locally only
+
+**Expected flow**:
+1. Analyze user intent: infer autoPush=false from "without push"
+2. Apply defaults with override: autoPush=false
+3. Create commit but don't push to remote
+4. Ask via AskUserQuestion: "Save these settings for future use?" with options ["Yes, save settings", "No, use only for this commit"]
+5. If yes, ask via AskUserQuestion: "Where should these settings be saved?" with options ["Project Config (current project only)", "Global Config (all projects)"]
+6. Create new config file with the override
+7. If creating project config for first time, ask via AskUserQuestion: "Should the config file be added to .gitignore?" with options ["Yes, keep config local only", "No, share with team"]
+
+### Example 11: Configuration reset
 
 **Trigger**: "Help me commit and reset my commit preferences"
 
@@ -241,6 +324,6 @@ For each commit group:
 
 **Expected flow**:
 1. Detect reset keywords: "reset my commit preferences"
-2. Delete existing `skills/commit/config.json`
+2. Delete existing `.claude/config/commit.config.json`
 3. Use default configuration for this commit
 4. Continue with default behavior (main branch strategy)
