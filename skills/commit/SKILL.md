@@ -1,6 +1,6 @@
 ---
 name: commit
-description: This skill should be used when the user asks to "commit", "create commit", "git commit", mentions "commit changes", needs help with git commits and conventional commit messages, or wants to "reset commit config", "change commit settings", "configure commit behavior".
+description: This skill should be used when the user asks to "commit", "create commit", "git commit", mentions "commit changes", needs help with git commits and conventional commit messages.
 allowed-tools:
   - "Bash(git *)"
   - "Bash(gh pr create*)"
@@ -69,7 +69,6 @@ Users can override any configuration setting directly in their request using nat
 
 ### Configuration Management
 
-- **Reset configuration**: When user mentions "reset", "clear", "override", or "change settings", delete existing config file and use defaults
 - **Config locations**:
   - Project Config: `.claude/config/commit.config.json` (current working directory)
   - Global Config: `~/.claude/config/commit.config.json`
@@ -313,17 +312,3 @@ For each commit group:
 5. If yes, ask via AskUserQuestion: "Where should these settings be saved?" with options ["Project Config (current project only)", "Global Config (all projects)"]
 6. Create new config file with the override
 7. If creating project config for first time, ask via AskUserQuestion: "Should the config file be added to .gitignore?" with options ["Yes, keep config local only", "No, share with team"]
-
-### Example 11: Configuration reset
-
-**Trigger**: "Help me commit and reset my commit preferences"
-
-**Scenario**:
-- Existing config file with custom settings
-- User wants to reset to defaults
-
-**Expected flow**:
-1. Detect reset keywords: "reset my commit preferences"
-2. Delete existing `.claude/config/commit.config.json`
-3. Use default configuration for this commit
-4. Continue with default behavior (main branch strategy)
