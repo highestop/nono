@@ -152,15 +152,12 @@ For each commit group:
 ## Critical Rules
 
 - Use TaskCreate to track all steps at the beginning and update status throughout
-- If any new file changes appear at ANY point during execution, restart the entire commit workflow from beginning
-- Intelligently parse user input for configuration intent using semantic analysis, not fixed phrase matching
-- Execute automatically without user confirmation for commit operations (removed interactive prompts)
-- Only use AskUserQuestion tool when saving configuration overrides for future use
-- Always provide clear options for user selection rather than free text input
-- Commit messages in English
+- Provide clear options for user selection rather than free text input
+- If any new changes appear during execution, restart the entire commit workflow from beginning
+- Commit messages must be in English using Angular Conventional Commit format
 - Handle git errors gracefully with clear error messages
-- Never automatically commit the config file itself during the commit process
-- When updating config files, preserve existing settings and only update overridden values
+
+
 
 ## Examples
 
