@@ -73,7 +73,7 @@ Users can override any configuration setting directly in their request using nat
   - Project Config: `.claude/config/commit.config.json` (current working directory)
   - Global Config: `~/.claude/config/commit.config.json`
 - **Search priority**: Project config takes precedence over global config
-- **Team sharing**: Choose whether to commit project config file for team conventions or add to .gitignore for local-only settings
+- **Cowork sharing**: Choose whether to commit project config file for team conventions or add to .gitignore for local-only settings
 
 ## Workflow
 
@@ -128,7 +128,12 @@ For each commit group:
 
 - If `autoPush` is true: Push commits to remote using `git push`
 - If on feature branch and `createPullRequest` is true:
-  - Create PR using `gh pr create`
+  - Check if current repository is a fork by looking for `upstream` remote using `git remote -v`
+  - If fork detected (upstream remote exists):
+    - Create PR to `upstream/main` using `gh pr create --repo <upstream-owner>/<upstream-repo>`
+    - Extract upstream owner/repo from upstream remote URL
+  - If not a fork (no upstream remote):
+    - Create PR to `origin/main` using `gh pr create`
   - Return PR URL to user
 
 ### 7. Handle Configuration Updates
@@ -233,8 +238,9 @@ For each commit group:
 **Expected flow**:
 1. Create feature branch
 2. Commit and push changes
-3. Automatically create PR using `gh pr create`
-4. Return PR URL to user
+3. Check remotes using `git remote -v` and confirm no `upstream` remote exists
+4. Create PR to origin repository using `gh pr create`
+5. Return PR URL to user
 
 ### Example 6: Disable co-author tag
 
@@ -312,3 +318,28 @@ For each commit group:
 5. If yes, ask via AskUserQuestion: "Where should these settings be saved?" with options ["Project Config (current project only)", "Global Config (all projects)"]
 6. Create new config file with the override
 7. If creating project config for first time, ask via AskUserQuestion: "Should the config file be added to .gitignore?" with options ["Yes, keep config local only", "No, share with team"]
+
+### Example 11: Fork project PR creation
+
+**Trigger**: "commit with feature branch and create PR"
+
+**Configuration** (`.claude/config/commit.config.json`):
+```json
+{
+  "strategy": "feature",
+  "createPullRequest": true
+}
+```
+
+**Scenario**:
+- Repository is a fork (has upstream remote pointing to original repo)
+- Modified files: `src/feature.js`, `tests/feature.test.js`
+
+**Expected flow**:
+1. Create feature branch: `feat/add-new-feature`
+2. Commit changes to the feature branch
+3. Push feature branch to origin (user's fork)
+4. Check remotes using `git remote -v` and detect `upstream` remote
+5. Extract upstream owner/repo from upstream remote URL
+6. Create PR to upstream repository using `gh pr create --repo <upstream-owner>/<upstream-repo>`
+7. Return PR URL pointing to upstream repository
