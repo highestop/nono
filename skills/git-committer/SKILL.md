@@ -1,5 +1,5 @@
 ---
-name: commit
+name: git-committer
 description: This skill should be used when the user asks to "commit", "create commit", "git commit", mentions "commit changes", needs help with git commits and conventional commit messages.
 allowed-tools:
   - "Bash(git *)"

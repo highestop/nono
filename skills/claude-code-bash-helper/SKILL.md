@@ -1,5 +1,5 @@
 ---
-name: claude-code-bash
+name: claude-code-bash-helper
 description: This skill should be used when users need to execute bash commands with environment variables and pipes in Claude Code, especially when API calls fail with authentication errors despite correct tokens.
 ---
 

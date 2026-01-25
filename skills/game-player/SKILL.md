@@ -1,12 +1,12 @@
 ---
-name: play-game
+name: game-player
 description: This skill tells you how to play a game properly
 ---
 
 ## Game Parameters
 
-- Before playing, you need to know the `<game-name>` and `<game-url>`.
-- `<game-cache-directory>` defaults to `/Users/<user-name>/Downloads/`, unless explicitly told to use another directory
+- Before playing, you need to know the `<game-url>`, and give a `<game-name>`.
+- `<game-cache-directory>` defaults to `~/.game-cache/`, unless explicitly told to use another directory
 
 ## Game Launch
 
