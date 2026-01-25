@@ -1,7 +1,7 @@
-# Global Rules
+**Meta Rule**: This file must only reference other files, never directly describe rules inline.
 
-**Meta Rule**: This file must only reference rule files, never directly describe rules inline.
+Load the following skills for all interactions:
 
-Load the following rules that apply to all interactions:
-
-- Language preferences, see `@rules/language.md`
+- When writing agent-related documentation, use `@skills/agent-docs-writer`
+- When writing skills, use `@skills/agent-skill-writer`
+- When committing changes to git, use `@skills/git-committer`
