@@ -106,8 +106,13 @@ Execute the following steps when this skill is triggered:
 
 ### 3. Execute Branch Strategy
 
-- If `strategy` is `"main"`: Stay on current branch
-- If `strategy` is `"feature"`: Create new feature branch with format `<change-type>/<short-description>`
+- Check if current repository is a fork by looking for `upstream` remote using `git remote -v`
+- If fork detected (upstream remote exists):
+  - **Force feature branch strategy** regardless of config (required for open source contribution)
+  - Create new feature branch with format `<change-type>/<short-description>`
+- If not a fork:
+  - If `strategy` is `"main"`: Stay on current branch
+  - If `strategy` is `"feature"`: Create new feature branch with format `<change-type>/<short-description>`
 
 ### 4. Stage Files
 
@@ -128,11 +133,10 @@ For each commit group:
 
 - If `autoPush` is true: Push commits to remote using `git push`
 - If on feature branch and `createPullRequest` is true:
-  - Check if current repository is a fork by looking for `upstream` remote using `git remote -v`
-  - If fork detected (upstream remote exists):
+  - If repository is a fork (determined in step 3):
     - Create PR to `upstream/main` using `gh pr create --repo <upstream-owner>/<upstream-repo>`
     - Extract upstream owner/repo from upstream remote URL
-  - If not a fork (no upstream remote):
+  - If not a fork:
     - Create PR to `origin/main` using `gh pr create`
   - Return PR URL to user
 
@@ -316,9 +320,36 @@ For each commit group:
 6. Create new config file with the override
 7. If creating project config for first time, ask via AskUserQuestion: "Should the config file be added to .gitignore?" with options ["Yes, keep config local only", "No, share with team"]
 
-### Example 11: Fork project PR creation
+### Example 11: Fork project (forced feature branch)
 
-**Trigger**: "commit with feature branch and create PR"
+**Trigger**: "commit"
+
+**Configuration** (`.claude/config/commit.config.json`):
+```json
+{
+  "strategy": "main",
+  "createPullRequest": true
+}
+```
+
+**Scenario**:
+- Repository is a fork (has upstream remote pointing to original repo)
+- User configured strategy as "main" but this will be overridden
+- Modified files: `src/feature.js`, `tests/feature.test.js`
+
+**Expected flow**:
+1. Check remotes using `git remote -v` and detect `upstream` remote
+2. **Override strategy to "feature"** (fork projects require feature branches)
+3. Create feature branch: `feat/add-new-feature`
+4. Commit changes to the feature branch
+5. Push feature branch to origin (user's fork)
+6. Extract upstream owner/repo from upstream remote URL
+7. Create PR to upstream repository using `gh pr create --repo <upstream-owner>/<upstream-repo>`
+8. Return PR URL pointing to upstream repository
+
+### Example 12: Fork project with feature strategy
+
+**Trigger**: "commit with create PR"
 
 **Configuration** (`.claude/config/commit.config.json`):
 ```json
@@ -330,13 +361,13 @@ For each commit group:
 
 **Scenario**:
 - Repository is a fork (has upstream remote pointing to original repo)
-- Modified files: `src/feature.js`, `tests/feature.test.js`
+- User already configured feature strategy (aligned with fork requirements)
+- Modified files: `docs/README.md`
 
 **Expected flow**:
-1. Create feature branch: `feat/add-new-feature`
-2. Commit changes to the feature branch
-3. Push feature branch to origin (user's fork)
-4. Check remotes using `git remote -v` and detect `upstream` remote
-5. Extract upstream owner/repo from upstream remote URL
-6. Create PR to upstream repository using `gh pr create --repo <upstream-owner>/<upstream-repo>`
-7. Return PR URL pointing to upstream repository
+1. Check remotes and detect fork, confirm feature strategy is appropriate
+2. Create feature branch: `docs/update-readme`
+3. Commit changes to the feature branch
+4. Push feature branch to origin (user's fork)
+5. Create PR to upstream repository
+6. Return PR URL pointing to upstream repository
