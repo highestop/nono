@@ -8,12 +8,3 @@
 # Include these folders
 !skills
 !skills/**/*
-
-!rules
-!rules/**/*
-
-!commands/
-!commands/**/*
-
-# Ignored local configs anyway in any place
-**/*.local.*
