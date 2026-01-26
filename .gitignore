@@ -4,6 +4,7 @@
 # Includes these root files
 !.gitignore
 !CLAUDE.md
+!README.md
 
 # Include these folders
 !.github
