@@ -6,5 +6,7 @@
 !CLAUDE.md
 
 # Include these folders
+!.github
+!.github/**
 !skills
 !skills/**/*

@@ -1,0 +1,88 @@
+name: auto-summary
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  auto-summary:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get latest commit SHA
+        id: commit
+        run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+      - name: Generate README summary
+        run: |
+          # Create README.md header
+          cat > README.md << 'EOF'
+          # CLAUDE
+
+          This repository contains Claude Code global prompts for personal use.
+
+          | Skill | Description |
+          |-------|-------------|
+          EOF
+
+          # Process each skill
+          for skill_dir in skills/*/; do
+            if [ -d "$skill_dir" ] && [ -f "${skill_dir}SKILL.md" ]; then
+              skill_name=$(basename "$skill_dir")
+
+              # Extract description from YAML frontmatter
+              description=$(awk '
+                BEGIN { in_frontmatter = 0; description = "" }
+                /^---$/ {
+                  if (in_frontmatter == 0) {
+                    in_frontmatter = 1
+                  } else {
+                    exit
+                  }
+                  next
+                }
+                in_frontmatter == 1 && /^description:/ {
+                  sub(/^description: */, "")
+                  # Remove quotes if present
+                  gsub(/^["'"'"']|["'"'"']$/, "")
+                  description = $0
+                }
+                END { print description }
+              ' "${skill_dir}SKILL.md")
+
+              # For empty description, leave second column empty
+              echo "| $skill_name | $description |" >> README.md
+            fi
+          done
+
+          # Add footer with commit info
+          cat >> README.md << EOF
+
+          ---
+
+          *This document was automatically generated based on commit [\`${{ steps.commit.outputs.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ steps.commit.outputs.sha }}).*
+          EOF
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet README.md; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+      - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --local user.email "noreply@anthropic.com"
+          git config --local user.name "Claude"
+          git add README.md
+          git commit -m "docs(README): auto summary (${{ steps.commit.outputs.sha }})"
+          git push
