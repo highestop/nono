@@ -18,4 +18,4 @@ This repository contains Claude Code global prompts for personal use.
 
 ---
 
-*This document was automatically generated based on commit [`b5560290590c75494c0f941f85008a1c37ad66a9`](https://github.com/highestop/.claude/commit/b5560290590c75494c0f941f85008a1c37ad66a9).*
+*This document was automatically generated based on commit [`d07a294a28104f5c57889d771485bd77aa4cafef`](https://github.com/highestop/.claude/commit/d07a294a28104f5c57889d771485bd77aa4cafef).*
