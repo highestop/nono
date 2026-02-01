@@ -3,9 +3,9 @@ name: budget-export-csv-formatter
 description: Format exported CSV files from Shark Bookkeeping Pro App into structured budget analysis
 ---
 
-1. Export CSV from 鲨鱼记账 Pro App and AirDrop to local
-2. Format CSV file to UTF-8 encoding (e.g., open in VSCode and Save with UTF-8)
-3. Execute `skills/budget-export-csv-formatter/scripts/formatter.js` script, will generate parsed CSV file in same directory
+1. (User) Export CSV from 鲨鱼记账 Pro App and AirDrop to local
+2. (You) Format CSV file to UTF-8 encoding (e.g., open in VSCode and Save with UTF-8)
+3. (You) Execute `skills/budget-export-csv-formatter/scripts/formatter.js` script, will generate parsed CSV file in same directory
 
 Input/Output example:
 
