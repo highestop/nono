@@ -12,7 +12,7 @@ The skill reads configuration from `.claude/config/commit.config.json` using a p
 1. **Project Config**: `.claude/config/commit.config.json` relative to current working directory
 2. **Global Config**: `~/.claude/config/commit.config.json` if project config not found
 
-You can choose whether to commit the project config file to share team conventions or keep it local by adding to .gitignore.
+**IMPORTANT**: Configuration files containing personal information (like `gitUser` credentials) should NOT be committed to version control. Always ensure `.claude/config/` directory is properly ignored in `.gitignore` to keep sensitive configuration private. Use global config (`~/.claude/config/`) for personal preferences.
 
 ### Configuration Schema
 

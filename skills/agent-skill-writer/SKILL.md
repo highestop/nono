@@ -29,6 +29,10 @@ Follow the Agent Skills specification: <https://agentskills.io/specification>
 **User Preference Configuration (if needed):**
 - Config files should be named `<skill-name>.config.{json|yaml|...}` in `.claude/config/` directory
 - Use proximity principle: project config (`.claude/config/`) takes precedence over global (`~/.claude/config/`)
+- **IMPORTANT**: Configuration files containing sensitive or user-specific data should NOT be committed to version control
+  - Ensure `.claude/config/` directory is properly ignored in `.gitignore`
+  - When documenting skills, remind users that config files are meant to be local/private
+  - Use global config (`~/.claude/config/`) for personal preferences that shouldn't be shared
 - Must document all config fields with clear default values in a schema table (Field | Type | Description | Default)
 - Must explain how to configure each field and provide example configurations
 - Support command-line overrides: users can override config via natural language in their requests
