@@ -147,13 +147,34 @@ For each commit group:
 
 ### 7. Push and PR
 
-- If `autoPush` is true: Push commits to remote using `git push`
+**Linear History Maintenance**: All operations must preserve linear git history by avoiding merge commits.
+
+- If `autoPush` is true:
+  - Attempt `git push`
+  - If push fails due to non-fast-forward (remote has new commits):
+    1. Run `git pull --rebase` to maintain linear history
+    2. If rebase conflicts occur:
+       - Display conflict files and guide user to resolve manually
+       - After user resolves, run `git rebase --continue`
+    3. Once rebase completes successfully, run `git push --force-with-lease`
+    4. If `--force-with-lease` fails, use `git push --force` as fallback
+
 - If on feature branch and `createPullRequest` is true:
-  - If repository is a fork (determined in step 4):
-    - Create PR to `upstream/main` using `gh pr create --repo <upstream-owner>/<upstream-repo>`
-    - Extract upstream owner/repo from upstream remote URL
-  - If not a fork:
-    - Create PR to `origin/main` using `gh pr create`
+  - **Strategy-based PR creation**:
+    - If using `"main"` strategy: Skip PR creation (commits are directly on main)
+    - If using `"feature"` strategy: Create PR with linear history settings
+
+  - **PR creation with linear merge settings**:
+    - If repository is a fork:
+      - Create PR to `upstream/main` using `gh pr create --repo <upstream-owner>/<upstream-repo>`
+      - Extract upstream owner/repo from upstream remote URL
+    - If not a fork:
+      - Create PR to `origin/main` using `gh pr create`
+
+  - **Configure PR for linear history**:
+    - Set PR to use squash merge: include `--body` with note "This PR should be merged using squash and merge to maintain linear history"
+    - Request automatic branch deletion after merge in PR description
+
   - Return PR URL to user
 
 ### 8. Handle Configuration Updates
@@ -171,6 +192,10 @@ For each commit group:
 
 ## Critical Rules
 
+- **Linear History Principle**: Maintain linear git history at all costs - never create merge commits on main branch
+- Use `git pull --rebase` instead of `git pull` to avoid merge commits
+- Use `git push --force-with-lease` when pushing rebased commits
+- Configure PRs for squash merge to prevent merge commits when merging feature branches
 - Use TaskCreate to track all steps at the beginning and update status throughout
 - Provide clear options for user selection rather than free text input
 - If any new changes appear during execution, restart the entire commit workflow from beginning
@@ -388,7 +413,67 @@ For each commit group:
 5. Create PR to upstream repository
 6. Return PR URL pointing to upstream repository
 
-### Example 13: Git user identity validation
+### Example 13: Linear history maintenance with push conflicts
+
+**Trigger**: "commit my changes"
+
+**Scenario**:
+- Local commits created successfully
+- Remote repository has new commits (push will fail with non-fast-forward error)
+- `autoPush` is enabled
+
+**Expected flow**:
+1. Create commits locally as usual
+2. Attempt `git push` - fails with "Updates were rejected because the remote contains work that you do not have locally"
+3. Run `git pull --rebase` to maintain linear history
+4. If no conflicts: rebase completes successfully
+5. Run `git push --force-with-lease` to push rebased commits
+6. If `--force-with-lease` fails, fallback to `git push --force`
+
+**Expected flow with conflicts**:
+1. Create commits locally as usual
+2. Attempt `git push` - fails with non-fast-forward error
+3. Run `git pull --rebase` - encounters merge conflicts
+4. Display conflicted files to user: "Rebase conflicts in: `file1.js`, `file2.md`"
+5. Guide user: "Please resolve conflicts manually, then tell me to continue"
+6. After user resolves and confirms, run `git rebase --continue`
+7. Once rebase completes, run `git push --force-with-lease`
+
+### Example 14: Feature branch PR with linear history settings
+
+**Configuration**:
+```json
+{
+  "strategy": "feature",
+  "createPullRequest": true
+}
+```
+
+**Expected flow**:
+1. Create feature branch and commit changes
+2. Push feature branch to remote
+3. Create PR using `gh pr create` with additional settings:
+   - Include in PR body: "This PR should be merged using squash and merge to maintain linear history"
+   - Request automatic branch deletion after merge
+4. Return PR URL with note about linear merge requirements
+
+### Example 15: Main strategy with no PR creation
+
+**Configuration**:
+```json
+{
+  "strategy": "main",
+  "createPullRequest": true
+}
+```
+
+**Expected flow**:
+1. Commit directly to main branch
+2. Push to remote (with rebase handling if needed)
+3. Skip PR creation since commits are already on main branch
+4. Note: `createPullRequest` setting is ignored for main strategy
+
+### Example 16: Git user identity validation
 
 **Configuration** (`.claude/config/commit.config.json`):
 ```json
