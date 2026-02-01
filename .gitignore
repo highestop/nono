@@ -9,5 +9,9 @@
 # Include these folders
 !.github
 !.github/**
+
 !skills
 !skills/**/*
+
+!config
+!config/**
