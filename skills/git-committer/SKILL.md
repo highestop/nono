@@ -1,5 +1,5 @@
 ---
-name: committer
+name: git-committer
 description: User this skill to commit and push changes to git repo and create pull request if needed.
 ---
 
