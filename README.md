@@ -8,8 +8,8 @@ This repository contains Claude Code global prompts for personal use.
 | agent-skill-writer | Use this skill when writing/editing skills |
 | budget-export-csv-formatter | Format exported CSV files from Shark Bookkeeping Pro App into structured budget analysis |
 | claude-code-bash-helper | This skill should be used when users need to execute bash commands with environment variables and pipes in Claude Code, especially when API calls fail with authentication errors despite correct tokens. |
+| committer | User this skill to commit and push changes to git repo and create pull request if needed. |
 | game-player | This skill tells you how to play a game properly |
-| git-committer | This skill should be used when the user asks to "commit", "create commit", "git commit", mentions "commit changes", needs help with git commits and conventional commit messages. |
 | mweb-database-guide | Provides knowledge about MWeb's SQLite database schema and table relationships |
 | mweb-db-exporter | Export MWeb database tables to JSON format for analysis and data processing |
 | mweb-media-reference-checker | Check for missing or redundant media file references in MWeb document library |
@@ -18,4 +18,4 @@ This repository contains Claude Code global prompts for personal use.
 
 ---
 
-*This document was automatically generated based on commit [`9b1afa68714fe6e512158fe038ef612efb4c65e2`](https://github.com/highestop/.claude/commit/9b1afa68714fe6e512158fe038ef612efb4c65e2).*
+*This document was automatically generated based on commit [`8af1b4c3d97af04c041a4deec76c786e05729b01`](https://github.com/highestop/.claude/commit/8af1b4c3d97af04c041a4deec76c786e05729b01).*
