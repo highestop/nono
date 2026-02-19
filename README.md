@@ -1,4 +1,4 @@
-# My Agents
+# My Claude
 
 此仓库包含个人使用的 Claude Code 全局提示词。
 
@@ -14,4 +14,4 @@
 
 ---
 
-*此文档基于提交 [`59ef3c90f750508ade4421e1d752c69f8ab24388`](https://github.com/highestop/my-agents/commit/59ef3c90f750508ade4421e1d752c69f8ab24388) 自动生成。*
+*此文档基于提交 [`851a75e29b504b1ab3a73dc1cdb3b14c3dab5ae5`](https://github.com/highestop/my-claude/commit/851a75e29b504b1ab3a73dc1cdb3b14c3dab5ae5) 自动生成。*
