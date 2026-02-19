@@ -1,6 +1,6 @@
 ---
 name: claude-code-bash-helper
-description: 当用户需要在 Claude Code 中执行带环境变量和管道的 bash 命令时使用此技能，尤其是 token 正确但 API 调用因认证错误失败的情况。
+description: 在 Claude Code 中执行带环境变量和管道的 bash 命令时使用此技能
 ---
 
 # Claude Code Bash 最佳实践技能

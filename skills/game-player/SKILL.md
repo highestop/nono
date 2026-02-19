@@ -1,6 +1,6 @@
 ---
 name: game-player
-description: 此技能指导你如何正确地玩一个游戏
+description: 玩一款网页游戏
 ---
 
 ## 游戏参数

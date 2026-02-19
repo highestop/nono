@@ -1,6 +1,6 @@
 ---
 name: mweb-to-obsidian
-description: 使用此技能将 MWeb 数据迁移到 Obsidian
+description: 将 MWeb 数据迁移到 Obsidian
 ---
 
 ## 前期准备
