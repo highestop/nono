@@ -1,4 +1,4 @@
-# CLAUDE
+# My Agents
 
 This repository contains Claude Code global prompts for personal use.
 
@@ -14,4 +14,4 @@ This repository contains Claude Code global prompts for personal use.
 
 ---
 
-*This document was automatically generated based on commit [`dc64716416a84fb452002bc9c840aae869b1b054`](https://github.com/highestop/my-agents/commit/dc64716416a84fb452002bc9c840aae869b1b054).*
+*This document was automatically generated based on commit [`36b07d5231cc29b44f001203b4bc323191257cc8`](https://github.com/highestop/my-agents/commit/36b07d5231cc29b44f001203b4bc323191257cc8).*
