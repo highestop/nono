@@ -4,6 +4,7 @@
 # Includes these root files
 !.gitignore
 !CLAUDE.md
+!AGENTS.md
 !README.md
 
 # Include these folders
@@ -12,3 +13,6 @@
 
 !skills
 !skills/**/*
+
+!docs
+!docs/**
