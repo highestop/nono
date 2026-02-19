@@ -1,8 +1,3 @@
----
-name: agent-docs-writer
-description: Use this skill when writing/editing any agent markdown files (skills, rules, configs, etc.)
----
-
 **Privacy Protection:**
 - **NEVER** include absolute paths that expose system path with username
 - Prefer `~/` or `$HOME` notation for home directory references

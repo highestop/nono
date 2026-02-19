@@ -1,8 +1,3 @@
----
-name: mweb-structure-guide
-description: Provides knowledge about MWeb document and media file organization structure
----
-
 # MWeb Structure Guide
 
 Use this skill when you need to understand how MWeb documents and their media files are organized in the library structure.

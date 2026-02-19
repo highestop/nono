@@ -9,7 +9,7 @@ Use this skill when you need to export MWeb's SQLite database tables to JSON for
 
 ## Workflow
 
-- Load `/mweb-database-guide` skill to understand database structure
+- Load [`@/docs/mweb-database-guide`](/docs/mweb-database-guide.md) skill to understand database structure
 - Execute `./script.sh` (relative to skill root) to export database tables
 - Analyze script output and present export results in natural language to the user
 - Validate exported data integrity and format correctness

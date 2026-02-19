@@ -5,7 +5,7 @@ description: Check for missing or redundant media file references in MWeb docume
 
 # Workflow
 
-- Load `/mweb-structure-guide` skill to learn about how document content and their media files are arranged in library
+- Load [`@/docs/mweb-structure-guide`](/docs/mweb-structure-guide.md) skill to learn about how document content and their media files are arranged in library
 - Use `./script.sh` (relative to skill root) to check for missing or redundant media file references
 - Analyze script output and present findings in natural language to the user
 - For **missing media files** (referenced but don't exist): Ask user whether to remove these references from documents

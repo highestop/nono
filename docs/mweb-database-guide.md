@@ -1,8 +1,3 @@
----
-name: mweb-database-guide
-description: Provides knowledge about MWeb's SQLite database schema and table relationships
----
-
 # MWeb Database Guide
 
 Use this skill when you need to understand MWeb's internal database structure for querying, analyzing, or building tools that interact with MWeb data.
