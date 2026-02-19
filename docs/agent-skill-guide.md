@@ -1,10 +1,9 @@
 遵循 Agent Skills 规范：<https://agentskills.io/specification>
 
 **描述格式：**
-- 使用指令式格式，如："Use this skill to/when..."
 - 清晰传达技能**做什么**以及**何时使用**
 - 包含**约束条件**，说明不应做什么或不适用的场景
-- 保持简洁且可操作
+- 保持简洁可操作，描述中无需描述细节
 
 **目录结构：**
 - 必须放在全局或项目的 `.claude/skills/` 目录下
