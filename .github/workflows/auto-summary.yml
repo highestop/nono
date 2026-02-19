@@ -26,7 +26,7 @@ jobs:
         run: |
           # Create README.md header
           cat > README.md << 'EOF'
-          # CLAUDE
+          # My Agents
 
           This repository contains Claude Code global prompts for personal use.
 
