@@ -14,8 +14,4 @@
 
 ---
 
-<<<<<<< HEAD
-*This document was automatically generated based on commit [`36b07d5231cc29b44f001203b4bc323191257cc8`](https://github.com/highestop/my-agents/commit/36b07d5231cc29b44f001203b4bc323191257cc8).*
-=======
-*此文档基于提交 [`dc64716416a84fb452002bc9c840aae869b1b054`](https://github.com/highestop/my-agents/commit/dc64716416a84fb452002bc9c840aae869b1b054) 自动生成。*
->>>>>>> 87428bf (docs: translate all docs and skills to Chinese)
+*此文档基于提交 [`59ef3c90f750508ade4421e1d752c69f8ab24388`](https://github.com/highestop/my-agents/commit/59ef3c90f750508ade4421e1d752c69f8ab24388) 自动生成。*
