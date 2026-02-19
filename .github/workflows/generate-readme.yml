@@ -26,7 +26,7 @@ jobs:
         run: |
           # Create README.md header
           cat > README.md << 'EOF'
-          # My Agents
+          # My Claude
 
           此仓库包含个人使用的 Claude Code 全局提示词。
 
