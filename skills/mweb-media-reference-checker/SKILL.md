@@ -1,46 +1,46 @@
 ---
 name: mweb-media-reference-checker
-description: Check for missing or redundant media file references in MWeb document library
+description: 检查 MWeb 文档库中缺失或冗余的媒体文件引用
 ---
 
-# Workflow
+# 工作流程
 
-- Load [`@/docs/mweb-structure-guide`](/docs/mweb-structure-guide.md) skill to learn about how document content and their media files are arranged in library
-- Use `./script.sh` (relative to skill root) to check for missing or redundant media file references
-- Analyze script output and present findings in natural language to the user
-- For **missing media files** (referenced but don't exist): Ask user whether to remove these references from documents
-- For **redundant media files** (exist but not referenced): Ask user whether to delete these unused files
+- 加载 [`@/docs/mweb-structure-guide`](/docs/mweb-structure-guide.md) 技能以了解文档内容及其媒体文件在文档库中的组织方式
+- 使用 `./script.sh`（相对于技能根目录）检查缺失或冗余的媒体文件引用
+- 分析脚本输出并以自然语言向用户展示检查结果
+- 对于**缺失的媒体文件**（被引用但不存在）：询问用户是否从文档中移除这些引用
+- 对于**冗余的媒体文件**（存在但未被引用）：询问用户是否删除这些未使用的文件
 
-# What it does
+# 功能说明
 
-- Scans all markdown files in the `docs` directory
-- Identifies missing media files (referenced in documents but files don't exist)
-- Identifies redundant media files (files exist but not referenced in any document)
-- Outputs results to command line with color-coded information
-- Offers to clean up issues by removing broken references or deleting unused files
+- 扫描 `docs` 目录下的所有 markdown 文件
+- 识别缺失的媒体文件（在文档中被引用但文件不存在）
+- 识别冗余的媒体文件（文件存在但未在任何文档中引用）
+- 以带颜色编码的信息输出结果到命令行
+- 提供清理选项：移除损坏的引用或删除未使用的文件
 
-# When to use
+# 适用场景
 
-- When you suspect there might be broken image links in your documents
-- Before cleaning up your media directory to remove unused files
-- As part of regular maintenance to keep your document library organized
-- After bulk operations on documents or media files
+- 怀疑文档中可能存在损坏的图片链接时
+- 在清理媒体目录以移除未使用文件之前
+- 作为常规维护的一部分，保持文档库整洁
+- 在对文档或媒体文件进行批量操作之后
 
-# Cleanup Options
+# 清理选项
 
-After identifying issues, the skill will offer these cleanup actions:
+识别问题后，技能将提供以下清理操作：
 
-## Missing Media Files
-- **Issue**: Document references `![](media/123/image.jpg)` but the file doesn't exist
-- **Action**: Remove the broken image reference from the document
-- **Safety**: Always ask user confirmation before modifying documents
+## 缺失的媒体文件
+- **问题**：文档引用了 `![](media/123/image.jpg)` 但文件不存在
+- **操作**：从文档中移除损坏的图片引用
+- **安全性**：修改文档前始终征求用户确认
 
-## Redundant Media Files
-- **Issue**: File exists at `docs/media/123/unused.jpg` but no document references it
-- **Action**: Delete the unused media file to save space
-- **Safety**: Always ask user confirmation before deleting files
+## 冗余的媒体文件
+- **问题**：文件存在于 `docs/media/123/unused.jpg` 但没有文档引用它
+- **操作**：删除未使用的媒体文件以节省空间
+- **安全性**：删除文件前始终征求用户确认
 
-## User Control
-- Users can choose to fix all issues at once or handle them selectively
-- All modifications require explicit user approval
-- No automatic changes are made without permission
+## 用户控制
+- 用户可以选择一次性修复所有问题或逐个处理
+- 所有修改都需要用户明确批准
+- 未经许可不会自动进行任何更改

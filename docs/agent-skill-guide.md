@@ -1,48 +1,41 @@
-Follow the Agent Skills specification: <https://agentskills.io/specification>
+遵循 Agent Skills 规范：<https://agentskills.io/specification>
 
-**Description Format:**
-- Use directive format like: "Use this skill to/when..."
-- Clearly convey **what** the skill does and **when** to use it
-- Include **constraints** about what it shouldn't do or when not to use it
-- Keep it concise and actionable
+**描述格式：**
+- 使用指令式格式，如："Use this skill to/when..."
+- 清晰传达技能**做什么**以及**何时使用**
+- 包含**约束条件**，说明不应做什么或不适用的场景
+- 保持简洁且可操作
 
-**Directory Structure:**
-- Must be placed in global or project `.claude/skills/` directory
-- Required structure: `skills/<skill-name>/SKILL.md`
-- The `<skill-name>` directory must contain `SKILL.md` file
+**目录结构：**
+- 必须放在全局或项目的 `.claude/skills/` 目录下
+- 必需的结构：`skills/<skill-name>/SKILL.md`
+- `<skill-name>` 目录必须包含 `SKILL.md` 文件
 
-**Naming Convention:**
-- Name skills with a role or identity (e.g., "agent-docs-writer", "git-committer", "budget-formatter")
-- Directory name must match the `name` field in the SKILL.md frontmatter
-- Avoid generic names, prefer specific functional identities
+**命名规范：**
+- 以角色或身份命名技能，如 "agent-docs-writer"、"git-committer"、"budget-formatter"
+- 目录名必须与 SKILL.md frontmatter 中的 `name` 字段一致
+- 避免通用名称，优先使用具体的功能身份
 
-**User Interaction:**
-- Must use `AskUserQuestion` tool for user choices instead of free text prompts
-- Provide clear options with labels and descriptions
-- Prefer button-based selections over text input
+**用户交互：**
+- 必须使用 `AskUserQuestion` 工具让用户选择，提供带有标签和描述的清晰选项，避免使用自由文本提示
 
-**User Preference Configuration (if needed):**
-- Config files should be named `<skill-name>.config.{json|yaml|...}` in `.claude/config/` directory
-- Use proximity principle: project config (`.claude/config/`) takes precedence over global (`~/.claude/config/`)
-- **IMPORTANT**: Configuration files containing sensitive or user-specific data should NOT be committed to version control
-  - Ensure `.claude/config/` directory is properly ignored in `.gitignore`
-  - When documenting skills, remind users that config files are meant to be local/private
-  - Use global config (`~/.claude/config/`) for personal preferences that shouldn't be shared
-- Must document all config fields with clear default values in a schema table (Field | Type | Description | Default)
-- Must explain how to configure each field and provide example configurations
-- Support command-line overrides: users can override config via natural language in their requests
-- Priority order: User arguments > Config file values > Default values
-- When user provides different preferences when using skill, ask via `AskUserQuestion` whether to save/modify config after everything finished
-- Use `AskUserQuestion` to ask where to save: "Project Config" vs "Global Config"
-- When creating project config for first time, ask whether to add to .gitignore (team sharing vs local-only)
-- Update existing config files with only overridden values, keep other settings unchanged
+**用户偏好配置（如需要）：**
+- 配置文件应命名为 `<skill-name>.config.{json|yaml|...}`，放在 `.claude/config/` 目录下
+- 使用就近原则：项目配置（`.claude/config/`）优先于全局配置（`~/.claude/config/`）
+- **重要**：包含敏感或用户特定数据的配置文件不应提交到版本控制
+  - 确保 `.claude/config/` 目录在 `.gitignore` 中被正确忽略
+  - 编写技能文档时，提醒用户配置文件应保持本地/私有
+  - 使用全局配置（`~/.claude/config/`）存放不应共享的个人偏好
+- 必须在 schema 表格中记录所有配置字段及其明确的默认值（字段 | 类型 | 描述 | 默认值）
+- 必须说明每个字段的配置方式并提供示例配置
+- 支持命令行覆盖：用户可通过自然语言在请求中覆盖配置
+- 优先级顺序：用户参数 > 配置文件值 > 默认值
+- 当用户在使用技能时提供不同偏好，在所有操作完成后通过 `AskUserQuestion` 询问是否保存/修改配置
+- 使用 `AskUserQuestion` 询问保存位置："项目配置" 还是 "全局配置"
+- 首次创建项目配置时，询问是否添加到 .gitignore（团队共享 vs 仅本地）
+- 更新已有配置文件时仅修改被覆盖的值，保持其他设置不变
 
-**Documentation Requirements:**
-- Must include example scenarios using GWT (Given/When/Then) patterns
-- For complex skills, split long content into `docs/` directory
-- Reference additional documentation from main SKILL.md file
-
-**Examples of good descriptions:**
-- "Use this skill when committing code changes to ensure conventional commit format"
-- "Use this skill to format CSV budget exports, but not for other file types"
-- "Use this skill when writing agent markdown files (skills, rules, configs, etc.)"
+**文档要求：**
+- 必须包含使用 GWT（Given/When/Then）模式的示例场景
+- 对于复杂技能，将长内容拆分到 `docs/` 目录
+- 从主 SKILL.md 文件中引用额外的文档

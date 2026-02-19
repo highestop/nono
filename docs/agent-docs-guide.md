@@ -1,12 +1,8 @@
-**Privacy Protection:**
-- **NEVER** include absolute paths that expose system path with username
-- Prefer `~/` or `$HOME` notation for home directory references
-
-**Content Standards:**
-- Use English as default language, unless explicitly told to use other language
-- Use `<angle-bracket>` notation for placeholders and variables
-- Use `inline code` syntax for technical terms, file names, and command names
-- Keep documentation as concise as possible to minimize context usage
-- Use simple lists instead of headers when structure is straightforward
-- Write examples inline when they can be explained clearly without separate sections or files
-- Avoid unnecessary structural complexity that doesn't add clarity
+- 文档内容和结构尽可能简洁，以减少上下文占用
+    - 结构简单时使用列表而非章节
+    - 示例能内联说明清楚时，无需单独分节或文件
+- 使用 `<尖括号>` 表示占位符和变量
+- 使用 `行内代码` 语法标记技术术语、文件名和命令名
+- **禁止**包含暴露系统路径和用户名的绝对路径
+- 优先使用 `~/` 或 `$HOME` 表示主目录引用
+- 项目内的文件链接，使用 `[@{文件路径}](/{文件路径})` 的内链格式，其中「文件路径」为「基于项目根目录的文件完整路径」（如此文件的完整路径为 `docs/agent-docs-guide.md`，引用时内链为 `[@docs/agent-docs-guide.md](/docs/agent-docs-guide.md)`）

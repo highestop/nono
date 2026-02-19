@@ -1,17 +1,21 @@
 # My Agents
 
-This repository contains Claude Code global prompts for personal use.
+此仓库包含个人使用的 Claude Code 全局提示词。
 
-| Skill | Description |
-|-------|-------------|
-| [budget-export-csv-formatter](skills/budget-export-csv-formatter/SKILL.md) | Format exported CSV files from Shark Bookkeeping Pro App into structured budget analysis |
-| [claude-code-bash-helper](skills/claude-code-bash-helper/SKILL.md) | This skill should be used when users need to execute bash commands with environment variables and pipes in Claude Code, especially when API calls fail with authentication errors despite correct tokens. |
-| [game-player](skills/game-player/SKILL.md) | This skill tells you how to play a game properly |
-| [git-committer](skills/git-committer/SKILL.md) | User this skill to commit and push changes to git repo and create pull request if needed. |
-| [mweb-db-exporter](skills/mweb-db-exporter/SKILL.md) | Export MWeb database tables to JSON format for analysis and data processing |
-| [mweb-media-reference-checker](skills/mweb-media-reference-checker/SKILL.md) | Check for missing or redundant media file references in MWeb document library |
-| [mweb-to-obsidian](skills/mweb-to-obsidian/SKILL.md) | Use this skill to migrate MWeb data to Obsidian |
+| 技能 | 描述 |
+|------|------|
+| [budget-export-csv-formatter](skills/budget-export-csv-formatter/SKILL.md) | 将鲨鱼记账 Pro App 导出的 CSV 文件格式化为结构化的账单分析 |
+| [claude-code-bash-helper](skills/claude-code-bash-helper/SKILL.md) | 当用户需要在 Claude Code 中执行带环境变量和管道的 bash 命令时使用此技能，尤其是 token 正确但 API 调用因认证错误失败的情况。 |
+| [game-player](skills/game-player/SKILL.md) | 此技能指导你如何正确地玩一个游戏 |
+| [git-committer](skills/git-committer/SKILL.md) | 使用此技能提交并推送变更到 git 仓库，如需要则创建 pull request。 |
+| [mweb-db-exporter](skills/mweb-db-exporter/SKILL.md) | 将 MWeb 数据库表导出为 JSON 格式，用于分析和数据处理 |
+| [mweb-media-reference-checker](skills/mweb-media-reference-checker/SKILL.md) | 检查 MWeb 文档库中缺失或冗余的媒体文件引用 |
+| [mweb-to-obsidian](skills/mweb-to-obsidian/SKILL.md) | 使用此技能将 MWeb 数据迁移到 Obsidian |
 
 ---
 
+<<<<<<< HEAD
 *This document was automatically generated based on commit [`36b07d5231cc29b44f001203b4bc323191257cc8`](https://github.com/highestop/my-agents/commit/36b07d5231cc29b44f001203b4bc323191257cc8).*
+=======
+*此文档基于提交 [`dc64716416a84fb452002bc9c840aae869b1b054`](https://github.com/highestop/my-agents/commit/dc64716416a84fb452002bc9c840aae869b1b054) 自动生成。*
+>>>>>>> 87428bf (docs: translate all docs and skills to Chinese)

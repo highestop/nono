@@ -1,7 +1,6 @@
-**Meta Rule**: This file must only reference other files, never directly describe rules inline.
+**重要**：此文件只能引用其他文档，不得在此直接描述规则。
 
-Load the following skills for all interactions:
-
-- When writing agent-related documentation, use [`@docs/agent-docs-guide`](/docs/agent-docs-guide.md)
-- When writing skills, use [`@docs/agent-skill-guide`](/docs/agent-skill-guide.md)
-- When committing changes to git, use [`@skills/git-committer`](/skills/git-committer/SKILL.md)
+- 使用的语言：[@docs/language-preference](/docs/language-preference.md)
+- 如何写文档：[@docs/agent-docs-guide](/docs/agent-docs-guide.md)
+- 如何写 SKILL：[@docs/agent-skill-guide](/docs/agent-skill-guide.md)
+- 如何提交：[@skills/git-committer](/skills/git-committer/SKILL.md)

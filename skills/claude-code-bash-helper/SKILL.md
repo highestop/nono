@@ -1,189 +1,189 @@
 ---
 name: claude-code-bash-helper
-description: This skill should be used when users need to execute bash commands with environment variables and pipes in Claude Code, especially when API calls fail with authentication errors despite correct tokens.
+description: 当用户需要在 Claude Code 中执行带环境变量和管道的 bash 命令时使用此技能，尤其是 token 正确但 API 调用因认证错误失败的情况。
 ---
 
-# Claude Code Bash Best Practices Skill
+# Claude Code Bash 最佳实践技能
 
-## Workflow
+## 工作流程
 
-Execute the following steps when this skill is triggered:
+触发此技能时执行以下步骤：
 
-### 1. Identify the Problem
+### 1. 识别问题
 
-- Check if the user's command involves environment variables (`$VAR`) with pipes (`|`)
-- Look for symptoms:
-  - API authentication failures despite correct tokens
-  - Environment variables appearing empty in piped commands
-  - Commands that work in terminal but fail in Claude Code
-- Common problematic patterns:
+- 检查用户的命令是否涉及环境变量（`$VAR`）与管道（`|`）
+- 查找以下症状：
+  - 尽管 token 正确但 API 认证失败
+  - 管道命令中环境变量显示为空
+  - 在终端中正常工作但在 Claude Code 中失败的命令
+- 常见的问题模式：
   ```bash
   curl -s "$API_URL" -H "Authorization: Bearer $TOKEN" | jq .
   ```
-- Use AskUserQuestion tool to confirm: "Are you experiencing environment variable issues in Claude Code bash commands?"
+- 使用 AskUserQuestion 工具确认："你是否在 Claude Code bash 命令中遇到环境变量问题？"
 
-### 2. Analyze User's Command
+### 2. 分析用户命令
 
-- Parse the user's existing command structure
-- Identify components:
-  - Commands that use environment variables
-  - Pipe operations
-  - JSON processing with jq
-  - Complex quoting scenarios
-- Categorize the use case:
-  - Simple API calls
-  - POST requests with JSON bodies
-  - Variable assignments from command output
-  - Loops with API calls
-  - File uploads or downloads
+- 解析用户现有的命令结构
+- 识别组成部分：
+  - 使用环境变量的命令
+  - 管道操作
+  - 使用 jq 的 JSON 处理
+  - 复杂的引号场景
+- 对用例进行分类：
+  - 简单 API 调用
+  - 带 JSON body 的 POST 请求
+  - 从命令输出赋值变量
+  - 包含 API 调用的循环
+  - 文件上传或下载
 
-### 3. Apply Fix Pattern
+### 3. 应用修复模式
 
-Based on the command type, apply the appropriate fix:
+根据命令类型应用相应的修复：
 
-#### For Simple API Calls:
+#### 简单 API 调用：
 ```bash
-# Before (problematic)
+# 修复前（有问题）
 curl -s "$API_URL" -H "Authorization: Bearer $TOKEN" | jq .
 
-# After (fixed)
+# 修复后
 bash -c 'curl -s "$API_URL" -H "Authorization: Bearer $TOKEN"' | jq .
 ```
 
-#### For POST with JSON Body:
+#### 带 JSON Body 的 POST 请求：
 ```bash
-# Before (problematic)
+# 修复前（有问题）
 curl -s "$API_URL" -H "Authorization: Bearer $TOKEN" -d '{"key": "value"}' | jq .
 
-# After (fixed) - using file approach
+# 修复后 - 使用文件方式
 echo '{"key": "value"}' > /tmp/request.json
 bash -c 'curl -s "$API_URL" -H "Authorization: Bearer $TOKEN" -d @/tmp/request.json' | jq .
 ```
 
-#### For Variable Assignment:
+#### 变量赋值：
 ```bash
-# Before (problematic)
+# 修复前（有问题）
 RESULT=$(curl -s "$API_URL" -H "Authorization: Bearer $TOKEN" | jq -r '.data')
 
-# After (fixed)
+# 修复后
 RESULT=$(bash -c 'curl -s "$API_URL" -H "Authorization: Bearer $TOKEN"' | jq -r '.data')
 ```
 
-#### For Loops:
+#### 循环：
 ```bash
-# Before (problematic)
+# 修复前（有问题）
 for id in $(curl -s "$API_URL/list" -H "Authorization: Bearer $TOKEN" | jq -r '.[]'); do
   echo $id
 done
 
-# After (fixed)
+# 修复后
 for id in $(bash -c 'curl -s "$API_URL/list" -H "Authorization: Bearer $TOKEN"' | jq -r '.[]'); do
   echo $id
 done
 ```
 
-### 4. Provide Testing Commands
+### 4. 提供测试命令
 
-Generate test commands to verify the fix works:
+生成验证修复是否有效的测试命令：
 
 ```bash
-# Test environment variable visibility
+# 测试环境变量可见性
 echo "Direct access: $YOUR_TOKEN"
 echo "In pipe: $YOUR_TOKEN" | cat
 bash -c 'echo "In bash -c: $YOUR_TOKEN"' | cat
 ```
 
-### 5. Educational Explanation
+### 5. 教学说明
 
-Explain the technical background:
+解释技术背景：
 
-- **Root Cause**: Claude Code's bash preprocessing clears environment variables when pipes are used
-- **Solution**: `bash -c '...'` creates a subshell that preserves variables
-- **Best Practice**: Only wrap the command that needs variables, keep processing outside
-- **Related Issues**: Reference GitHub issues #11225 and #8318
+- **根本原因**：Claude Code 的 bash 预处理在使用管道时会清除环境变量
+- **解决方案**：`bash -c '...'` 创建一个保留变量的子 shell
+- **最佳实践**：只包装需要变量的命令部分，将处理逻辑放在外面
+- **相关 Issue**：参考 GitHub issues #11225 和 #8318
 
-### 6. Generate Complete Solution
+### 6. 生成完整解决方案
 
-Provide the user with:
-- The corrected command
-- Testing steps to verify it works
-- Template for similar future commands
-- Common variations they might need
+向用户提供：
+- 修正后的命令
+- 验证其有效性的测试步骤
+- 类似未来命令的模板
+- 可能需要的常见变体
 
-## Critical Rules
+## 关键规则
 
-- Always wrap only the part of the command that uses environment variables in `bash -c '...'`
-- Keep `jq` and other processing outside the `bash -c` wrapper for better readability
-- Use file-based JSON input (`-d @file`) to avoid complex quote escaping
-- Test the solution before providing it to the user
-- Explain the reasoning behind the fix, not just the solution
-- Use `--header` instead of `-H` for better compatibility
-- Prefer `$VAR` over `${VAR}` unless braces are specifically needed
+- 始终只将使用环境变量的命令部分包装在 `bash -c '...'` 中
+- 将 `jq` 和其他处理保持在 `bash -c` 包装器之外以提高可读性
+- 使用基于文件的 JSON 输入（`-d @file`）以避免复杂的引号转义
+- 在提供给用户之前测试解决方案
+- 解释修复的原因，而不仅仅是解决方案
+- 使用 `--header` 代替 `-H` 以获得更好的兼容性
+- 除非确实需要花括号，否则优先使用 `$VAR` 而非 `${VAR}`
 
-## Common Fix Patterns
+## 常见修复模式
 
-### Pattern 1: Basic API Authentication
+### 模式 1：基本 API 认证
 ```bash
-# Input: curl -s "$URL" -H "Authorization: Bearer $TOKEN" | jq .
-# Output: bash -c 'curl -s "$URL" -H "Authorization: Bearer $TOKEN"' | jq .
+# 输入: curl -s "$URL" -H "Authorization: Bearer $TOKEN" | jq .
+# 输出: bash -c 'curl -s "$URL" -H "Authorization: Bearer $TOKEN"' | jq .
 ```
 
-### Pattern 2: Complex JSON Body
+### 模式 2：复杂 JSON Body
 ```bash
-# Input: curl -s "$URL" -H "Auth: $TOKEN" -d '{"complex": "json"}' | jq .
-# Output:
+# 输入: curl -s "$URL" -H "Auth: $TOKEN" -d '{"complex": "json"}' | jq .
+# 输出:
 # echo '{"complex": "json"}' > /tmp/data.json
 # bash -c 'curl -s "$URL" -H "Auth: $TOKEN" -d @/tmp/data.json' | jq .
 ```
 
-### Pattern 3: Multiple Variables
+### 模式 3：多个变量
 ```bash
-# Input: curl -s "$BASE_URL/api" -H "Auth: $TOKEN" -H "X-User: $USER_ID" | jq .
-# Output: bash -c 'curl -s "$BASE_URL/api" -H "Auth: $TOKEN" -H "X-User: $USER_ID"' | jq .
+# 输入: curl -s "$BASE_URL/api" -H "Auth: $TOKEN" -H "X-User: $USER_ID" | jq .
+# 输出: bash -c 'curl -s "$BASE_URL/api" -H "Auth: $TOKEN" -H "X-User: $USER_ID"' | jq .
 ```
 
-### Pattern 4: Command Substitution
+### 模式 4：命令替换
 ```bash
-# Input: ID=$(curl -s "$URL" -H "Auth: $TOKEN" | jq -r '.id')
-# Output: ID=$(bash -c 'curl -s "$URL" -H "Auth: $TOKEN"' | jq -r '.id')
+# 输入: ID=$(curl -s "$URL" -H "Auth: $TOKEN" | jq -r '.id')
+# 输出: ID=$(bash -c 'curl -s "$URL" -H "Auth: $TOKEN"' | jq -r '.id')
 ```
 
-## Examples
+## 示例
 
-### Example 1: User with failing API call
+### 示例 1：用户的 API 调用失败
 
-**Trigger**: "My curl command with API key isn't working in Claude Code"
+**触发**："我的 curl 命令在 Claude Code 中使用 API key 时不工作"
 
-**User's command**:
+**用户的命令**：
 ```bash
 curl -s "https://api.github.com/user" -H "Authorization: token $GITHUB_TOKEN" | jq .login
 ```
 
-**Expected flow**:
+**预期流程**：
 
-1. Identify: Environment variable `$GITHUB_TOKEN` with pipe to `jq`
-2. Analyze: Simple GET request with authentication header
-3. Apply fix: Wrap curl in `bash -c`
-4. Provide solution:
+1. 识别：环境变量 `$GITHUB_TOKEN` 与管道到 `jq`
+2. 分析：带认证头的简单 GET 请求
+3. 应用修复：将 curl 包装在 `bash -c` 中
+4. 提供解决方案：
    ```bash
    bash -c 'curl -s "https://api.github.com/user" -H "Authorization: token $GITHUB_TOKEN"' | jq .login
    ```
-5. Generate test: `bash -c 'echo "Token: $GITHUB_TOKEN"' | head -c 10`
+5. 生成测试：`bash -c 'echo "Token: $GITHUB_TOKEN"' | head -c 10`
 
-### Example 2: User with POST request
+### 示例 2：用户的 POST 请求
 
-**Trigger**: "My POST request with JSON data fails in Claude Code"
+**触发**："我的 POST 请求在 Claude Code 中使用 JSON 数据时失败"
 
-**User's command**:
+**用户的命令**：
 ```bash
 curl -s "https://api.example.com/data" -H "Authorization: Bearer $API_KEY" -H "Content-Type: application/json" -d '{"name": "test", "value": 42}' | jq .id
 ```
 
-**Expected flow**:
+**预期流程**：
 
-1. Identify: Complex POST with JSON body and environment variable
-2. Analyze: Quoting issues with JSON in bash -c
-3. Apply file-based approach:
+1. 识别：带 JSON body 和环境变量的复杂 POST
+2. 分析：bash -c 中 JSON 的引号问题
+3. 应用基于文件的方法：
    ```bash
    cat > /tmp/post_data.json << 'EOF'
    {"name": "test", "value": 42}
@@ -191,11 +191,11 @@ curl -s "https://api.example.com/data" -H "Authorization: Bearer $API_KEY" -H "C
    bash -c 'curl -s "https://api.example.com/data" -H "Authorization: Bearer $API_KEY" -H "Content-Type: application/json" -d @/tmp/post_data.json' | jq .id
    ```
 
-### Example 3: User with loop and variable assignment
+### 示例 3：用户的循环和变量赋值
 
-**Trigger**: "I need to loop through API results but variables aren't working"
+**触发**："我需要遍历 API 结果但变量不工作"
 
-**User's command**:
+**用户的命令**：
 ```bash
 for repo in $(curl -s "https://api.github.com/user/repos" -H "Authorization: token $GITHUB_TOKEN" | jq -r '.[].name'); do
   echo "Repository: $repo"
@@ -204,11 +204,11 @@ for repo in $(curl -s "https://api.github.com/user/repos" -H "Authorization: tok
 done
 ```
 
-**Expected flow**:
+**预期流程**：
 
-1. Identify: Multiple environment variable usage in loop
-2. Analyze: Both loop iteration and variable assignment affected
-3. Apply comprehensive fix:
+1. 识别：循环中多处使用环境变量
+2. 分析：循环迭代和变量赋值均受影响
+3. 应用综合修复：
    ```bash
    for repo in $(bash -c 'curl -s "https://api.github.com/user/repos" -H "Authorization: token $GITHUB_TOKEN"' | jq -r '.[].name'); do
      echo "Repository: $repo"
@@ -217,47 +217,47 @@ done
    done
    ```
 
-### Example 4: Educational request
+### 示例 4：教学请求
 
-**Trigger**: "Why do my environment variables disappear when I use pipes in Claude Code?"
+**触发**："为什么我的环境变量在 Claude Code 中使用管道时会消失？"
 
-**Expected flow**:
+**预期流程**：
 
-1. Explain the bug: Claude Code preprocessing issue
-2. Demonstrate the problem:
+1. 解释 bug：Claude Code 预处理问题
+2. 演示问题：
    ```bash
-   # This will show the problem
+   # 这将展示问题
    export TEST_VAR="hello"
    echo "Direct: $TEST_VAR"
    echo "Piped: $TEST_VAR" | cat
    ```
-3. Show the solution:
+3. 展示解决方案：
    ```bash
    bash -c 'echo "Fixed: $TEST_VAR"' | cat
    ```
-4. Provide general guidance for future commands
+4. 提供未来命令的通用指导
 
-## Configuration
+## 配置
 
-This skill doesn't require persistent configuration but may suggest creating aliases for commonly used patterns:
+此技能不需要持久化配置，但可以建议为常用模式创建别名：
 
 ```bash
-# Add to ~/.bashrc or ~/.zshrc for convenience outside Claude Code
+# 添加到 ~/.bashrc 或 ~/.zshrc 以便在 Claude Code 外使用
 alias api-call='bash -c'
 alias safe-curl='bash -c'
 ```
 
-## Troubleshooting
+## 故障排除
 
-Common issues and solutions:
+常见问题及解决方案：
 
-1. **Quote escaping in bash -c**: Use file-based input for complex JSON
-2. **Multiple variables**: All variables in the same bash -c work fine
-3. **Command substitution**: Apply the same pattern `$(bash -c '...' | processing)`
-4. **Nested quotes**: Use heredoc or temporary files to avoid quote hell
+1. **bash -c 中的引号转义**：对复杂 JSON 使用基于文件的输入
+2. **多个变量**：同一个 bash -c 中的所有变量都能正常工作
+3. **命令替换**：应用相同的模式 `$(bash -c '...' | processing)`
+4. **嵌套引号**：使用 heredoc 或临时文件避免引号嵌套问题
 
-## Reference
+## 参考
 
 - Claude Code GitHub Issues: #11225, #8318
-- Related documentation: bash subshells, environment variable inheritance
-- Alternative approaches: environment file sourcing, variable export patterns
+- 相关文档：bash 子 shell、环境变量继承
+- 替代方法：环境文件 sourcing、变量 export 模式

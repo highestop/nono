@@ -1,31 +1,31 @@
 ---
 name: game-player
-description: This skill tells you how to play a game properly
+description: 此技能指导你如何正确地玩一个游戏
 ---
 
-## Game Parameters
+## 游戏参数
 
-- Before playing, you need to know the `<game-url>`, and give a `<game-name>`.
-- `<game-cache-directory>` defaults to `~/.game-cache/`, unless explicitly told to use another directory
+- 开始游戏前，你需要知道 `<game-url>`，并给出一个 `<game-name>`。
+- `<game-cache-directory>` 默认为 `~/.game-cache/`，除非明确指定使用其他目录
 
-## Game Launch
+## 启动游戏
 
-- Use Playwright MCP to open browser and visit the `<game-url>` page to play this game.
-  - First ensure MCP service is available. If Playwright MCP service is not installed, you can install it via `claude mcp add playwright npx '@playwright/mcp@latest'`.
-  - You should play like a human by opening browser, observing and operating real browser pages, rather than writing scripts or using fetch tools to access pages.
-- You must understand how to play this game based on page content, make decisions at each step yourself, don't ask me. You also need to judge whether the game succeeds or fails in the end, and exit the game when encountering success or failure.
+- 使用 Playwright MCP 打开浏览器并访问 `<game-url>` 页面来玩这个游戏。
+  - 首先确保 MCP 服务可用。如果 Playwright MCP 服务未安装，可以通过 `claude mcp add playwright npx '@playwright/mcp@latest'` 安装。
+  - 你应该像人类一样通过打开浏览器、观察和操作真实的浏览器页面来玩游戏，而不是编写脚本或使用 fetch 工具访问页面。
+- 你必须根据页面内容理解如何玩这个游戏，在每一步自己做决策，不要问我。你还需要判断游戏最终是成功还是失败，并在遇到成功或失败时退出游戏。
 
-## Process Recording and Experience Summary
+## 过程记录与经验总结
 
-- Create a directory named `<game-name>` under `<game-cache-directory>` as the main directory for this game.
-- For each game session, create a `game-<index>` subdirectory in the main directory to store detailed process of this game session.
-  - Game log file is `session.txt`, each line is a record, each line starts with `[timestamp]`.
-  - You should record logs at each decision and action, including your current status, your thinking, your decisions.
-  - After the game ends, whether successful or failed, you should create a `summary.txt` file in this game session directory to summarize the experience of this game.
-- After the game ends, you should also iterate your knowledge and experience of this game in `game-guide.txt` in the main directory, helping you become a more experienced player.
-- Before starting a new game, you should review summaries from all previous game sessions, learn from successful experiences and failed lessons, and enter the game with your latest and most advanced understanding and experience of this game.
+- 在 `<game-cache-directory>` 下创建名为 `<game-name>` 的目录作为此游戏的主目录。
+- 每次游戏会话在主目录中创建一个 `game-<index>` 子目录，用于存储该次游戏会话的详细过程。
+  - 游戏日志文件为 `session.txt`，每行一条记录，每行以 `[timestamp]` 开头。
+  - 你应该在每次决策和操作时记录日志，包括你的当前状态、你的思考、你的决策。
+  - 游戏结束后，无论成功还是失败，你都应在该游戏会话目录中创建 `summary.txt` 文件，总结本次游戏的经验。
+- 游戏结束后，你还应在主目录的 `game-guide.txt` 中迭代更新你对这个游戏的知识和经验，帮助你成为更有经验的玩家。
+- 在开始新游戏前，你应该回顾之前所有游戏会话的总结，从成功经验和失败教训中学习，带着你对这个游戏最新、最深入的理解和经验进入游戏。
 
-### session.txt Reference
+### session.txt 参考格式
 
 ```txt
 [2026-01-12 00:00:00] ..
@@ -35,34 +35,34 @@ description: This skill tells you how to play a game properly
 [2026-01-12 00:00:04] ..
 ```
 
-### summary.txt Reference
+### summary.txt 参考格式
 
 ```txt
 Game Result: xx
 Game Duration: xx
 Game Token Consumption: xx
 
-[Success Experience]:
-(list them)
+[成功经验]:
+（逐条列出）
 
-[Failure Experience/Improvement Suggestions]:
-(list them)
+[失败经验/改进建议]:
+（逐条列出）
 ```
 
-### game-guide.txt Reference
+### game-guide.txt 参考格式
 
 ```txt
-[What kind of game is this]: (one sentence summary)
-[What is the game objective]: (one sentence summary)
+[这是什么游戏]: （一句话总结）
+[游戏目标是什么]: （一句话总结）
 
-[What stages does the game have/what to do in each stage]:
-(list them)
+[游戏有哪些阶段/每个阶段做什么]:
+（逐条列出）
 
-[Key decisions in different game stages/their importance estimation on game results]:
-(list by groups, if there are decision factors of different dimensions, you can use tables to express their relationships, importance estimation should preferably be quantitative indicators)
+[不同游戏阶段的关键决策/其对游戏结果的重要性估计]:
+（按组列出，如果有不同维度的决策因素，可以用表格表达它们的关系，重要性估计最好是量化指标）
 ```
 
-## Other Rules
+## 其他规则
 
-- Game log recording uses language consistent with the game. For example, if the game interface is in Chinese, then logs are in Chinese.
-- Game cannot save/load, if encountering unexpected exit during gameplay, can only start over.
+- 游戏日志记录使用与游戏一致的语言。例如，如果游戏界面是中文的，则日志用中文。
+- 游戏不能存档/读档，如果在游戏过程中遇到意外退出，只能重新开始。

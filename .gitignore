@@ -1,13 +1,15 @@
-# Ignore all files by default
 *
 
-# Includes these root files
 !.gitignore
+
+!.claude/
+!.claude/config
+!.claude/config/commit.config.json
+
 !CLAUDE.md
 !AGENTS.md
 !README.md
 
-# Include these folders
 !.github
 !.github/**
 

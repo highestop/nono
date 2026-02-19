@@ -1,59 +1,59 @@
 ---
 name: git-committer
-description: User this skill to commit and push changes to git repo and create pull request if needed.
+description: 使用此技能提交并推送变更到 git 仓库，如需要则创建 pull request。
 ---
 
-# Git Commit Skill
+# Git 提交技能
 
-## Configuration API
+## 配置 API
 
-The skill reads configuration from `.claude/config/commit.config.json` using a proximity-based search:
+此技能通过就近搜索从 `.claude/config/commit.config.json` 读取配置：
 
-1. **Project Config**: `.claude/config/commit.config.json` relative to current working directory
-2. **Global Config**: `~/.claude/config/commit.config.json` if project config not found
+1. **项目配置**：相对于当前工作目录的 `.claude/config/commit.config.json`
+2. **全局配置**：如果项目配置未找到，则使用 `~/.claude/config/commit.config.json`
 
-**IMPORTANT**: Configuration files containing personal information (like `gitUser` credentials) should NOT be committed to version control. Always ensure `.claude/config/` directory is properly ignored in `.gitignore` to keep sensitive configuration private. Use global config (`~/.claude/config/`) for personal preferences.
+**重要**：包含个人信息（如 `gitUser` 凭据）的配置文件不应提交到版本控制。务必确保 `.claude/config/` 目录在 `.gitignore` 中被正确忽略，以保护敏感配置的隐私。使用全局配置（`~/.claude/config/`）存放个人偏好。
 
-### Configuration Schema
+### 配置 Schema
 
-| Field | Type | Description | Default |
-|-------|------|-------------|---------|
-| `strategy` | `"main"` \| `"feature"` | Commit strategy: commit directly to main branch or create feature branch | `"main"` |
-| `splitCommits` | `boolean` | Split unrelated changes into separate commits | `true` |
-| `autoPush` | `boolean` | Automatically push commits to remote | `true` |
-| `createPullRequest` | `boolean` | Create PR when using feature branch strategy | `false` |
-| `coAuthor` | `boolean` | Add Claude co-author tag to commits | `true` |
-| `types` | `string[]` | Allowed commit types | `["feat", "fix", "docs", "style", "refactor", "perf", "test", "chore"]` |
-| `scopes` | `string[]` | Allowed scopes for this project | `["rule", "skill", "command", "plugin"]` |
-| `gitUser` | `object` | Git user identity validation configuration | `null` |
-| `gitUser.name` | `string` | Expected git user name for commits | `null` |
-| `gitUser.email` | `string` | Expected git user email for commits | `null` |
+| 字段 | 类型 | 描述 | 默认值 |
+|------|------|------|--------|
+| `strategy` | `"main"` \| `"feature"` | 提交策略：直接提交到 main 分支或创建 feature 分支 | `"main"` |
+| `splitCommits` | `boolean` | 将不相关的变更拆分为独立的提交 | `true` |
+| `autoPush` | `boolean` | 自动推送提交到远程 | `true` |
+| `createPullRequest` | `boolean` | 使用 feature 分支策略时创建 PR | `false` |
+| `coAuthor` | `boolean` | 在提交中添加 Claude 共同作者标签 | `true` |
+| `types` | `string[]` | 允许的提交类型 | `["feat", "fix", "docs", "style", "refactor", "perf", "test", "chore"]` |
+| `scopes` | `string[]` | 此项目允许的作用域 | `["rule", "skill", "command", "plugin"]` |
+| `gitUser` | `object` | Git 用户身份验证配置 | `null` |
+| `gitUser.name` | `string` | 提交时预期的 git 用户名 | `null` |
+| `gitUser.email` | `string` | 提交时预期的 git 用户邮箱 | `null` |
 
-### Command-line Configuration Overrides
+### 命令行配置覆盖
 
-Users can override any configuration setting directly in their request using natural language. The skill should intelligently parse the user's intent and map it to appropriate configuration overrides.
+用户可以在请求中使用自然语言直接覆盖任何配置设置。技能应智能解析用户意图并映射到相应的配置覆盖。
 
-**Priority Order** (highest to lowest):
-1. **User arguments** - Settings inferred from current request
-2. **Config file values** - Project config or global configuration
-3. **Default values** - System defaults
+**优先级顺序**（从高到低）：
+1. **用户参数** - 从当前请求推断的设置
+2. **配置文件值** - 项目配置或全局配置
+3. **默认值** - 系统默认值
 
-**Semantic Parsing Guidelines**:
-- Parse user intent rather than matching exact phrases
-- Look for indicators of configuration preferences in the request
-- Map natural language expressions to configuration field overrides
-- Support various ways users might express the same preference
+**语义解析指南**：
+- 解析用户意图而非匹配精确短语
+- 在请求中查找配置偏好的指示信息
+- 将自然语言表达映射到配置字段覆盖
+- 支持用户表达同一偏好的多种方式
 
-**Common Override Patterns**:
-| Configuration Field | Natural Language Indicators | Example Expressions |
-|---------------------|----------------------------|-------------------|
-| `strategy` | Branch strategy preferences | "use feature branch", "commit to main", "create branch" |
-| `autoPush` | Push behavior preferences | "don't push", "without push", "and push", "skip push" |
-| `createPullRequest` | PR creation preferences | "create PR", "make pull request", "no PR", "skip PR" |
-| `splitCommits` | Commit splitting preferences | "single commit", "one commit", "split commits", "separate" |
-| `coAuthor` | Co-author preferences | "no co-author", "without co-author", "skip co-author" |
+**常见覆盖模式**：
+| 配置字段 | 自然语言指示 | 示例表达 |
+|----------|-------------|----------|
+| `strategy` | 分支策略偏好 | "use feature branch"、"commit to main"、"create branch" |
+| `autoPush` | 推送行为偏好 | "don't push"、"without push"、"and push"、"skip push" |
+| `createPullRequest` | PR 创建偏好 | "create PR"、"make pull request"、"no PR"、"skip PR" |
+| `splitCommits` | 提交拆分偏好 | "single commit"、"one commit"、"split commits"、"separate" |
+| `coAuthor` | 共同作者偏好 | "no co-author"、"without co-author"、"skip co-author" |
 
-### Example Configuration
+### 配置示例
 
 ```json
 {
@@ -71,205 +71,205 @@ Users can override any configuration setting directly in their request using nat
 }
 ```
 
-### Configuration Management
+### 配置管理
 
-- **Config locations**:
-  - Project Config: `.claude/config/commit.config.json` (current working directory)
-  - Global Config: `~/.claude/config/commit.config.json`
-- **Search priority**: Project config takes precedence over global config
-- **Cowork sharing**: Choose whether to commit project config file for team conventions or add to .gitignore for local-only settings
+- **配置位置**：
+  - 项目配置：`.claude/config/commit.config.json`（当前工作目录）
+  - 全局配置：`~/.claude/config/commit.config.json`
+- **搜索优先级**：项目配置优先于全局配置
+- **协作共享**：选择是否将项目配置文件提交用于团队规范，或添加到 .gitignore 仅本地使用
 
-## Workflow
+## 工作流程
 
-Execute the following steps when this skill is triggered:
+触发此技能时执行以下步骤：
 
-### 1. Load Configuration and Parse Arguments
+### 1. 加载配置并解析参数
 
-- Analyze user input to identify configuration intent and preferences
-- Extract configuration overrides from natural language expressions
-- Search for config file in order:
-  1. `.claude/config/commit.config.json` (current working directory)
-  2. `~/.claude/config/commit.config.json` (global config)
-- Merge configurations with priority order (highest to lowest):
-  1. **User arguments** (parsed from current request)
-  2. **Config file values** (project config or global config)
-  3. **Default values**
-- Create `.claude/config/` directory if it doesn't exist when saving new config
+- 分析用户输入以识别配置意图和偏好
+- 从自然语言表达中提取配置覆盖
+- 按顺序搜索配置文件：
+  1. `.claude/config/commit.config.json`（当前工作目录）
+  2. `~/.claude/config/commit.config.json`（全局配置）
+- 按优先级合并配置（从高到低）：
+  1. **用户参数**（从当前请求解析）
+  2. **配置文件值**（项目配置或全局配置）
+  3. **默认值**
+- 保存新配置时，如果 `.claude/config/` 目录不存在则创建
 
-### 2. Validate Git User Identity
+### 2. 验证 Git 用户身份
 
-- If `gitUser` configuration exists (either `gitUser.name` or `gitUser.email` is configured):
-  - Get current git user name using `git config user.name`
-  - Get current git user email using `git config user.email`
-  - Compare with configured values:
-    - If `gitUser.name` is configured and doesn't match current git user name, **abort with error**
-    - If `gitUser.email` is configured and doesn't match current git user email, **abort with error**
-    - If git user name/email cannot be retrieved (not configured), **abort with error**
-  - Display validation error with expected vs actual values
-  - Suggest commands to fix git configuration: `git config user.name "Expected Name"` and/or `git config user.email "expected@example.com"`
-- If no `gitUser` configuration exists, skip validation
+- 如果存在 `gitUser` 配置（配置了 `gitUser.name` 或 `gitUser.email`）：
+  - 使用 `git config user.name` 获取当前 git 用户名
+  - 使用 `git config user.email` 获取当前 git 用户邮箱
+  - 与配置值进行比较：
+    - 如果配置了 `gitUser.name` 且与当前 git 用户名不匹配，**终止并报错**
+    - 如果配置了 `gitUser.email` 且与当前 git 用户邮箱不匹配，**终止并报错**
+    - 如果无法获取 git 用户名/邮箱（未配置），**终止并报错**
+  - 显示验证错误，包含预期值与实际值
+  - 建议修复 git 配置的命令：`git config user.name "Expected Name"` 和/或 `git config user.email "expected@example.com"`
+- 如果不存在 `gitUser` 配置，跳过验证
 
-### 3. Analyze Changes
+### 3. 分析变更
 
-- Verify current directory is a git repository using `git status`
-- Run `git diff` and `git diff --cached` to analyze changes
-- Categorize changes by:
-  - File type (source code, docs, tests, config)
-  - Change type based on `types` config
-- Determine scope automatically:
-  - Add scope for Claude Agent files (rule, skill, command, plugin), no scope for others
-  - Use scopes from `scopes` config when applicable
-- If `splitCommits` is true and multiple unrelated changes detected, split into separate commits
+- 使用 `git status` 验证当前目录是否为 git 仓库
+- 运行 `git diff` 和 `git diff --cached` 分析变更
+- 按以下维度分类变更：
+  - 文件类型（源代码、文档、测试、配置）
+  - 基于 `types` 配置的变更类型
+- 自动确定作用域：
+  - 为 Claude Agent 文件（rule、skill、command、plugin）添加作用域，其他不添加
+  - 适用时使用 `scopes` 配置中的作用域
+- 如果 `splitCommits` 为 true 且检测到多个不相关的变更，拆分为独立提交
 
-### 4. Execute Branch Strategy
+### 4. 执行分支策略
 
-- Check if current repository is a fork by looking for `upstream` remote using `git remote -v`
-- If fork detected (upstream remote exists):
-  - **Force feature branch strategy** regardless of config (required for open source contribution)
-  - Create new feature branch with format `<change-type>/<short-description>`
-- If not a fork:
-  - If `strategy` is `"main"`: Stay on current branch
-  - If `strategy` is `"feature"`: Create new feature branch with format `<change-type>/<short-description>`
+- 通过 `git remote -v` 查找 `upstream` 远程来检查当前仓库是否为 fork
+- 如果检测到 fork（存在 upstream 远程）：
+  - **强制使用 feature 分支策略**，无论配置如何（开源贡献的要求）
+  - 创建新的 feature 分支，格式为 `<change-type>/<short-description>`
+- 如果不是 fork：
+  - 如果 `strategy` 为 `"main"`：保持在当前分支
+  - 如果 `strategy` 为 `"feature"`：创建新的 feature 分支，格式为 `<change-type>/<short-description>`
 
-### 5. Stage Files
+### 5. 暂存文件
 
-- Automatically stage all modified files using `git add`
+- 使用 `git add` 自动暂存所有修改的文件
 
-### 6. Create Commits
+### 6. 创建提交
 
-For each commit group:
+对每个提交组：
 
-- Generate Angular Conventional Commit message:
-  - Format: `<change-type>(<scope-if-configured>): <commit-title>`
-  - Add body if needed for complex changes
-  - Add `Co-authored-by: Claude <noreply@anthropic.com>` if `coAuthor` is true
-- Create commit using `git commit`
+- 生成 Angular Conventional Commit 消息：
+  - 格式：`<change-type>(<scope-if-configured>): <commit-title>`
+  - 复杂变更时添加 body
+  - 如果 `coAuthor` 为 true，添加 `Co-authored-by: Claude <noreply@anthropic.com>`
+- 使用 `git commit` 创建提交
 
-### 7. Push and PR
+### 7. 推送和 PR
 
-**Linear History Maintenance**: All operations must preserve linear git history by avoiding merge commits.
+**线性历史维护**：所有操作必须通过避免合并提交来保持线性 git 历史。
 
-- If `autoPush` is true:
-  - Attempt `git push`
-  - If push fails due to non-fast-forward (remote has new commits):
-    1. Run `git pull --rebase` to maintain linear history
-    2. If rebase conflicts occur:
-       - Display conflict files and guide user to resolve manually
-       - After user resolves, run `git rebase --continue`
-    3. Once rebase completes successfully, run `git push --force-with-lease`
-    4. If `--force-with-lease` fails, use `git push --force` as fallback
+- 如果 `autoPush` 为 true：
+  - 尝试 `git push`
+  - 如果因 non-fast-forward 推送失败（远程有新提交）：
+    1. 运行 `git pull --rebase` 以维护线性历史
+    2. 如果发生 rebase 冲突：
+       - 显示冲突文件并引导用户手动解决
+       - 用户解决后，运行 `git rebase --continue`
+    3. rebase 成功完成后，运行 `git push --force-with-lease`
+    4. 如果 `--force-with-lease` 失败，使用 `git push --force` 作为后备
 
-- If on feature branch and `createPullRequest` is true:
-  - **Strategy-based PR creation**:
-    - If using `"main"` strategy: Skip PR creation (commits are directly on main)
-    - If using `"feature"` strategy: Create PR with linear history settings
+- 如果在 feature 分支上且 `createPullRequest` 为 true：
+  - **基于策略的 PR 创建**：
+    - 如果使用 `"main"` 策略：跳过 PR 创建（提交已直接在 main 上）
+    - 如果使用 `"feature"` 策略：使用线性历史设置创建 PR
 
-  - **PR creation with linear merge settings**:
-    - If repository is a fork:
-      - Create PR to `upstream/main` using `gh pr create --repo <upstream-owner>/<upstream-repo>`
-      - Extract upstream owner/repo from upstream remote URL
-    - If not a fork:
-      - Create PR to `origin/main` using `gh pr create`
+  - **使用线性合并设置创建 PR**：
+    - 如果仓库是 fork：
+      - 使用 `gh pr create --repo <upstream-owner>/<upstream-repo>` 创建到 `upstream/main` 的 PR
+      - 从 upstream 远程 URL 提取 upstream owner/repo
+    - 如果不是 fork：
+      - 使用 `gh pr create` 创建到 `origin/main` 的 PR
 
-  - **Configure PR for linear history**:
-    - Set PR to use squash merge: include `--body` with note "This PR should be merged using squash and merge to maintain linear history"
-    - Request automatic branch deletion after merge in PR description
+  - **配置 PR 以维护线性历史**：
+    - 设置 PR 使用 squash merge：在 `--body` 中包含 "This PR should be merged using squash and merge to maintain linear history"
+    - 在 PR 描述中请求合并后自动删除分支
 
-  - Return PR URL to user
+  - 向用户返回 PR URL
 
-### 8. Handle Configuration Updates
+### 8. 处理配置更新
 
-- If user provided configuration overrides during this session, use AskUserQuestion tool:
-  - Question: "Save these settings for future use?"
-  - Options: ["Yes, save settings", "No, use only for this commit"]
-- If user chooses to save, use AskUserQuestion tool:
-  - Question: "Where should these settings be saved?"
-  - Options: ["Project Config (current project only)", "Global Config (all projects)"]
-- When creating project config for the first time, use AskUserQuestion tool:
-  - Question: "Should the config file be added to .gitignore?"
-  - Options: ["Yes, keep config local only", "No, share with team"]
-- Update existing config file with only the overridden values, keeping other settings unchanged
+- 如果用户在本次会话中提供了配置覆盖，使用 AskUserQuestion 工具：
+  - 问题："是否保存这些设置以供将来使用？"
+  - 选项：["是，保存设置"、"否，仅用于本次提交"]
+- 如果用户选择保存，使用 AskUserQuestion 工具：
+  - 问题："设置应保存在哪里？"
+  - 选项：["项目配置（仅当前项目）"、"全局配置（所有项目）"]
+- 首次创建项目配置时，使用 AskUserQuestion 工具：
+  - 问题："是否将配置文件添加到 .gitignore？"
+  - 选项：["是，仅本地保留"、"否，与团队共享"]
+- 更新已有配置文件时仅修改被覆盖的值，保持其他设置不变
 
-## Critical Rules
+## 关键规则
 
-- **Linear History Principle**: Maintain linear git history at all costs - never create merge commits on main branch
-- Use `git pull --rebase` instead of `git pull` to avoid merge commits
-- Use `git push --force-with-lease` when pushing rebased commits
-- Configure PRs for squash merge to prevent merge commits when merging feature branches
-- Use TaskCreate to track all steps at the beginning and update status throughout
-- Provide clear options for user selection rather than free text input
-- If any new changes appear during execution, restart the entire commit workflow from beginning
-- Commit messages must be in English using Angular Conventional Commit format
-- Handle git errors gracefully with clear error messages
+- **线性历史原则**：不惜一切代价维护线性 git 历史——永远不要在 main 分支上创建合并提交
+- 使用 `git pull --rebase` 而非 `git pull` 以避免合并提交
+- 推送 rebase 后的提交时使用 `git push --force-with-lease`
+- 配置 PR 使用 squash merge 以防止合并 feature 分支时产生合并提交
+- 使用 TaskCreate 在开始时跟踪所有步骤，并在整个过程中更新状态
+- 为用户提供清晰的选项而非自由文本输入
+- 如果执行过程中出现任何新变更，从头重新开始整个提交工作流
+- 提交消息必须使用 Angular Conventional Commit 格式的英文
+- 妥善处理 git 错误，提供清晰的错误信息
 
 
 
-## Examples
+## 示例
 
-### Example 1: Default behavior (no config file)
+### 示例 1：默认行为（无配置文件）
 
-**Trigger**: "Help me commit my changes"
+**触发**："帮我提交变更"
 
-**Scenario**:
-- No `.claude/config/commit.config.json` exists (neither project config nor global config)
-- Modified files: `src/auth.js`, `tests/auth.test.js`
-- All changes related to fixing login validation
+**场景**：
+- 不存在 `.claude/config/commit.config.json`（项目配置和全局配置均无）
+- 修改的文件：`src/auth.js`、`tests/auth.test.js`
+- 所有变更都与修复登录验证相关
 
-**Expected flow**:
-1. Load default configuration
-2. Analyze changes: single logical group (auth fix + tests)
-3. Auto-stage files and commit directly to main branch
-4. Create commit: `fix(auth): resolve login validation logic`
-5. Push to remote
+**预期流程**：
+1. 加载默认配置
+2. 分析变更：单个逻辑组（认证修复 + 测试）
+3. 自动暂存文件并直接提交到 main 分支
+4. 创建提交：`fix(auth): resolve login validation logic`
+5. 推送到远程
 
-### Example 2: Feature branch strategy
+### 示例 2：Feature 分支策略
 
-**Configuration** (`.claude/config/commit.config.json`):
+**配置**（`.claude/config/commit.config.json`）：
 ```json
 {
   "strategy": "feature"
 }
 ```
 
-**Expected flow**:
-1. Create feature branch: `fix/auth-validation`
-2. Commit changes to the feature branch
-3. Push feature branch to remote
+**预期流程**：
+1. 创建 feature 分支：`fix/auth-validation`
+2. 将变更提交到 feature 分支
+3. 推送 feature 分支到远程
 
-### Example 3: Disable commit splitting
+### 示例 3：禁用提交拆分
 
-**Configuration** (`.claude/config/commit.config.json`):
+**配置**（`.claude/config/commit.config.json`）：
 ```json
 {
   "splitCommits": false
 }
 ```
 
-**Scenario**:
-- Modified files: `README.md`, `src/utils.js`, `package.json`
-- Multiple unrelated changes
+**场景**：
+- 修改的文件：`README.md`、`src/utils.js`、`package.json`
+- 多个不相关的变更
 
-**Expected flow**:
-1. Treat all changes as single commit group
-2. Create one commit: `feat: update docs, add utility, and upgrade deps`
+**预期流程**：
+1. 将所有变更视为单个提交组
+2. 创建一个提交：`feat: update docs, add utility, and upgrade deps`
 
-### Example 4: Disable auto-push
+### 示例 4：禁用自动推送
 
-**Configuration** (`.claude/config/commit.config.json`):
+**配置**（`.claude/config/commit.config.json`）：
 ```json
 {
   "autoPush": false
 }
 ```
 
-**Expected flow**:
-1. Create commits locally
-2. Do NOT push to remote automatically
-3. User must manually push later
+**预期流程**：
+1. 在本地创建提交
+2. 不自动推送到远程
+3. 用户需要稍后手动推送
 
-### Example 5: Enable automatic PR creation
+### 示例 5：启用自动创建 PR
 
-**Configuration** (`.claude/config/commit.config.json`):
+**配置**（`.claude/config/commit.config.json`）：
 ```json
 {
   "strategy": "feature",
@@ -277,95 +277,95 @@ For each commit group:
 }
 ```
 
-**Expected flow**:
-1. Create feature branch
-2. Commit and push changes
-3. Check remotes using `git remote -v` and confirm no `upstream` remote exists
-4. Create PR to origin repository using `gh pr create`
-5. Return PR URL to user
+**预期流程**：
+1. 创建 feature 分支
+2. 提交并推送变更
+3. 使用 `git remote -v` 检查远程并确认不存在 `upstream` 远程
+4. 使用 `gh pr create` 创建到 origin 仓库的 PR
+5. 向用户返回 PR URL
 
-### Example 6: Disable co-author tag
+### 示例 6：禁用共同作者标签
 
-**Configuration** (`.claude/config/commit.config.json`):
+**配置**（`.claude/config/commit.config.json`）：
 ```json
 {
   "coAuthor": false
 }
 ```
 
-**Expected flow**:
-1. Create commit without `Co-authored-by: Claude <noreply@anthropic.com>` line
-2. Commit message contains only the conventional commit format
+**预期流程**：
+1. 创建提交时不包含 `Co-authored-by: Claude <noreply@anthropic.com>` 行
+2. 提交消息仅包含 conventional commit 格式
 
-### Example 7: Custom commit types
+### 示例 7：自定义提交类型
 
-**Configuration** (`.claude/config/commit.config.json`):
+**配置**（`.claude/config/commit.config.json`）：
 ```json
 {
   "types": ["feat", "fix", "docs", "refactor"]
 }
 ```
 
-**Expected flow**:
-1. Only use specified commit types when analyzing changes
-2. Categorize changes using the limited type set
-3. Other standard types like "chore", "test" will not be used
+**预期流程**：
+1. 分析变更时仅使用指定的提交类型
+2. 使用有限的类型集对变更进行分类
+3. 其他标准类型如 "chore"、"test" 将不会使用
 
-### Example 8: Custom scopes
+### 示例 8：自定义作用域
 
-**Configuration** (`.claude/config/commit.config.json`):
+**配置**（`.claude/config/commit.config.json`）：
 ```json
 {
   "scopes": ["api", "ui", "auth", "database"]
 }
 ```
 
-**Expected flow**:
-1. Use custom scopes when auto-detecting scope for changes
-2. For files matching patterns, apply appropriate scope:
-   - API-related files → `feat(api): ...`
-   - UI components → `feat(ui): ...`
-   - Auth modules → `fix(auth): ...`
-   - Database files → `chore(database): ...`
+**预期流程**：
+1. 自动检测变更作用域时使用自定义作用域
+2. 对匹配模式的文件应用相应作用域：
+   - API 相关文件 → `feat(api): ...`
+   - UI 组件 → `feat(ui): ...`
+   - 认证模块 → `fix(auth): ...`
+   - 数据库文件 → `chore(database): ...`
 
-### Example 9: Command-line overrides with config save
+### 示例 9：命令行覆盖并保存配置
 
-**Trigger**: "commit with feature branch and create PR"
+**触发**："commit with feature branch and create PR"
 
-**Scenario**:
-- User has existing config: `{"strategy": "main", "createPullRequest": false}`
-- User wants to override for this commit
+**场景**：
+- 用户已有配置：`{"strategy": "main", "createPullRequest": false}`
+- 用户想要为本次提交覆盖
 
-**Expected flow**:
-1. Analyze user intent: infer strategy="feature" from "with feature branch", createPullRequest=true from "create PR"
-2. Apply overridden values for this commit
-3. Create feature branch and PR as requested
-4. Ask via AskUserQuestion: "Save these settings for future use?" with options ["Yes, save settings", "No, use only for this commit"]
-5. If yes, ask via AskUserQuestion: "Where should these settings be saved?" with options ["Project Config (current project only)", "Global Config (all projects)"]
-6. Update config file with new values
+**预期流程**：
+1. 分析用户意图：从 "with feature branch" 推断 strategy="feature"，从 "create PR" 推断 createPullRequest=true
+2. 为本次提交应用覆盖的值
+3. 按请求创建 feature 分支和 PR
+4. 通过 AskUserQuestion 询问："是否保存这些设置以供将来使用？"，选项 ["是，保存设置"、"否，仅用于本次提交"]
+5. 如果是，通过 AskUserQuestion 询问："设置应保存在哪里？"，选项 ["项目配置（仅当前项目）"、"全局配置（所有项目）"]
+6. 用新值更新配置文件
 
-### Example 10: Command-line override without existing config
+### 示例 10：无已有配置时的命令行覆盖
 
-**Trigger**: "commit without push"
+**触发**："commit without push"
 
-**Scenario**:
-- No existing config file
-- User wants to commit locally only
+**场景**：
+- 不存在已有配置文件
+- 用户只想在本地提交
 
-**Expected flow**:
-1. Analyze user intent: infer autoPush=false from "without push"
-2. Apply defaults with override: autoPush=false
-3. Create commit but don't push to remote
-4. Ask via AskUserQuestion: "Save these settings for future use?" with options ["Yes, save settings", "No, use only for this commit"]
-5. If yes, ask via AskUserQuestion: "Where should these settings be saved?" with options ["Project Config (current project only)", "Global Config (all projects)"]
-6. Create new config file with the override
-7. If creating project config for first time, ask via AskUserQuestion: "Should the config file be added to .gitignore?" with options ["Yes, keep config local only", "No, share with team"]
+**预期流程**：
+1. 分析用户意图：从 "without push" 推断 autoPush=false
+2. 应用默认值并覆盖：autoPush=false
+3. 创建提交但不推送到远程
+4. 通过 AskUserQuestion 询问："是否保存这些设置以供将来使用？"，选项 ["是，保存设置"、"否，仅用于本次提交"]
+5. 如果是，通过 AskUserQuestion 询问："设置应保存在哪里？"，选项 ["项目配置（仅当前项目）"、"全局配置（所有项目）"]
+6. 用覆盖值创建新配置文件
+7. 如果是首次创建项目配置，通过 AskUserQuestion 询问："是否将配置文件添加到 .gitignore？"，选项 ["是，仅本地保留"、"否，与团队共享"]
 
-### Example 11: Fork project (forced feature branch)
+### 示例 11：Fork 项目（强制 feature 分支）
 
-**Trigger**: "commit"
+**触发**："commit"
 
-**Configuration** (`.claude/config/commit.config.json`):
+**配置**（`.claude/config/commit.config.json`）：
 ```json
 {
   "strategy": "main",
@@ -373,26 +373,26 @@ For each commit group:
 }
 ```
 
-**Scenario**:
-- Repository is a fork (has upstream remote pointing to original repo)
-- User configured strategy as "main" but this will be overridden
-- Modified files: `src/feature.js`, `tests/feature.test.js`
+**场景**：
+- 仓库是 fork（有指向原始仓库的 upstream 远程）
+- 用户配置策略为 "main"，但将被覆盖
+- 修改的文件：`src/feature.js`、`tests/feature.test.js`
 
-**Expected flow**:
-1. Check remotes using `git remote -v` and detect `upstream` remote
-2. **Override strategy to "feature"** (fork projects require feature branches)
-3. Create feature branch: `feat/add-new-feature`
-4. Commit changes to the feature branch
-5. Push feature branch to origin (user's fork)
-6. Extract upstream owner/repo from upstream remote URL
-7. Create PR to upstream repository using `gh pr create --repo <upstream-owner>/<upstream-repo>`
-8. Return PR URL pointing to upstream repository
+**预期流程**：
+1. 使用 `git remote -v` 检查远程并检测到 `upstream` 远程
+2. **覆盖策略为 "feature"**（fork 项目要求使用 feature 分支）
+3. 创建 feature 分支：`feat/add-new-feature`
+4. 将变更提交到 feature 分支
+5. 推送 feature 分支到 origin（用户的 fork）
+6. 从 upstream 远程 URL 提取 upstream owner/repo
+7. 使用 `gh pr create --repo <upstream-owner>/<upstream-repo>` 创建到 upstream 仓库的 PR
+8. 返回指向 upstream 仓库的 PR URL
 
-### Example 12: Fork project with feature strategy
+### 示例 12：使用 feature 策略的 fork 项目
 
-**Trigger**: "commit with create PR"
+**触发**："commit with create PR"
 
-**Configuration** (`.claude/config/commit.config.json`):
+**配置**（`.claude/config/commit.config.json`）：
 ```json
 {
   "strategy": "feature",
@@ -400,48 +400,48 @@ For each commit group:
 }
 ```
 
-**Scenario**:
-- Repository is a fork (has upstream remote pointing to original repo)
-- User already configured feature strategy (aligned with fork requirements)
-- Modified files: `docs/README.md`
+**场景**：
+- 仓库是 fork（有指向原始仓库的 upstream 远程）
+- 用户已配置 feature 策略（与 fork 要求一致）
+- 修改的文件：`docs/README.md`
 
-**Expected flow**:
-1. Check remotes and detect fork, confirm feature strategy is appropriate
-2. Create feature branch: `docs/update-readme`
-3. Commit changes to the feature branch
-4. Push feature branch to origin (user's fork)
-5. Create PR to upstream repository
-6. Return PR URL pointing to upstream repository
+**预期流程**：
+1. 检查远程并检测到 fork，确认 feature 策略合适
+2. 创建 feature 分支：`docs/update-readme`
+3. 将变更提交到 feature 分支
+4. 推送 feature 分支到 origin（用户的 fork）
+5. 创建到 upstream 仓库的 PR
+6. 返回指向 upstream 仓库的 PR URL
 
-### Example 13: Linear history maintenance with push conflicts
+### 示例 13：推送冲突时的线性历史维护
 
-**Trigger**: "commit my changes"
+**触发**："commit my changes"
 
-**Scenario**:
-- Local commits created successfully
-- Remote repository has new commits (push will fail with non-fast-forward error)
-- `autoPush` is enabled
+**场景**：
+- 本地提交已成功创建
+- 远程仓库有新提交（推送将因 non-fast-forward 错误失败）
+- `autoPush` 已启用
 
-**Expected flow**:
-1. Create commits locally as usual
-2. Attempt `git push` - fails with "Updates were rejected because the remote contains work that you do not have locally"
-3. Run `git pull --rebase` to maintain linear history
-4. If no conflicts: rebase completes successfully
-5. Run `git push --force-with-lease` to push rebased commits
-6. If `--force-with-lease` fails, fallback to `git push --force`
+**预期流程**：
+1. 照常在本地创建提交
+2. 尝试 `git push` - 失败，提示 "Updates were rejected because the remote contains work that you do not have locally"
+3. 运行 `git pull --rebase` 以维护线性历史
+4. 如果没有冲突：rebase 成功完成
+5. 运行 `git push --force-with-lease` 推送 rebase 后的提交
+6. 如果 `--force-with-lease` 失败，后备使用 `git push --force`
 
-**Expected flow with conflicts**:
-1. Create commits locally as usual
-2. Attempt `git push` - fails with non-fast-forward error
-3. Run `git pull --rebase` - encounters merge conflicts
-4. Display conflicted files to user: "Rebase conflicts in: `file1.js`, `file2.md`"
-5. Guide user: "Please resolve conflicts manually, then tell me to continue"
-6. After user resolves and confirms, run `git rebase --continue`
-7. Once rebase completes, run `git push --force-with-lease`
+**有冲突时的预期流程**：
+1. 照常在本地创建提交
+2. 尝试 `git push` - 因 non-fast-forward 错误失败
+3. 运行 `git pull --rebase` - 遇到合并冲突
+4. 向用户显示冲突文件："Rebase conflicts in: `file1.js`, `file2.md`"
+5. 引导用户："请手动解决冲突，然后告诉我继续"
+6. 用户解决并确认后，运行 `git rebase --continue`
+7. rebase 完成后，运行 `git push --force-with-lease`
 
-### Example 14: Feature branch PR with linear history settings
+### 示例 14：Feature 分支 PR 的线性历史设置
 
-**Configuration**:
+**配置**：
 ```json
 {
   "strategy": "feature",
@@ -449,17 +449,17 @@ For each commit group:
 }
 ```
 
-**Expected flow**:
-1. Create feature branch and commit changes
-2. Push feature branch to remote
-3. Create PR using `gh pr create` with additional settings:
-   - Include in PR body: "This PR should be merged using squash and merge to maintain linear history"
-   - Request automatic branch deletion after merge
-4. Return PR URL with note about linear merge requirements
+**预期流程**：
+1. 创建 feature 分支并提交变更
+2. 推送 feature 分支到远程
+3. 使用 `gh pr create` 创建 PR，附加以下设置：
+   - 在 PR body 中包含："This PR should be merged using squash and merge to maintain linear history"
+   - 请求合并后自动删除分支
+4. 返回 PR URL，并附注线性合并要求
 
-### Example 15: Main strategy with no PR creation
+### 示例 15：Main 策略不创建 PR
 
-**Configuration**:
+**配置**：
 ```json
 {
   "strategy": "main",
@@ -467,15 +467,15 @@ For each commit group:
 }
 ```
 
-**Expected flow**:
-1. Commit directly to main branch
-2. Push to remote (with rebase handling if needed)
-3. Skip PR creation since commits are already on main branch
-4. Note: `createPullRequest` setting is ignored for main strategy
+**预期流程**：
+1. 直接提交到 main 分支
+2. 推送到远程（如需要则处理 rebase）
+3. 跳过 PR 创建，因为提交已在 main 分支上
+4. 注意：`createPullRequest` 设置在 main 策略下被忽略
 
-### Example 16: Git user identity validation
+### 示例 16：Git 用户身份验证
 
-**Configuration** (`.claude/config/commit.config.json`):
+**配置**（`.claude/config/commit.config.json`）：
 ```json
 {
   "gitUser": {
@@ -485,29 +485,29 @@ For each commit group:
 }
 ```
 
-**Scenario A**: Git user matches configuration
-- Current git user: name="John Doe", email="john.doe@example.com"
+**场景 A**：Git 用户与配置匹配
+- 当前 git 用户：name="John Doe"、email="john.doe@example.com"
 
-**Expected flow**:
-1. Load configuration with git user validation
-2. Get current git user: `git config user.name` and `git config user.email`
-3. Validation passes - continue with normal commit flow
+**预期流程**：
+1. 加载带有 git 用户验证的配置
+2. 获取当前 git 用户：`git config user.name` 和 `git config user.email`
+3. 验证通过——继续正常的提交流程
 
-**Scenario B**: Git user name mismatch
-- Current git user: name="Jane Smith", email="john.doe@example.com"
-- Configuration expects: name="John Doe", email="john.doe@example.com"
+**场景 B**：Git 用户名不匹配
+- 当前 git 用户：name="Jane Smith"、email="john.doe@example.com"
+- 配置预期：name="John Doe"、email="john.doe@example.com"
 
-**Expected flow**:
-1. Load configuration with git user validation
-2. Get current git user: `git config user.name` returns "Jane Smith"
-3. **Abort with error**: "Git user name mismatch. Expected: 'John Doe', Got: 'Jane Smith'"
-4. Suggest fix: "Run: git config user.name 'John Doe'"
+**预期流程**：
+1. 加载带有 git 用户验证的配置
+2. 获取当前 git 用户：`git config user.name` 返回 "Jane Smith"
+3. **终止并报错**："Git user name mismatch. Expected: 'John Doe', Got: 'Jane Smith'"
+4. 建议修复："Run: git config user.name 'John Doe'"
 
-**Scenario C**: Git user not configured
-- Git user name/email not set in git config
+**场景 C**：Git 用户未配置
+- git config 中未设置 git 用户名/邮箱
 
-**Expected flow**:
-1. Load configuration with git user validation
-2. Get current git user: `git config user.name` returns empty/null
-3. **Abort with error**: "Git user name not configured. Expected: 'John Doe'"
-4. Suggest fix: "Run: git config user.name 'John Doe' && git config user.email 'john.doe@example.com'"
+**预期流程**：
+1. 加载带有 git 用户验证的配置
+2. 获取当前 git 用户：`git config user.name` 返回空/null
+3. **终止并报错**："Git user name not configured. Expected: 'John Doe'"
+4. 建议修复："Run: git config user.name 'John Doe' && git config user.email 'john.doe@example.com'"

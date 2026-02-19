@@ -28,10 +28,10 @@ jobs:
           cat > README.md << 'EOF'
           # My Agents
 
-          This repository contains Claude Code global prompts for personal use.
+          此仓库包含个人使用的 Claude Code 全局提示词。
 
-          | Skill | Description |
-          |-------|-------------|
+          | 技能 | 描述 |
+          |------|------|
           EOF
 
           # Process each skill
@@ -71,7 +71,7 @@ jobs:
 
           ---
 
-          *This document was automatically generated based on commit [\`${{ steps.commit.outputs.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ steps.commit.outputs.sha }}).*
+          *此文档基于提交 [\`${{ steps.commit.outputs.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ steps.commit.outputs.sha }}) 自动生成。*
           EOF
       - name: Check for changes
         id: changes
