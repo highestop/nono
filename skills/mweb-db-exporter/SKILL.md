@@ -9,7 +9,7 @@ description: 将 MWeb 数据库表导出为 JSON 格式，用于分析和数据�
 
 ## 工作流程
 
-- 加载 [`@/docs/mweb-database-guide`](/docs/mweb-database-guide.md) 技能以了解数据库结构
+- 参考 [database-guide](/docs/mweb/database-guide.md) 文档以了解数据库结构
 - 执行 `./script.sh`（相对于技能根目录）导出数据库表
 - 分析脚本输出并以自然语言向用户展示导出结果
 - 验证导出数据的完整性和格式正确性
