@@ -6,8 +6,9 @@
 !.claude/config
 !.claude/config/commit.config.json
 
-!CLAUDE.md
 !AGENTS.md
+!ARTICLES.md
+!CLAUDE.md
 !README.md
 
 !.github
@@ -18,3 +19,6 @@
 
 !docs
 !docs/**
+
+!articles
+!articles/**

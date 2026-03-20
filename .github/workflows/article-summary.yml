@@ -1,0 +1,69 @@
+name: article-summary
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "articles/**"
+      - ".github/workflows/article-summary.yml"
+
+jobs:
+  article-summary:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get latest commit SHA
+        id: commit
+        run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+      - name: Generate ARTICLES.md
+        run: |
+          cat > ARTICLES.md << 'EOF'
+          # Articles
+
+          EOF
+
+          for date_dir in $(ls -rd articles/*/); do
+            date=$(basename "$date_dir")
+            echo "- **$date**" >> ARTICLES.md
+
+            for md_file in "$date_dir"*.md; do
+              [ -f "$md_file" ] || continue
+              title=$(head -20 "$md_file" | grep '^# ' | head -1 | sed 's/^# //')
+              if [ -n "$title" ]; then
+                echo "  - [$title]($md_file)" >> ARTICLES.md
+              fi
+            done
+          done
+
+          cat >> ARTICLES.md << EOF
+
+          ---
+
+          *This document was automatically generated based on commit [\`${{ steps.commit.outputs.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ steps.commit.outputs.sha }}).*
+          EOF
+      - name: Check for changes
+        id: changes
+        run: |
+          if [ ! -f ARTICLES.md ] || ! git diff --quiet ARTICLES.md || git ls-files --others --exclude-standard | grep -q "^ARTICLES.md$"; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --local user.email "noreply@anthropic.com"
+          git config --local user.name "Claude"
+          git add ARTICLES.md
+          git commit -m "docs(articles): auto summary (${{ steps.commit.outputs.sha }})"
+          git pull --rebase
+          git push
