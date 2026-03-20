@@ -14,4 +14,4 @@
 
 ---
 
-*此文档基于提交 [`1079489598e568fa7349a0d7ae9687dfa48591ea`](https://github.com/highestop/my-claude/commit/1079489598e568fa7349a0d7ae9687dfa48591ea) 自动生成。*
+*此文档基于提交 [`fa6df5568c878ca8430b2f06c9a661911ecaf6d1`](https://github.com/highestop/my-claude/commit/fa6df5568c878ca8430b2f06c9a661911ecaf6d1) 自动生成。*
