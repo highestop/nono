@@ -91,4 +91,5 @@ jobs:
           git config --local user.name "Claude"
           git add README.md
           git commit -m "docs(README): auto summary (${{ steps.commit.outputs.sha }})"
+          git pull --rebase
           git push
