@@ -1,5 +1,5 @@
 ---
-name: commit-to-git
+name: git-commit
 description: 提交并推送变更到 git 仓库
 ---
 
@@ -21,7 +21,7 @@ description: 提交并推送变更到 git 仓库
 | `strategy` | `"main"` | `"feature"` | 提交策略：直接提交到 main 分支或创建 feature 分支 | `"main"` |
 | `splitCommits` | `boolean` | 将不相关的变更拆分为独立的提交 | `true` |
 | `autoPush` | `boolean` | 自动推送提交到远程 | `true` |
-| `createPullRequest` | `boolean` | 使用 feature 分支策略时创建 PR | `false` |
+| `createPullRequest` | `boolean` | 使用 feature 分支策略时创建 PR | `true` |
 | `coAuthor` | `boolean` | 在提交中添加 Claude 共同作者标签 | `true` |
 | `types` | `string[]` | 允许的提交类型 | `["feat", "fix", "docs", "style", "refactor", "perf", "test", "chore"]` |
 | `scopes` | `string[]` | 此项目允许的作用域 | `["rule", "skill", "command", "plugin"]` |
