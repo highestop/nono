@@ -1,6 +1,7 @@
 *
 
 !.gitignore
+!settings.json
 
 !.claude/
 !.claude/config

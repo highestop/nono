@@ -1,0 +1,28 @@
+{
+  "model": "us.anthropic.claude-opus-4-5-20251101-v1:0",
+  "hooks": {
+    "WorktreeCreate": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'NAME=$(jq -r .name <<< \"$(cat)\"); CWD=$(git rev-parse --show-toplevel); DIR=\"$CWD/.claude/worktrees/$NAME\"; git fetch origin main >&2 && git worktree add -b \"chenyn-$NAME\" \"$DIR\" origin/main >&2 && echo \"$DIR\"'"
+          }
+        ]
+      }
+    ],
+    "WorktreeRemove": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'WTP=$(jq -r .worktree_path <<< \"$(cat)\"); git worktree remove \"$WTP\" 2>/dev/null || git worktree remove --force \"$WTP\"'"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "playwright@claude-plugins-official": true
+  }
+}
