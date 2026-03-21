@@ -59,6 +59,20 @@ When an article is very long (e.g. full podcast transcripts, lengthy interviews)
 2. Then append content **section by section** (one heading + its paragraphs per edit) using the Edit tool
 3. Never attempt to write the full article body in a single Write or Edit operation
 
+## Tags
+
+After saving the article, generate 3–5 keyword tags that best represent the article's core topics. Add them to the metadata header as a comma-separated list:
+
+```markdown
+> - 标签：AI 芯片, 推理架构, 英伟达
+```
+
+Guidelines:
+- Tags should be concise nouns or noun phrases (e.g. `AI 编程`, `开源`, `数据中心`)
+- Follow the same CJK spacing rules (e.g. `AI 芯片` not `AI芯片`)
+- Use commas to separate tags (not `#` prefixes), so tag names can contain spaces
+- For translated articles, use the same tags in both the original and translated files
+
 ## Stop condition
 
 The task is done when the markdown file (and translation if applicable) is written and its path is reported to the user.

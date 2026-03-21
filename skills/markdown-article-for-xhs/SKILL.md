@@ -49,6 +49,7 @@ The filename uses an `xhs-` prefix followed by the short link ID (the last path 
 > - 来源：<author name>（小红书）
 > - 日期：<publish date>
 > - 原文链接：http://xhslink.com/o/<short_link_id>
+> - 标签：<tag1>, <tag2>, <tag3>
 
 ---
 

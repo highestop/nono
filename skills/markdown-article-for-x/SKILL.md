@@ -45,6 +45,7 @@ The filename uses an `x-` prefix followed by the article ID:
 > - 作者：<author display name>（X @username）
 > - 日期：<publish date>
 > - 原文链接：<original URL>
+> - 标签：<tag1>, <tag2>, <tag3>
 
 ---
 

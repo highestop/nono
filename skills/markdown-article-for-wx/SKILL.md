@@ -58,6 +58,7 @@ The filename uses a `wx-` prefix followed by the `sn_hash` from the short link U
 > - 作者：<author>
 > - 日期：<publish date>
 > - 原文链接：<short link URL>
+> - 标签：<tag1>, <tag2>, <tag3>
 
 ---
 
