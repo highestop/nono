@@ -4,11 +4,9 @@
 
 ## Bilibili 视频
 
-> - 空间链接：`https://space.bilibili.com/{userId}/upload/video`
-> - 合集链接：`https://space.bilibili.com/{userId}/lists/{listId}`
-> - 如果是收藏合集的页面，链接如 `https://space.bilibili.com/{userId}/favlist?fid={listId}`，改成上面的链接即可
-> - 可以使用 [脚本](https://github.com/highestop/my-userscripts/blob/main/bilibili-favlist-sidebar-noscroll.js) 去除收藏夹页面的滚动
-> - 可以使用 [脚本](https://github.com/highestop/my-userscripts/blob/main/bilibili-space-extract-video-urls.js) 快速批量复制链接到 Downie 下载
+> - 各种链接格式见 [Link Format](/docs/bilibili/link-format.md)
+> - 可以用 [脚本](/scripts/bilibili-favlist-sidebar-noscroll.js) 去除收藏夹页面的滚动
+> - 可以用 [脚本](/scripts/bilibili-space-extract-video-urls.js) 快速批量复制链接到 Downie 下载
 
 - [罗永浩的十字路口](https://space.bilibili.com/538596213/upload/video)
 - [十三邀](https://space.bilibili.com/43112644/upload/video)
