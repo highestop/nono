@@ -1,5 +1,7 @@
 # Articles
 
+- **2026-03-21**
+  - ["Token 不用完会焦虑"！Karpathy 最新访谈自曝患上"AI 精神病"：软件世界正在被 Agent 接管](articles/2026-03-21/wx-Nn6MO_OKtTDmKtB7OtO_bg.md)
 - **2026-03-19**
   - [这个时代可能需要马克思](articles/2026-03-19/wx-K9iyiwGItLz_w5p3moQEeg.md)
   - [Harness Engineering 为什么是 Agent 时代的"控制论"？](articles/2026-03-19/wx-SVUybMZb6uh5OCR3ceoBVA.md)
@@ -22,4 +24,4 @@
 
 ---
 
-*This document was automatically generated based on commit [`d79cb76017230110c2598180294eeaf8b967676b`](https://github.com/highestop/nono/commit/d79cb76017230110c2598180294eeaf8b967676b).*
+*This document was automatically generated based on commit [`19f491e4c7997d6811341a1120829948e4f21902`](https://github.com/highestop/nono/commit/19f491e4c7997d6811341a1120829948e4f21902).*
