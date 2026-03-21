@@ -4,7 +4,7 @@
 > - 作者：dongxu
 > - 日期：2026 年 3 月 10 日
 > - 原文链接：https://mp.weixin.qq.com/s/4v1hRcNyuYMRcFHCr-2S4Q
-> - 标签：OpenClaw, 插件开发, 记忆管理
+> - 标签：OpenClaw, 插件开发
 
 ---
 

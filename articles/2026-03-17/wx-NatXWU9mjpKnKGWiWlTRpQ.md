@@ -4,7 +4,7 @@
 > - 作者：冬梅
 > - 日期：2026 年 3 月 17 日 07:21
 > - 原文链接：https://mp.weixin.qq.com/s/NatXWU9mjpKnKGWiWlTRpQ
-> - 标签：英伟达, AI 芯片, 数据中心, 推理架构
+> - 标签：AI 芯片
 
 ---
 

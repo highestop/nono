@@ -5,7 +5,7 @@
 > - 日期：2026 年 3 月 16 日
 > - 原文链接：https://mp.weixin.qq.com/s/7FcavO7t_2zBhVZEWlfaxg
 > - 视频原文：https://www.youtube.com/watch?v=dHBEQ-Ryo24&t=3914s
-> - 标签：AI 编程, 工程实践, 行业观点
+> - 标签：Vibe Coding, 工程实践, 行业观点
 
 ---
 

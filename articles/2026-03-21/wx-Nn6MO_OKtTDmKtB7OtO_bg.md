@@ -4,7 +4,7 @@
 > - 作者：冬梅
 > - 日期：2026-03-21
 > - 原文链接：https://mp.weixin.qq.com/s/Nn6MO_OKtTDmKtB7OtO_bg
-> - 标签：Agent, AI 编程, 访谈, 行业观点
+> - 标签：Agent, Vibe Coding, 访谈, 行业观点
 
 ---
 
