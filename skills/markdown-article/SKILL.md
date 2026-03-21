@@ -17,7 +17,7 @@ A valid article URL, e.g. `https://example.com/blog/some-article`
    - Identify section headings and set proper `##` / `###` levels
    - Wrap code snippets in fenced code blocks with language hints (`bash, `json, ```yaml, etc.)
    - Format lists, blockquotes, tables, bold/italic correctly
-   - Preserve images at their original positions using `![caption](url)` syntax
+   - IMPORTANT: Preserve ALL images at their original positions using `![caption](url)` syntax — do not skip images, articles must include illustrations
    - Remove UI noise (navigation, sidebar, footer, ads, share buttons, comment sections, etc.)
    - IMPORTANT: Ensure proper spacing between Chinese and English/numbers (e.g. `使用 Claude 编写代码` not `使用Claude编写代码`, `共 15 个功能` not `共15个功能`)
 4. If Playwright was used, close the browser tab

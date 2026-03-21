@@ -32,6 +32,13 @@ After navigating to the page:
 3. Remove WeChat-specific UI noise: share buttons, QR codes, "今日好文推荐" sections, "会议推荐" sections, ad banners, comment sections, voting widgets, etc.
 4. For dialog/interview articles, format speaker names in bold (e.g. `**Jeremy Howard：**`)
 
+## Image handling
+
+- Extract all content images from the article using `page.evaluate` to query `img` elements whose `data-src` or `src` contains `mmbiz.qpic.cn` — these are the article's inline images
+- Skip non-content images: profile avatars, QR codes, ad banners, reward/tip buttons, emoji images (`res.wx.qq.com`), and icon images
+- Preserve images at their original positions in the article body using `![](url)` syntax
+- Use the `data-src` attribute (not `src`) as the image URL, since WeChat lazy-loads images
+
 ## File location override
 
 The filename uses a `wx-` prefix followed by the `sn_hash` from the short link URL:
@@ -54,7 +61,11 @@ The filename uses a `wx-` prefix followed by the `sn_hash` from the short link U
 
 ---
 
-<markdown body>
+<markdown body with inline images>
+
+![](https://mmbiz.qpic.cn/...)
+
+<more text and images...>
 ```
 
 ## Example
