@@ -8,7 +8,7 @@ Start the articles reader — a local web app for browsing and annotating saved 
 ## Architecture
 
 - **Server**: `<project_root>/articles/local.py` — Python HTTP server, serves static files, provides a notes API (`POST /api/notes`) and an articles listing API (`GET /api/articles`)
-- **Frontend**: `<project_root>/articles/index.html` — SPA with sidebar file tree (grouped by date), markdown rendering, CN/EN bilingual dual-pane view, text highlighting, and note annotations
+- **Frontend**: `<project_root>/articles/index.html` — SPA with sidebar file tree (grouped by date), markdown rendering, CN/EN bilingual toggle view, text highlighting, and note annotations
 - **Articles**: stored as `.md` files under `<project_root>/articles/<YYYY-MM-DD>/`, with optional `.notes.json` sidecar files for highlights
 - **Article index**: dynamically fetched from the server via `GET /api/articles` — no manual index update needed
 

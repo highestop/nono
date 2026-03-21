@@ -172,10 +172,6 @@
     flex-direction: column;
   }
 
-  .pane + .pane {
-    border-left: 1px solid #d1d9e0;
-  }
-
   .pane-header {
     padding: 12px 24px;
     font-size: 13px;
@@ -185,6 +181,25 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .lang-toggle {
+    background: none;
+    border: 1px solid #d1d9e0;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 12px;
+    color: #656d76;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    margin-right: 8px;
+  }
+
+  .lang-toggle:hover {
+    background: #f6f8fa;
+    color: #1f2328;
+    border-color: #afb8c1;
   }
 
   .notes-btn {
@@ -270,17 +285,9 @@
     justify-content: center;
   }
 
-  .content-body:not(.dual) .markdown-body {
+  .markdown-body {
     max-width: 860px;
     width: 100%;
-  }
-
-  .content-body.dual .markdown-body {
-    max-width: 100%;
-    width: 100%;
-  }
-
-  .markdown-body {
     font-size: 15px;
     line-height: 1.7;
     background: transparent;
@@ -625,20 +632,29 @@ async function handleClick(itemEl) {
   history.pushState({ file: filePath }, '', url);
 
   if (itemEl.dataset.bilingual === 'true') {
-    await loadArticles([itemEl.dataset.cn, itemEl.dataset.en]);
+    await loadArticle(itemEl.dataset.cn, { cn: itemEl.dataset.cn, en: itemEl.dataset.en, lang: 'cn' });
   } else {
-    await loadArticles([itemEl.dataset.file]);
+    await loadArticle(itemEl.dataset.file);
   }
 }
 
-function renderPane(path, html) {
+// Current bilingual state
+let currentBilingual = null; // { cn: path, en: path, lang: 'cn'|'en' }
+
+function renderPane(path, html, bilingualInfo) {
+  const langToggle = bilingualInfo
+    ? `<button class="lang-toggle" data-toggle-lang="${bilingualInfo.lang === 'cn' ? 'en' : 'cn'}">${bilingualInfo.lang === 'cn' ? 'EN' : '中文'}</button>`
+    : '';
   return `
     <div class="pane" data-path="${path}">
       <div class="pane-header">
         <span>${path.replace('/', ' / ')}</span>
-        <button class="notes-btn" data-notes-path="${path}">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm11 3a.75.75 0 0 1-.75.75h-8.5a.75.75 0 0 1 0-1.5h8.5a.75.75 0 0 1 .75.75Zm-.75 3.25a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5Z"/></svg>
-        </button>
+        <div style="display:flex;align-items:center;">
+          ${langToggle}
+          <button class="notes-btn" data-notes-path="${path}">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm11 3a.75.75 0 0 1-.75.75h-8.5a.75.75 0 0 1 0-1.5h8.5a.75.75 0 0 1 .75.75Zm-.75 3.25a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5Z"/></svg>
+          </button>
+        </div>
       </div>
       <div class="pane-body">
         <article class="markdown-body">${html}</article>
@@ -648,39 +664,22 @@ function renderPane(path, html) {
 }
 
 
-async function loadArticles(paths) {
+async function loadArticle(path, bilingualInfo) {
   closeNotesModal();
-  let markdowns;
+  let md;
   try {
-    markdowns = await Promise.all(paths.map(p => fetchMd(p)));
+    md = await fetchMd(path);
   } catch (e) {
     contentBody.innerHTML = `<div class="placeholder">Failed to load file</div>`;
     return;
   }
 
-  const dual = paths.length > 1;
-  contentBody.className = `content-body${dual ? ' dual' : ''}`;
-  contentBody.innerHTML = paths.map((p, i) => renderPane(p, marked.parse(markdowns[i]))).join('');
+  currentBilingual = bilingualInfo || null;
+  contentBody.className = 'content-body';
+  contentBody.innerHTML = renderPane(path, marked.parse(md), bilingualInfo);
 
-  const panes = contentBody.querySelectorAll('.pane');
-  for (let i = 0; i < panes.length; i++) {
-    await applyNotes(paths[i], panes[i].querySelector('.markdown-body'));
-  }
-
-  if (dual) {
-    const paneBodies = contentBody.querySelectorAll('.pane-body');
-    let syncing = false;
-    paneBodies.forEach((pane, i) => {
-      pane.addEventListener('scroll', () => {
-        if (syncing) return;
-        syncing = true;
-        const other = paneBodies[1 - i];
-        const ratio = pane.scrollTop / (pane.scrollHeight - pane.clientHeight || 1);
-        other.scrollTop = ratio * (other.scrollHeight - other.clientHeight);
-        syncing = false;
-      });
-    });
-  }
+  const pane = contentBody.querySelector('.pane');
+  await applyNotes(path, pane.querySelector('.markdown-body'));
 }
 
 // Fetch articles list from server, then build the tree
@@ -702,8 +701,17 @@ init();
 // Open file from URL query param
 function openFileFromParam(filePath) {
   if (!filePath) return;
-  const target = document.querySelector(`.file-item[data-cn="${CSS.escape(filePath)}"]`)
-    || document.querySelector(`.file-item[data-file="${CSS.escape(filePath)}"]`);
+  // Try matching as CN, EN (bilingual), or single file
+  let target = document.querySelector(`.file-item[data-cn="${CSS.escape(filePath)}"]`);
+  let lang = 'cn';
+  if (!target) {
+    target = document.querySelector(`.file-item[data-en="${CSS.escape(filePath)}"]`);
+    lang = 'en';
+  }
+  if (!target) {
+    target = document.querySelector(`.file-item[data-file="${CSS.escape(filePath)}"]`);
+    lang = null;
+  }
   if (!target) return;
   // Ensure parent folder is expanded
   const fileList = target.closest('.file-list');
@@ -716,9 +724,10 @@ function openFileFromParam(filePath) {
   document.querySelectorAll('.file-item.active').forEach(el => el.classList.remove('active'));
   target.classList.add('active');
   if (target.dataset.bilingual === 'true') {
-    loadArticles([target.dataset.cn, target.dataset.en]);
+    const path = lang === 'en' ? target.dataset.en : target.dataset.cn;
+    loadArticle(path, { cn: target.dataset.cn, en: target.dataset.en, lang: lang || 'cn' });
   } else {
-    loadArticles([target.dataset.file]);
+    loadArticle(target.dataset.file);
   }
 }
 
@@ -1215,10 +1224,25 @@ document.addEventListener('click', (e) => {
   openNotesModal(btn.dataset.notesPath);
 });
 
+// Language toggle for bilingual articles
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.lang-toggle');
+  if (!btn || !currentBilingual) return;
+  e.stopPropagation();
+  const targetLang = btn.dataset.toggleLang;
+  const path = targetLang === 'cn' ? currentBilingual.cn : currentBilingual.en;
+  const url = new URL(window.location);
+  url.searchParams.set('file', path);
+  history.pushState({ file: path }, '', url);
+  loadArticle(path, { ...currentBilingual, lang: targetLang });
+});
+
 // ---- Reload current article to re-apply highlights ----
 function reloadCurrentArticle() {
-  const filePath = new URLSearchParams(window.location.search).get('file');
-  if (filePath) openFileFromParam(filePath);
+  const pane = contentBody.querySelector('.pane');
+  if (!pane) return;
+  const path = pane.dataset.path;
+  if (path) loadArticle(path, currentBilingual);
 }
 
 // ---- Auto-refresh: poll for changes to the current article ----
@@ -1245,10 +1269,12 @@ function showUpdateBanner() {
     // Clear cache for current files and reload
     const active = document.querySelector('.file-item.active');
     if (active) {
-      const paths = active.dataset.bilingual === 'true'
-        ? [active.dataset.cn, active.dataset.en]
-        : [active.dataset.file];
-      paths.forEach(p => delete contentCache[p]);
+      if (active.dataset.bilingual === 'true') {
+        delete contentCache[active.dataset.cn];
+        delete contentCache[active.dataset.en];
+      } else {
+        delete contentCache[active.dataset.file];
+      }
       handleClick(active);
     }
   });
@@ -1258,24 +1284,19 @@ function showUpdateBanner() {
 }
 
 async function checkCurrentArticleUpdate() {
-  const active = document.querySelector('.file-item.active');
-  if (!active) return;
+  const pane = contentBody.querySelector('.pane');
+  if (!pane) return;
+  const path = pane.dataset.path;
+  if (!path) return;
 
-  const paths = active.dataset.bilingual === 'true'
-    ? [active.dataset.cn, active.dataset.en]
-    : [active.dataset.file];
-
-  for (const path of paths) {
-    try {
-      const res = await fetch(path + '?t=' + Date.now());
-      if (!res.ok) continue;
-      const fresh = await res.text();
-      if (contentCache[path] && contentCache[path] !== fresh) {
-        showUpdateBanner();
-        return;
-      }
-    } catch (e) { /* ignore */ }
-  }
+  try {
+    const res = await fetch(path + '?t=' + Date.now());
+    if (!res.ok) return;
+    const fresh = await res.text();
+    if (contentCache[path] && contentCache[path] !== fresh) {
+      showUpdateBanner();
+    }
+  } catch (e) { /* ignore */ }
 }
 
 setInterval(checkCurrentArticleUpdate, 5000);
