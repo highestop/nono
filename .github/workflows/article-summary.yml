@@ -31,6 +31,7 @@ jobs:
 
           for date_dir in $(ls -rd articles/*/); do
             date=$(basename "$date_dir")
+            case "$date" in __*) continue;; esac
             echo "- **$date**" >> ARTICLES.md
 
             for md_file in "$date_dir"*.md; do
