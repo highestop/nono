@@ -1,22 +1,3 @@
-# My Claude
+# Nono
 
-此仓库包含个人使用的 Claude Code 全局提示词。
-
-| 技能 | 描述 |
-|------|------|
-| [budget-export-csv-formatter](skills/budget-export-csv-formatter/SKILL.md) | 将鲨鱼记账 Pro App 导出的 CSV 文件格式化为结构化的账单分析 |
-| [claude-code-bash-helper](skills/claude-code-bash-helper/SKILL.md) | 在 Claude Code 中执行带环境变量和管道的 bash 命令时使用此技能 |
-| [game-player](skills/game-player/SKILL.md) | 玩一款网页游戏 |
-| [git-commit](skills/git-commit/SKILL.md) | 提交并推送变更到 git 仓库 |
-| [markdown-article-for-wx](skills/markdown-article-for-wx/SKILL.md) | Use when user provides a WeChat Official Account (微信公众号) article URL to convert into a local markdown file. |
-| [markdown-article-for-x](skills/markdown-article-for-x/SKILL.md) | Use when user provides an X (Twitter) Article URL to convert into a local markdown file. |
-| [markdown-article-for-xhs](skills/markdown-article-for-xhs/SKILL.md) | Use when user provides a Xiaohongshu (小红书) note URL to convert into a local markdown file. |
-| [markdown-article](skills/markdown-article/SKILL.md) | Use when user provides a web article URL to convert into a local markdown file. |
-| [markdown-articles-reader](skills/markdown-articles-reader/SKILL.md) | Use when user wants to start/open the articles reader. Triggers on phrases like "启动文章阅读器", "打开阅读器", "start articles reader", etc. |
-| [mweb-db-exporter](skills/mweb-db-exporter/SKILL.md) | 将 MWeb 数据库表导出为 JSON 格式，用于分析和数据处理 |
-| [mweb-media-reference-checker](skills/mweb-media-reference-checker/SKILL.md) | 检查 MWeb 文档库中缺失或冗余的媒体文件引用 |
-| [mweb-to-obsidian](skills/mweb-to-obsidian/SKILL.md) | 将 MWeb 数据迁移到 Obsidian |
-
----
-
-*此文档基于提交 [`eb5a152fb1425729f0365cef5c54790b5a10efbb`](https://github.com/highestop/my-claude/commit/eb5a152fb1425729f0365cef5c54790b5a10efbb) 自动生成。*
+My personal momo (claw/claude agent).
