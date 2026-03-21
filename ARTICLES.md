@@ -1,7 +1,5 @@
 # Articles
 
-- **__tests__**
-- **__fixtures__**
 - **2026-03-21**
   - ["Token 不用完会焦虑"！Karpathy 最新访谈自曝患上"AI 精神病"：软件世界正在被 Agent 接管](articles/2026-03-21/wx-Nn6MO_OKtTDmKtB7OtO_bg.md)
   - [一个男生真正的成长，需要经历这三段恋爱！](articles/2026-03-21/xhs-60up4MeRIxh.md)
@@ -28,4 +26,4 @@
 
 ---
 
-*This document was automatically generated based on commit [`2273627801469ce98d35d25a64c233c61f4a1151`](https://github.com/highestop/nono/commit/2273627801469ce98d35d25a64c233c61f4a1151).*
+*This document was automatically generated based on commit [`06efee66332d5096e9b9bec0db9ff2af81f2dce8`](https://github.com/highestop/nono/commit/06efee66332d5096e9b9bec0db9ff2af81f2dce8).*
