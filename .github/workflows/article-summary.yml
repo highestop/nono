@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "articles/**"
+      - "articles/**/*.md"
       - ".github/workflows/article-summary.yml"
 
 jobs:
