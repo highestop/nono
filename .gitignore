@@ -26,6 +26,9 @@
 !articles
 !articles/**
 
+!rules
+!rules/**
+
 !subscriptions
 !subscriptions/**
 

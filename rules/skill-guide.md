@@ -11,7 +11,6 @@
 - `<skill-name>` 目录必须包含 `SKILL.md` 文件
 
 **命名规范：**
-- 以角色或身份命名技能，如 "agent-docs-writer"、"git-committer"、"budget-formatter"
 - 目录名必须与 SKILL.md frontmatter 中的 `name` 字段一致
 - 避免通用名称，优先使用具体的功能身份
 
