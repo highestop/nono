@@ -1,4 +1,4 @@
-name: validate-articles
+name: test-articles-content
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - "skills/markdown-article-for-xhs/**"
       - "skills/markdown-article-for-x/**"
       - "skills/article-tags-review/**"
-      - ".github/workflows/validate-articles.yml"
+      - ".github/workflows/test-articles-content.yml"
   pull_request:
     paths:
       - "articles/**/*.md"
