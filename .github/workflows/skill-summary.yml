@@ -1,4 +1,4 @@
-name: auto-summary
+name: skill-summary
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'skills/**'
-      - '.github/workflows/*.yml'
+      - '.github/workflows/skill-summary.yml'
 
 jobs:
   auto-summary:
