@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - "articles/local.py"
+      - "articles/server.py"
       - "articles/__tests__/test-local-api.py"
       - ".github/workflows/test-local-api.yml"
   pull_request:
     paths:
-      - "articles/local.py"
+      - "articles/server.py"
       - "articles/__tests__/test-local-api.py"
 
 jobs:

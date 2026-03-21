@@ -63,7 +63,7 @@ def validate_directory_name(dirname, errors):
 def validate_filename_prefix(filepath, filename, errors):
     """wx/xhs/x files must have correct prefix."""
     # Only check files that look like they should have a prefix
-    # (skip local.py, index.html, notes files, etc.)
+    # (skip server.py, index.html, notes files, etc.)
     if not filename.endswith(".md"):
         return
     base = filename.replace("-en.md", ".md")

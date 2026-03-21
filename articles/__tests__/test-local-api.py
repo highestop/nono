@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for articles/local.py: extract_metadata() and HTTP API."""
+"""Tests for articles/server.py: extract_metadata() and HTTP API."""
 
 import json
 import os
@@ -13,7 +13,7 @@ import urllib.error
 # Add articles dir to path so we can import local
 ARTICLES_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ARTICLES_DIR)
-from local import extract_metadata, Handler
+from server import extract_metadata, Handler
 
 from http.server import HTTPServer
 
