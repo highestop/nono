@@ -1,5 +1,5 @@
 ---
-name: game-player
+name: play-web-game
 description: 玩一款网页游戏
 ---
 
