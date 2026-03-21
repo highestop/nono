@@ -22,4 +22,4 @@
 
 ---
 
-*This document was automatically generated based on commit [`eb5a152fb1425729f0365cef5c54790b5a10efbb`](https://github.com/highestop/my-claude/commit/eb5a152fb1425729f0365cef5c54790b5a10efbb).*
+*This document was automatically generated based on commit [`d79cb76017230110c2598180294eeaf8b967676b`](https://github.com/highestop/nono/commit/d79cb76017230110c2598180294eeaf8b967676b).*
