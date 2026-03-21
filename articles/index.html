@@ -1221,6 +1221,65 @@ function reloadCurrentArticle() {
   if (filePath) openFileFromParam(filePath);
 }
 
+// ---- Auto-refresh: poll for changes to the current article ----
+let updateBanner = null;
+
+function removeUpdateBanner() {
+  if (updateBanner) {
+    updateBanner.remove();
+    updateBanner = null;
+  }
+}
+
+function showUpdateBanner() {
+  if (updateBanner) return;
+  const banner = document.createElement('div');
+  banner.style.cssText = 'position:fixed;top:16px;right:16px;z-index:200;background:#1f2328;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,0.2);display:flex;align-items:center;gap:10px;';
+  banner.innerHTML = `
+    <span>Current article has been updated.</span>
+    <button style="background:#fff;color:#1f2328;border:none;padding:4px 12px;border-radius:6px;font-size:13px;cursor:pointer;font-family:inherit;">Refresh</button>
+    <button style="background:transparent;color:#656d76;border:none;padding:4px;cursor:pointer;font-size:16px;line-height:1;">×</button>
+  `;
+  banner.querySelector('button:first-of-type').addEventListener('click', () => {
+    removeUpdateBanner();
+    // Clear cache for current files and reload
+    const active = document.querySelector('.file-item.active');
+    if (active) {
+      const paths = active.dataset.bilingual === 'true'
+        ? [active.dataset.cn, active.dataset.en]
+        : [active.dataset.file];
+      paths.forEach(p => delete contentCache[p]);
+      handleClick(active);
+    }
+  });
+  banner.querySelector('button:last-of-type').addEventListener('click', removeUpdateBanner);
+  document.body.appendChild(banner);
+  updateBanner = banner;
+}
+
+async function checkCurrentArticleUpdate() {
+  const active = document.querySelector('.file-item.active');
+  if (!active) return;
+
+  const paths = active.dataset.bilingual === 'true'
+    ? [active.dataset.cn, active.dataset.en]
+    : [active.dataset.file];
+
+  for (const path of paths) {
+    try {
+      const res = await fetch(path + '?t=' + Date.now());
+      if (!res.ok) continue;
+      const fresh = await res.text();
+      if (contentCache[path] && contentCache[path] !== fresh) {
+        showUpdateBanner();
+        return;
+      }
+    } catch (e) { /* ignore */ }
+  }
+}
+
+setInterval(checkCurrentArticleUpdate, 5000);
+
 // Sidebar resize handle
 const sidebar = document.getElementById('sidebar');
 const resizeHandle = document.getElementById('resize-handle');
