@@ -18,8 +18,14 @@ After navigating to the page:
    - **Username**: from the URL path (e.g. `HiTw93` from `x.com/HiTw93/status/...`)
    - **Publish date**: from the `<time>` element's `datetime` attribute
 2. If the page has a "Focus mode" link (`/article/` path), navigate to it for a cleaner layout
-3. When extracting images, query `img` elements whose `src` contains `pbs.twimg.com/media/`, and replace `name=small` with `name=large` for high resolution
-4. Remove X-specific UI noise: follower counts, "Sign up", "Log in", engagement metrics, "Want to publish your own Article?", etc.
+3. Remove X-specific UI noise: follower counts, "Sign up", "Log in", engagement metrics, "Want to publish your own Article?", etc.
+
+## Image handling
+
+- Extract all content images from the article using `page.evaluate` to query `img` elements whose `src` contains `pbs.twimg.com/media/`
+- Replace `name=small` with `name=large` in image URLs for high resolution
+- Skip non-content images: profile avatars, icons, emoji images, and UI decoration images
+- Preserve images at their original positions in the article body using `![](url)` syntax
 
 ## File location override
 
@@ -42,7 +48,11 @@ The filename uses an `x-` prefix followed by the article ID:
 
 ---
 
-<markdown body>
+<markdown body with inline images>
+
+![](https://pbs.twimg.com/media/...)
+
+<more text and images...>
 ```
 
 ## Example
