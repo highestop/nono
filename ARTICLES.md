@@ -24,4 +24,4 @@
 
 ---
 
-*This document was automatically generated based on commit [`3f30f256d90d454cdb58e20a2a5ca759c96fbdfd`](https://github.com/highestop/nono/commit/3f30f256d90d454cdb58e20a2a5ca759c96fbdfd).*
+*This document was automatically generated based on commit [`80e0df716866d8a9db88afbef2789eb411034fa3`](https://github.com/highestop/nono/commit/80e0df716866d8a9db88afbef2789eb411034fa3).*
