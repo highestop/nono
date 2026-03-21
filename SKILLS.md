@@ -18,4 +18,4 @@
 
 ---
 
-*This document was automatically generated based on commit [`2bb7b84487ec8b30ca5a103781b63e99ea846e68`](https://github.com/highestop/nono/commit/2bb7b84487ec8b30ca5a103781b63e99ea846e68).*
+*This document was automatically generated based on commit [`9c73efe1ba12ab2a9faec5f4754ecd64cb0a94e4`](https://github.com/highestop/nono/commit/9c73efe1ba12ab2a9faec5f4754ecd64cb0a94e4).*
