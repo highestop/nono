@@ -4,7 +4,7 @@
 > - 作者：George Zhang
 > - 日期：2026-03-18
 > - 原文链接：https://mp.weixin.qq.com/s/SVUybMZb6uh5OCR3ceoBVA
-> - 标签：Agent, AI 编程, 工程实践
+> - 标签：Agent, AI 编程, 工程实践, 行业观点
 
 ---
 

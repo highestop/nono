@@ -524,6 +524,8 @@ function buildTagIndex() {
     for (const item of items) {
       const key = `${folder}/${item.file}`;
       articleMeta[key] = { title: item.title, tags: item.tags || [] };
+      // Skip -cn.md files for tag counting to avoid double-counting bilingual pairs
+      if (item.file.endsWith('-cn.md')) continue;
       for (const tag of (item.tags || [])) {
         if (!allTags[tag]) allTags[tag] = new Set();
         allTags[tag].add(key);
