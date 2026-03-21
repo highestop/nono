@@ -4,6 +4,7 @@
 > - 作者：然不
 > - 日期：2026-03-12
 > - 原文链接：https://mp.weixin.qq.com/s/K9iyiwGItLz_w5p3moQEeg
+> - 标签：资本主义, 马克思, 社会思考
 
 ---
 

@@ -3,6 +3,7 @@
 > - 来源：Watch 研究所（小红书）
 > - 日期：2025-11-05
 > - 原文链接：http://xhslink.com/o/8Z2fmYgDoWW
+> - 标签：Apple Watch, 健康管理, 智能穿戴
 
 ---
 
