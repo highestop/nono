@@ -47,6 +47,51 @@
     background: #0969da;
   }
 
+  .tag-filter {
+    padding: 8px 12px;
+    border-bottom: 1px solid #d1d9e0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag-filter:empty {
+    display: none;
+  }
+
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    cursor: pointer;
+    background: #f6f8fa;
+    color: #656d76;
+    border: 1px solid #d1d9e0;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .tag-pill:hover {
+    background: #eaf5ff;
+    color: #0969da;
+    border-color: #0969da;
+  }
+
+  .tag-pill.active {
+    background: #0969da;
+    color: #ffffff;
+    border-color: #0969da;
+  }
+
+  .tag-pill .tag-count {
+    font-size: 10px;
+    opacity: 0.7;
+  }
+
   .tree {
     padding: 8px 0;
     flex: 1;
@@ -449,6 +494,7 @@
 <body>
 
 <div class="sidebar" id="sidebar">
+  <div class="tag-filter" id="tag-filter"></div>
   <div class="tree" id="tree"></div>
 </div>
 
@@ -462,7 +508,39 @@
 
 <script>
 // File tree data - fetched dynamically from server
+// Format: { "2026-03-17": [{ file: "wx-xxx.md", title: "...", tags: [...] }, ...] }
 let articles = {};
+
+// Tag system
+let allTags = {}; // tag -> Set of "folder/file" paths
+let selectedTags = new Set();
+// Metadata lookup: "folder/file" -> { title, tags }
+let articleMeta = {};
+
+function buildTagIndex() {
+  allTags = {};
+  articleMeta = {};
+  for (const [folder, items] of Object.entries(articles)) {
+    for (const item of items) {
+      const key = `${folder}/${item.file}`;
+      articleMeta[key] = { title: item.title, tags: item.tags || [] };
+      for (const tag of (item.tags || [])) {
+        if (!allTags[tag]) allTags[tag] = new Set();
+        allTags[tag].add(key);
+      }
+    }
+  }
+}
+
+function getFilteredFiles(folder) {
+  if (selectedTags.size === 0) return articles[folder].map(i => i.file);
+  return articles[folder]
+    .filter(item => {
+      const tags = item.tags || [];
+      return [...selectedTags].every(t => tags.includes(t));
+    })
+    .map(i => i.file);
+}
 
 // Process articles: merge bilingual pairs
 // A bilingual pair is: "xxx.md" (English) + "xxx-cn.md" (Chinese)
@@ -476,31 +554,24 @@ function processArticles(fileList) {
     if (processed.has(file)) continue;
 
     if (file.endsWith(cnSuffix)) {
-      // This is a CN file, find its EN counterpart
       const base = file.slice(0, -cnSuffix.length);
       const enFile = base + '.md';
       if (fileList.includes(enFile)) {
-        // Bilingual pair - show CN entry
         entries.push({ cn: file, en: enFile, bilingual: true });
         processed.add(file);
         processed.add(enFile);
       } else {
-        // CN only
         entries.push({ cn: file, bilingual: false });
         processed.add(file);
       }
     } else {
-      // Check if this EN file has a CN counterpart
       const base = file.slice(0, -'.md'.length);
       const cnFile = base + cnSuffix;
       if (cnFiles.has(cnFile)) {
-        // Bilingual pair - will be handled when we hit the CN file
-        // But in case CN comes after EN in the list, handle here
         entries.push({ cn: cnFile, en: file, bilingual: true });
         processed.add(file);
         processed.add(cnFile);
       } else {
-        // Single file (no CN counterpart)
         entries.push({ file: file, bilingual: false });
         processed.add(file);
       }
@@ -513,6 +584,7 @@ function processArticles(fileList) {
 let sortedFolders = [];
 
 const treeEl = document.getElementById('tree');
+const tagFilterEl = document.getElementById('tag-filter');
 const contentBody = document.getElementById('content-body');
 
 // Content cache: stores markdown text of each file
@@ -524,6 +596,30 @@ function extractTitle(md) {
   if (match) return match[1].trim();
   const firstLine = md.trim().split('\n')[0];
   return firstLine ? firstLine.replace(/^#+\s*/, '').trim() : 'Untitled';
+}
+
+// Render tag filter pills
+function renderTagFilter() {
+  tagFilterEl.innerHTML = '';
+  const sorted = Object.entries(allTags).sort((a, b) => b[1].size - a[1].size);
+  for (const [tag, paths] of sorted) {
+    const pill = document.createElement('span');
+    pill.className = 'tag-pill' + (selectedTags.has(tag) ? ' active' : '');
+    pill.innerHTML = `${escapeHtml(tag)} <span class="tag-count">${paths.size}</span>`;
+    pill.addEventListener('click', () => {
+      if (selectedTags.has(tag)) selectedTags.delete(tag);
+      else selectedTags.add(tag);
+      renderTagFilter();
+      rebuildTree();
+    });
+    tagFilterEl.appendChild(pill);
+  }
+}
+
+// Rebuild file tree (used after tag filter changes)
+function rebuildTree() {
+  treeEl.innerHTML = '';
+  buildTree();
 }
 
 async function fetchMd(path) {
@@ -538,13 +634,16 @@ async function fetchMd(path) {
 // Build tree UI
 function buildTree() {
   sortedFolders.forEach((folder, idx) => {
+    const filteredFiles = getFilteredFiles(folder);
+    if (filteredFiles.length === 0) return; // Skip empty folders after filtering
+
     const folderEl = document.createElement('div');
     folderEl.className = 'folder';
 
     const headerEl = document.createElement('div');
     headerEl.className = 'folder-header';
     headerEl.innerHTML = `
-      <span class="arrow${idx === 0 ? ' open' : ''}">&#9654;</span>
+      <span class="arrow open">&#9654;</span>
       <svg class="folder-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
         <path d="M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1H1.75Z"/>
       </svg>
@@ -552,39 +651,42 @@ function buildTree() {
     `;
 
     const listEl = document.createElement('div');
-    listEl.className = 'file-list' + (idx === 0 ? ' open' : '');
+    listEl.className = 'file-list open';
 
-    const entries = processArticles(articles[folder]);
+    const entries = processArticles(filteredFiles);
 
     entries.forEach(entry => {
       const itemEl = document.createElement('div');
       itemEl.className = 'file-item';
 
       if (entry.bilingual) {
-        // Use CN file as the display key
         itemEl.dataset.cn = `${folder}/${entry.cn}`;
         itemEl.dataset.en = `${folder}/${entry.en}`;
         itemEl.dataset.bilingual = 'true';
+        const meta = articleMeta[`${folder}/${entry.cn}`];
+        const displayTitle = (meta && meta.title) || entry.cn;
         itemEl.innerHTML = `
           <svg class="file-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
             <path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
           </svg>
-          <span class="file-name">${entry.cn}</span>
+          <span class="file-name">${escapeHtml(displayTitle)}</span>
           <span class="bilingual-badge">CN / EN</span>
         `;
-        // Preload both files and update title from CN
-        preloadTitle(folder, entry.cn, itemEl);
+        // Still preload to update title if server didn't have it
+        if (!meta || !meta.title) preloadTitle(folder, entry.cn, itemEl);
         preloadContent(folder, entry.en);
       } else {
         const file = entry.cn || entry.file;
         itemEl.dataset.file = `${folder}/${file}`;
+        const meta = articleMeta[`${folder}/${file}`];
+        const displayTitle = (meta && meta.title) || file;
         itemEl.innerHTML = `
           <svg class="file-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
             <path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
           </svg>
-          <span class="file-name">${file}</span>
+          <span class="file-name">${escapeHtml(displayTitle)}</span>
         `;
-        preloadTitle(folder, file, itemEl);
+        if (!meta || !meta.title) preloadTitle(folder, file, itemEl);
       }
 
       itemEl.addEventListener('click', () => handleClick(itemEl));
@@ -691,6 +793,8 @@ async function init() {
     console.error('Failed to fetch articles:', e);
   }
   sortedFolders = Object.keys(articles).sort((a, b) => b.localeCompare(a));
+  buildTagIndex();
+  renderTagFilter();
   buildTree();
 
   // Open file from URL query param after tree is built

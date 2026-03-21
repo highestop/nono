@@ -3,9 +3,33 @@
 
 import json
 import os
+import re
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 PORT = int(os.environ.get("PORT", 8080))
+
+
+def extract_metadata(filepath):
+    """Extract title and tags from article markdown header."""
+    title = None
+    tags = []
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            for line in f:
+                if title is None:
+                    m = re.match(r"^#\s+(.+)", line)
+                    if m:
+                        title = m.group(1).strip()
+                m = re.match(r">\s*-\s*标签：(.+)", line)
+                if m:
+                    tags = [t.strip() for t in m.group(1).split(",") if t.strip()]
+                    break
+                if line.strip() == "---" and title:
+                    break
+    except Exception:
+        pass
+    return title, tags
+
 
 class Handler(SimpleHTTPRequestHandler):
     def do_GET(self):
@@ -15,11 +39,15 @@ class Handler(SimpleHTTPRequestHandler):
                 if os.path.isdir(entry) and not entry.startswith("."):
                     files = sorted(f for f in os.listdir(entry) if f.endswith(".md"))
                     if files:
-                        articles[entry] = files
+                        items = []
+                        for f in files:
+                            title, tags = extract_metadata(os.path.join(entry, f))
+                            items.append({"file": f, "title": title, "tags": tags})
+                        articles[entry] = items
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.end_headers()
-            self.wfile.write(json.dumps(articles).encode())
+            self.wfile.write(json.dumps(articles, ensure_ascii=False).encode())
         else:
             super().do_GET()
 
