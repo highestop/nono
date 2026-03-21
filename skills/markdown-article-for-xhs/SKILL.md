@@ -64,9 +64,17 @@ The filename uses an `xhs-` prefix followed by the short link ID (the last path 
 
 ## Image handling
 
-- Include all content images from the note using `![](url)` syntax
 - Image URLs are from `ci.xiaohongshu.com/spectrum/` domain, keep the full URL including query parameters
 - Skip the author avatar image (from `sns-avatar-qc.xhscdn.com`)
+
+### Text-heavy image detection
+
+Many Xiaohongshu notes use images that are primarily text (e.g. slides, lists, tips). After collecting all content image URLs, **use the Read tool to view each image** and judge whether each image is predominantly text or visual content.
+
+- For text-heavy images (text slides, bullet points, numbered lists, text screenshots): extract the text and insert it as markdown body content with proper formatting. Do not include the image reference.
+- For visual images (photos, illustrations, charts, diagrams): keep the `![](url)` reference.
+- Use your best judgement on a per-image basis — e.g. a cover photo followed by text slides is fine: keep the cover as an image, extract the rest as text.
+- When extracting text, preserve the logical structure (headings, numbered lists, bullet points) and follow the same CJK spacing rules as the rest of the article.
 
 ## Example
 
