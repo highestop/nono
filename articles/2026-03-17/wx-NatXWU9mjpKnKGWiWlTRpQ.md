@@ -9,6 +9,8 @@
 
 作者｜冬梅
 
+![](https://mmbiz.qpic.cn/sz_mmbiz_png/hLLZnAbUwNgibicHRJxvwSuGh5eUhmfI8SUecraWDgxwrIKNL7UzYL2MDsibvFwicHpu44rSjujybnuicXuqWhCMpicib3a1FFYm6pS5ufJ49sLicsk/640?wx_fmt=png&from=appmsg)
+
 北京时间 2026 年 3 月 17 日凌晨两点半，当英伟达 CEO 黄仁勋穿着那件标志性的黑色皮衣踏上 SAP 中心的舞台时，台下近万名开发者心里清楚：这一次，老黄要讲的不是某个单一芯片，而是一整套 AI"全家桶"。
 
 这场演讲之前，市场早已躁动不安。黄仁勋曾在 2 月预告将发布一款"前所未见的芯片"，被普遍认为是采用台积电 1.6nm 制程、引入光通信技术的下一代 Feynman 架构。
@@ -22,6 +24,8 @@
 "二十年来，我们一直致力于这种革命性架构——单指令多线程（SIMT），让开发者编写的扩展代码能够轻松生成多线程应用，编程难度远低于传统方法。"黄仁勋回忆道。他特别提到近期引入的"tiles"（张量核心编程块）功能，旨在帮助开发者调用 Tensor Core 以及支撑当今 AI 的数学结构。
 
 如今，围绕 CUDA 已形成庞大的工具链生态：数千种工具、编译器、框架和库；仅开源领域就有数十万个公开项目。"CUDA 真正融入了每一个生态系统，"黄仁勋说，"这张图，基本上描述了 100% 的媒体战略——你们从一开始就看我讲这张幻灯片。"
+
+![](https://mmbiz.qpic.cn/mmbiz_png/hLLZnAbUwNiaUiazexX69oMia68yRuerDZysHYLm9xAPV9VNlrI9ibaJwqffWN8bf23ib3ZAUYMClWRbs9X1kEFicnsW4pDksoLzic0jHHAS4jZDMc/640?wx_fmt=png&from=appmsg)
 
 他随后指向图表底层："最难实现的东西在这里——安装基数。我们花了 20 年，才在全球建立起数亿块运行 CUDA 的 GPU 和计算系统。我们在每一朵云里，在每一家计算机公司里，服务几乎每一个行业。"
 
@@ -45,9 +49,13 @@
 
 演讲中，老黄提到下面这张图是本场演讲中最重要的一张图，因为里面提到了英伟达为数据处理打造的新的核心软件库。老黄在演讲中谈到，随着 AI 的快速发展，全球数据处理体系正迎来一次结构性的变革，其中最核心的变化，是**结构化数据与非结构化数据的全面加速**。
 
+![](https://mmbiz.qpic.cn/mmbiz_png/hLLZnAbUwNj7EbljgRaH4kYSSCgV1krMLXerAaytjYqypCsOXBHGdHZte1XqVmgPWuZamJhk7JjZF7iaJMiaJtyW1r4Zp94eOdXuxZne8GhZk/640?wx_fmt=png&from=appmsg)
+
 黄仁勋指出，长期以来企业计算的基础建立在**结构化数据**之上。无论是 SQL、Spark、Pandas 等技术体系，还是诸如 Snowflake、Databricks、Amazon 的 EMR、Microsoft 的 Azure Fabric，以及 Google 的 BigQuery 等大型数据平台，本质上都在处理一种核心数据结构——**数据框（DataFrame）**。这些数据框可以被理解为巨型电子表格，承载着企业运营和业务决策所依赖的关键信息，是企业计算体系中的"事实来源"（ground truth）。
 
 过去，对结构化数据的加速主要是为了提升企业的数据分析效率：让计算任务完成得更多、成本更低，并且能够在一天内更频繁地运行数据处理流程，从而让企业运营更加高效、更加同步。但在 AI 时代，这一逻辑正在发生变化。黄仁勋表示，未来不仅人类会使用这些数据结构，**AI 系统和智能体（Agent）也将直接访问和使用结构化数据库**，而 AI 的处理速度远远快于人类，这意味着数据处理基础设施必须获得数量级的性能提升。
+
+![](https://mmbiz.qpic.cn/mmbiz_png/hLLZnAbUwNiauT3MPnkm3Su8jzmficRZ8xHMAhnNuUTuolEJ4VxUicq6jvYJqdUNM2BALu9FLhVHtibPD2a5iaiaBTrufUOxACBzkbYcrFlHZw4QM/640?wx_fmt=png&from=appmsg)
 
 与此同时，另一类更庞大的数据也正在成为 AI 时代的重要资源——**非结构化数据**。黄仁勋指出，向量数据库、PDF 文档、视频、语音和演讲内容等都属于非结构化数据。全球每年产生的数据中，大约 **90% 都是非结构化数据**。然而在很长一段时间里，这些数据几乎无法被计算系统有效利用，人们只是阅读这些内容，然后把它们存储在文件系统中，却很难对其进行查询和搜索。其根本原因在于，非结构化数据缺乏可直接建立索引的结构，要使用这些数据，首先必须理解其**语义和目的**。
 
@@ -71,6 +79,8 @@ AI 重塑整个基础设施的另一个标志是涌现出海量的 AI 原生企�
 - 推理 AI（o1/o3）的出现：AI 开始拥有反思、规划、拆解问题的能力。o1 让生成式 AI 变得可靠且基于事实。为了"思考"，输入和输出 Token 的使用量呈爆炸式增长。
 - Claude Code 开启代理（Agentic）时代：这是首个代理模型。它能阅读文件、编码、编译、测试并迭代。它革新了软件工程。现在 NVIDIA 内部每个工程师都在使用 AI 代理辅助编程。
 
+![](https://mmbiz.qpic.cn/sz_mmbiz_png/hLLZnAbUwNjFuUdz7NFDINK4SfyAlNxBeaHznTwlQG0OMofFLKcGGK9yehaspU1hRHvxblibD17CsQ1vyonw34qDWiaxt14QUyXCibOLL0REu8/640?wx_fmt=png&from=appmsg)
+
 他表示，"AI 已经从'感知'进化到'生成'，再到'推理'，现在已经可以执行极其高效的实际工作。**'推理拐点'已经到来。** AI 要思考、要行动、要阅读、要推理，每一环都在进行推理（Inference）。现在已经远超训练阶段，进入了推理的疆场。过去两年，计算需求增长了约 10,000 倍，而使用量增长了约 100 倍。我深感这两年的计算需求实际增长了 100 万倍。"
 
 紧接着，老黄又分享了几个数据，让现场的气氛达到了高潮。
@@ -83,6 +93,8 @@ AI 重塑整个基础设施的另一个标志是涌现出海量的 AI 原生企�
 
 在英伟达的业务中，60% 来自顶级云服务商（Hyperscalers），不仅支持其内部 AI 消费（如推荐系统、搜索向大模型的迁移），更通过英伟达的生态系统加速每一家 AI 实验室。另外 40% 则遍布区域云、主权云、企业级服务器及工业自动化。
 
+![](https://mmbiz.qpic.cn/mmbiz_png/hLLZnAbUwNhdYg0xfquuo6SZ3pcklthdwDPL4thfz4fMDWAU0r49sVVUEHrHloB6InEbRxmygxE9YeCKUqmCpSI5x87xbXM5lnxpzlA4HMM/640?wx_fmt=png&from=appmsg)
+
 ## 4 Token 成本全球最低
 
 黄仁勋介绍了 NVIDIA 在 AI 推理基础设施上的最新进展。他表示，AI 性能的突破并不仅来自单一技术，而是由计算架构、软件栈和算法的系统级协同设计共同推动。
@@ -91,13 +103,19 @@ AI 重塑整个基础设施的另一个标志是涌现出海量的 AI 原生企�
 
 结合 NVLink 72 高速互连，以及 Dynamo、TensorRT-LLM 等软件优化，NVIDIA 构建起一套面向大模型推理的完整技术体系。为优化底层软件与 GPU 内核，公司还投入数十亿美元建设 NVIDIA DGX Cloud 超级计算平台，用于开发和调优 AI 推理软件栈。
 
+![](https://mmbiz.qpic.cn/mmbiz_png/hLLZnAbUwNgmGkbxPo2zTRTIWyhTnLFhlVgjy41FKScbnYwFSqNLeFAxWj4CKazibZO5ib8ysf2k5ibX2lP6uSatq3xVIntg8sDHA8U6aiaibib8s/640?wx_fmt=png&from=appmsg)
+
 黄仁勋强调，很多人曾认为推理是 AI 系统中最简单的部分，但实际上推理既是最困难的环节，也是最关键的商业环节，因为它直接决定 AI 服务的收入来源。根据研究机构 SemiAnalysis 的评测，在数据中心层面，衡量 AI 系统效率的关键指标是每瓦特能够生成多少 token（tokens per watt）。由于数据中心受到电力等物理条件限制，本质上更像一个"AI 工厂"，企业必须在固定功率下尽可能多地生产 token。
 
 评测结果显示，NVIDIA 在 AI 推理性能和效率上依然保持领先。按照传统 **Moore's Law**，新一代芯片通常只能带来约 1.5 倍性能提升，但从 Hopper H200 到 Grace Blackwell NVLink 72 架构，NVIDIA 的**每瓦特性能提升约 35 倍**。SemiAnalysis 分析师 **Dylan Patel** 甚至认为实际提升接近 **50 倍**。这一架构也带来了更低的 **token 成本**，在当前市场上具有明显优势。
 
+![](https://mmbiz.qpic.cn/mmbiz_png/hLLZnAbUwNhyQickbLtX3kg1EicN1q11UUmv0vSp9yw8m8Yib5ZuFEH6hRPlrTsbnITWE3ichkMEvL3pF40MoDEku0mqzv70VNHXVhBtAylp5hk/640?wx_fmt=png&from=appmsg)
+
 黄仁勋表示，这种极致的软硬件协同设计还能显著提升现有系统性能。例如在部分 AI 推理平台中，仅通过更新 NVIDIA 软件栈，就能将生成速度从**约 700 token/秒提升至接近 5000 token/秒**，性能提升约 **7 倍**。
 
 黄仁勋强调，**NVIDIA 的 Token 成本在世界范围内是"不可触碰"的。即便竞争对手的架构是免费的，它也不够便宜**。因为建立一个 1GW 的工厂，即便里面什么都不放，15 年的摊销成本也高达 **400 亿美元**。你必须确保在这个工厂里运行最强的计算机系统，才能获得最低的 Token 生产成本。
+
+![](https://mmbiz.qpic.cn/sz_mmbiz_png/hLLZnAbUwNgwX0YF4nMLGj4F4eQwvAEEwfEF5gjIYEd4dDib1icCic0p4PAgXYkOHtR3HiakR9lichJQCxtttxicehfarbtWuf2Pzk2xtRrQ6749U/640?wx_fmt=png&from=appmsg)
 
 在他看来，数据中心的角色正在发生变化：过去它是存储和计算中心，而未来将成为生产 token 的 AI 工厂。随着 AI 的普及，无论是云厂商、AI 公司还是传统企业，都将开始从"Token 工厂效率"的角度来衡量自己的计算基础设施，因为在 AI 时代，token 将成为新的数字商品，而计算能力则直接决定企业的价值创造能力。
 
@@ -107,11 +125,15 @@ AI 重塑整个基础设施的另一个标志是涌现出海量的 AI 原生企�
 
 据介绍，这是一个全新的计算平台，**由七款芯片组成**，涵盖计算、网络和存储三大功能，是目前最先进的 POD 规模 AI 平台。该平台包含 40 个机架、1.2 千万亿个晶体管、近 2 万个 NVIDIA 芯片、1152 个 NVIDIA Rubin GPU、60 exaflops 的运算能力以及 10 PB/s 的总扩展带宽。**该平台目前已全面投产**，并得到了包括 Anthropic、OpenAI、Meta 和 Mistral AI 以及所有主要云提供商在内的众多客户的鼎力支持。
 
+![](https://mmbiz.qpic.cn/sz_mmbiz_png/hLLZnAbUwNhQwNdvblicLicmqh96LMJgCu3PCOfUicPYkVb4RfCIY89ks4SKp7JFNqxBYCcRUORmTZ6ZLOzoIlWFKyTYfHaL5bTTLpVYb4j8A4/640?wx_fmt=png&from=appmsg)
+
 他表示，过去十年间 AI 计算能力已经实现了**约 4000 万倍的提升**，而这一变化正推动数据中心向"AI 超级计算机"形态演进。
 
 > "过去我发布产品时，可能只是手里举着一块芯片（比如 Hopper）；但现在，当我谈到 Vera Rubin 时，我说的是一个全栈垂直整合的庞大系统。"
 
 黄仁勋展示了 NVIDIA 最新的 **Vera Rubin AI Supercomputer** 系统，并强调这是一套从硬件到软件**完全纵向整合（vertically integrated）**的计算平台，专门为 **Agentic AI（智能体 AI）**设计。随着大语言模型不断扩大规模、生成更多 token 并处理更长上下文，系统不仅需要更强的计算能力，还需要更高带宽的内存和存储访问能力，例如 KV Cache、结构化数据处理（cuDF）以及非结构化向量数据（cuVS）等。因此，NVIDIA 对整个系统架构进行了重新设计，包括计算、存储和网络。
+
+![](https://mmbiz.qpic.cn/mmbiz_png/hLLZnAbUwNgqWuox0SbJTflwaHQqkez2Z1uz6unRHHCEicDDAiarh8Z9hxnibdDAFy5IJvf3OZ6WYTxkVNarqCXhObhtvibndic8Iksmia9ZTdtyI/640?wx_fmt=png&from=appmsg)
 
 在硬件层面，NVIDIA 为这一平台开发了一款全新的数据中心 CPU——**NVIDIA Vera CPU**。该处理器针对极高的单线程性能、大规模数据处理能力以及能效进行了优化，并成为全球首个在数据中心中采用 **LPDDR5 内存**的 CPU，从而实现领先的性能功耗比。**黄仁勋透露，这款 CPU 已经开始单独销售，并有望成为 NVIDIA 的一项数十亿美元级业务**。
 
@@ -119,15 +141,23 @@ AI 重塑整个基础设施的另一个标志是涌现出海量的 AI 原生企�
 
 网络互连是这一系统的核心技术之一。NVIDIA 在该平台上部署了第六代 **NVLink** 互连架构，实现 GPU 之间的高速扩展连接。黄仁勋表示，这是目前全球最先进、实现难度最高的大规模 GPU 互连系统之一。
 
+![](https://mmbiz.qpic.cn/sz_mmbiz_png/hLLZnAbUwNjrsFeQJzrtVncQWSRlVGicMPK7Uu56dxzGuf0aInRuPQ7bXFTFIZOE0p4BuAVb0iaicIQhLqWrceaJOQu0iacqJByia4sGQ6pTB8mY/640?wx_fmt=png&from=appmsg)
+
 此外，NVIDIA 还推出了全球首个 **CPO（Co-Packaged Optics）光电共封装**的 **NVIDIA Spectrum-X Ethernet Switch**，将光模块直接集成到芯片封装中，实现电子信号与光信号的直接转换，从而显著提升数据中心网络带宽与能效。这项技术由 NVIDIA 与台积电共同开发，目前已经进入量产阶段。
 
 在更大规模的系统扩展上，NVIDIA 还展示了 **Rubin Ultra Compute System**。该系统通过新的 **Kyber 机架架构**，可以在一个 NVLink 域中连接 **144 个 GPU**，形成一台规模极大的统一计算机：前部为计算节点，后部为 NVLink 交换系统，通过中板结构连接，从而突破传统铜缆互连的距离限制。
 
+![](https://mmbiz.qpic.cn/sz_mmbiz_png/hLLZnAbUwNjxsaiaCUw4EKTfZX8MWic96K5G0qa3xQYibahX4IHL7P5HfXibS9Oj8LicCeYBKMiay799yajLoyyObI09KrUg7XZDQrn7q9QXZzKbQ/640?wx_fmt=png&from=appmsg)
+
 黄仁勋表示，随着 AI 模型规模和推理需求持续增长，未来的数据中心将越来越像一台**完整的超级计算机**。而像 Vera Rubin 这样的系统，正是为下一代 AI 工作负载——尤其是智能体系统——而设计的核心计算基础设施。
+
+![](https://mmbiz.qpic.cn/mmbiz_png/hLLZnAbUwNhia2305DWz1kC8wICbf837ys2FxTNDvjgh9dLribz0auuia3t3eSe4YaNWxKgcyIcpAJuefXeoW2SUbG59kq63R4tcDpvcrKurUw/640?wx_fmt=png&from=appmsg)
 
 ## 6 下一代 AI 平台：Feynman 架构前瞻
 
 此外，值得注意的是，NVIDIA 的 Feynman GPU 架构早在 2025 年 GTC 大会上就已得到确认。在本次演讲中，NVIDIA 列出了 Feynman GPU 与下一代 HBM、Vera CPU 以及构成 AI 数据中心基础的其他几个连接芯片。
+
+![](https://mmbiz.qpic.cn/mmbiz_png/hLLZnAbUwNg0cRr4DpwpIDcsaLyhSg8icNlf8Q86VU3E90aAby9zftTOKrnVDyaGfXl3MqUsjTOX6hzgyrDHxbmpTd9klS1RsMJv1I1c4FJs/640?wx_fmt=png&from=appmsg)
 
 存储性能是制约 AI 推理的瓶颈，为此 NVIDIA 改变了以往使用标准 HBM 的策略，转而为 Feynman GPU 配备**定制化 HBM 技术**。
 
@@ -142,6 +172,8 @@ Rosa CPU 被设计为 AI 智能体（Agentic AI）的编排中枢，旨在更高
 
 Feynman 时代标志着 NVIDIA 将**计算、存储和封装**三者进行了深度耦合。通过"3D 堆叠核心 + 定制化内存 + 专用 Rosa CPU"的组合，NVIDIA 正在将数据中心从传统的服务器集群演进为一台高度集成的"巨型超级计算机"。
 
+![](https://mmbiz.qpic.cn/sz_mmbiz_png/hLLZnAbUwNj4MRZ7bRU2IxZ6GNDpNKJuQGZ0WjuTiczuyoUExUSsJbkXNxgFhTyQu2LHgMG9NQXY40bRZEA67AFq5biazxObrQmNrSL0PvcPU/640?wx_fmt=png&from=appmsg)
+
 ## 7 推出 NVIDIA DSX——面向"AI 工厂"的基础设施平台
 
 随后，黄仁勋还介绍了 AI 基础设施与数字孪生技术的发展，以及 NVIDIA 在其中的角色。
@@ -152,15 +184,21 @@ Feynman 时代标志着 NVIDIA 将**计算、存储和封装**三者进行了深
 
 黄仁勋表示，NVIDIA 及其合作伙伴正在全球范围内加速建设 AI 基础设施，以实现更高水平的可靠性、效率和计算吞吐能力。这一体系的核心平台就是 NVIDIA 新推出的 **NVIDIA DSX**——一个面向"AI 工厂"的基础设施平台。
 
+![](https://mmbiz.qpic.cn/sz_mmbiz_png/hLLZnAbUwNjianSXI7g8NMul3HW4rB3aHEfOuZ4G6iaIHIofoQsaWZLftyXBHN5yBgd7ZXQnJhSNeP2pjGJPMoxvUowUOy02NmXQ1yBLVnYrU/640?wx_fmt=png&from=appmsg)
+
 在数字孪生方面，NVIDIA 的 **NVIDIA Omniverse** 平台被设计用于承载全球规模的数字孪生模型。从地球级别的系统到各种规模的工业设施，未来都可以在这一平台上构建和运行数字孪生。黄仁勋特别感谢生态合作伙伴，并表示这些企业在过去几年中迅速加入 NVIDIA 的生态，共同建设可能是"世界上最大的计算系统"，并在全球范围内部署。
 
 他还透露，NVIDIA 的 AI 计算基础设施正在向太空延伸。公司此前已经在卫星领域部署计算系统，并计划与合作伙伴开发新的太空计算平台 **Vera Rubin Space One**，用于在轨道上建设数据中心。由于太空环境中不存在对流或传导散热，只能通过辐射散热，因此系统冷却将成为一项极具挑战的工程问题，目前 NVIDIA 正在与工程团队共同研究解决方案。
+
+![](https://mmbiz.qpic.cn/sz_mmbiz_png/hLLZnAbUwNgC0NWxw8RFhVQYhkYDSZCux3y0TRB0C4ek3mibtIPCXNia2VNIM7fu2Pf5xAH4Tqr4kl9ForA0YmMFFffibGiauicgpGkODXG6pllc/640?wx_fmt=png&from=appmsg)
 
 ## 8 联合 OpenClaw 之父推出 NemoClaw
 
 整场演讲中对软件开发者影响最深远的部分是老黄对于最近爆火的"龙虾"现象的评论。黄仁勋高度评价了由 **Peter Steinberger** 创建的开源项目 **OpenClaw**。
 
 黄仁勋表示，OpenClaw 的增长速度甚至超过了 **Linux** 在过去几十年的传播速度，其影响力"极其深远"。**NVIDIA 也宣布将正式支持这一项目**。
+
+![](https://mmbiz.qpic.cn/sz_mmbiz_png/hLLZnAbUwNgQCI13icJg6t72HbiaicFCo4ib9WpUN08mLicIyBVaicqicneEc2ZTNBW7IZ1iafRGpaaVn70oCeGib4z7PyG8tXiaS3WIY6phybQrQlSlM/640?wx_fmt=png&from=appmsg)
 
 黄仁勋提到，AI 大佬 **Andrej Karpathy** 最近提出的一种"AI 研究助手"模式很好地体现了智能体系统的能力：用户只需给 AI 一个任务，然后去休息，AI 便可以在后台自动运行数十甚至上百个实验，不断保留有效结果、淘汰无效方案。类似的案例正在不断出现。例如有人将 OpenClaw 安装在自己父亲的设备上，通过蓝牙连接酿酒设备，实现从生产流程到网站订单系统的全流程自动化，甚至在深圳已经出现用户排队购买相关产品的案例。随着这一项目迅速流行，社区甚至已经开始举办专门的开发者活动，足以说明其热度。
 
@@ -171,6 +209,8 @@ Feynman 时代标志着 NVIDIA 将**计算、存储和封装**三者进行了深
 在传统企业 IT 架构中，数据中心主要负责存储数据和运行应用程序，各类软件系统通过工具和工作流为人类员工提供服务。但在智能体时代，这一模式将发生变化。黄仁勋认为，**未来几乎所有 SaaS（Software as a Service）公司都将演变为 AaaS（Agentic as a Service）——即以智能体为核心的服务平台**。
 
 不过，智能体系统进入企业网络也带来了新的安全挑战。因为这些系统不仅能够访问敏感数据，还可以执行代码并与外部网络通信。如果缺乏安全机制，可能带来严重风险。为此，NVIDIA 与 OpenClaw 作者 **Peter Steinberger** 以及多位安全与计算专家合作，对系统进行了企业级安全扩展，并推出 **NVIDIA NemoClaw** 参考架构。
+
+![](https://mmbiz.qpic.cn/mmbiz_png/hLLZnAbUwNh3Ik7JrGzLbyAtJicDSFD2KBDPPLzpTEbwWr1o0uJehkTm2WZyaFqo0nxPTQem204WgPWnndj9MZzpibnfhdZvq73YarLYNics78/640?wx_fmt=png&from=appmsg)
 
 该架构在 OpenClaw 基础上加入了名为 **OpenShell** 的安全组件，并提供企业级策略执行、网络防护和隐私路由等能力，使企业能够安全地部署和运行智能体系统。同时，系统还支持连接企业已有的策略引擎和治理工具，从而在确保合规和数据安全的前提下运行 AI 智能体。
 
@@ -187,6 +227,8 @@ Feynman 时代标志着 NVIDIA 将**计算、存储和封装**三者进行了深
 在企业软件层面，黄仁勋再次强调，未来所有公司都需要制定自己的 **OpenClaw 战略**。随着智能体系统的发展，传统的 SaaS 软件模式将逐渐转向 **Agentic as a Service（AaaS）**。企业不仅会使用 token 来增强员工生产力，还会通过 AI 工厂生产 token，并向客户提供智能体服务。他甚至预测，未来科技公司招聘工程师时，除了薪资外，还会提供"**token 配额**"，因为拥有更多 AI 计算资源的工程师能够获得更高的生产效率。
 
 除了数字智能体，NVIDIA 还在推进**物理 AI（Physical AI）**。黄仁勋表示，目前全球几乎所有机器人公司都在与 NVIDIA 合作，现场展示的机器人数量超过 100 台。NVIDIA 为机器人开发提供完整技术体系，包括训练计算平台、合成数据与仿真平台，以及部署在机器人内部的计算系统。同时，公司还提供完整的软件和模型生态，例如机器人仿真与训练平台 **NVIDIA Isaac Lab**、世界模型 **Cosmos World Foundation Model** 以及机器人基础模型 **Project GR00T**。
+
+![](https://mmbiz.qpic.cn/mmbiz_png/hLLZnAbUwNhYCiczzSCAlMX95mlNHYiawdofAfWGHoEwfZsMMJrOnwjGWdY6IUqCxwI1zmLR2icnHiamHM6cibMv7ujfMsvxicV8EFqqGAqUZvDsw/640?wx_fmt=png&from=appmsg)
 
 在自动驾驶领域，黄仁勋表示"自动驾驶的 ChatGPT 时刻已经到来"。基于 **NVIDIA Drive AV** 和相关模型体系，车辆现在已经具备推理能力，可以解释自己的驾驶决策并执行语音指令。NVIDIA 还宣布新的 Robotaxi 合作伙伴，包括 **BYD**、**Hyundai Motor Company**、**Nissan** 和 **Geely**，这些公司每年合计生产约 1800 万辆汽车。同时，NVIDIA 还将与 **Uber** 合作，在多个城市部署自动驾驶出租车网络。
 
