@@ -1,0 +1,29 @@
+name: test-local-api
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "articles/local.py"
+      - "articles/__tests__/test-local-api.py"
+      - ".github/workflows/test-local-api.yml"
+  pull_request:
+    paths:
+      - "articles/local.py"
+      - "articles/__tests__/test-local-api.py"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Test local API
+        run: python3 articles/__tests__/test-local-api.py
