@@ -26,3 +26,6 @@
 
 !subscriptions
 !subscriptions/**
+
+!scripts
+!scripts/**
