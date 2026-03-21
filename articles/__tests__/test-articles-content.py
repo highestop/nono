@@ -185,11 +185,21 @@ def main():
         print(f"Articles directory not found: {ARTICLES_DIR}")
         sys.exit(1)
 
+    # Collect date directories: top-level YYYY-MM-DD dirs + those inside __fixtures__
+    date_dirs = []
     for dirname in sorted(os.listdir(ARTICLES_DIR)):
         dirpath = os.path.join(ARTICLES_DIR, dirname)
-        if not os.path.isdir(dirpath) or dirname.startswith(".") or dirname.startswith("__"):
+        if not os.path.isdir(dirpath) or dirname.startswith(".") or dirname in ("__tests__", "__pycache__"):
             continue
+        if dirname == "__fixtures__":
+            for sub in sorted(os.listdir(dirpath)):
+                subpath = os.path.join(dirpath, sub)
+                if os.path.isdir(subpath):
+                    date_dirs.append((sub, subpath))
+        else:
+            date_dirs.append((dirname, dirpath))
 
+    for dirname, dirpath in date_dirs:
         # Validate directory name
         validate_directory_name(dirname, errors)
 
