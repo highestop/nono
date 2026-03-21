@@ -72,3 +72,7 @@ The filename uses an `xhs-` prefix followed by the short link ID (the last path 
 
 Source URL: `http://xhslink.com/o/8Z2fmYgDoWW`
 Output path: `<project_root>/articles/2026-03-19/xhs-8Z2fmYgDoWW.md`
+
+## IMPORTANT: Validation
+
+Article constraints are enforced by CI via `articles/__tests__/test-articles-content.py`. When modifying this skill, review and update the validation script to keep it consistent with the skill's requirements.

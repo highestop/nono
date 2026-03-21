@@ -31,3 +31,5 @@
 
 !scripts
 !scripts/**
+
+**/__pycache__

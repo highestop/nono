@@ -73,3 +73,7 @@ The filename uses a `wx-` prefix followed by the `sn_hash` from the short link U
 
 Source URL: `https://mp.weixin.qq.com/s/7FcavO7t_2zBhVZEWlfaxg`
 Output path: `<project_root>/articles/2026-03-16/wx-7FcavO7t_2zBhVZEWlfaxg.md`
+
+## IMPORTANT: Validation
+
+Article constraints are enforced by CI via `articles/__tests__/test-articles-content.py`. When modifying this skill, review and update the validation script to keep it consistent with the skill's requirements.

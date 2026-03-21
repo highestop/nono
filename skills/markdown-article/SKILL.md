@@ -73,6 +73,10 @@ Guidelines:
 - Use commas to separate tags (not `#` prefixes), so tag names can contain spaces
 - For translated articles, only add tags to the main (Chinese) file — the `-en` file has no tags
 
+## IMPORTANT: Validation
+
+Article constraints are enforced by CI via `articles/__tests__/test-articles-content.py`. When modifying this skill, review and update the validation script to keep it consistent with the skill's requirements.
+
 ## Stop condition
 
 The task is done when the markdown file (and translation if applicable) is written and its path is reported to the user.
