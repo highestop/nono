@@ -524,8 +524,8 @@ function buildTagIndex() {
     for (const item of items) {
       const key = `${folder}/${item.file}`;
       articleMeta[key] = { title: item.title, tags: item.tags || [] };
-      // Skip -cn.md files for tag counting to avoid double-counting bilingual pairs
-      if (item.file.endsWith('-cn.md')) continue;
+      // Skip -en.md files for tag counting (English originals have no tags)
+      if (item.file.endsWith('-en.md')) continue;
       for (const tag of (item.tags || [])) {
         if (!allTags[tag]) allTags[tag] = new Set();
         allTags[tag].add(key);
@@ -545,34 +545,34 @@ function getFilteredFiles(folder) {
 }
 
 // Process articles: merge bilingual pairs
-// A bilingual pair is: "xxx.md" (English) + "xxx-cn.md" (Chinese)
+// A bilingual pair is: "xxx.md" (Chinese, main) + "xxx-en.md" (English original)
 function processArticles(fileList) {
-  const cnSuffix = '-cn.md';
-  const cnFiles = new Set(fileList.filter(f => f.endsWith(cnSuffix)));
+  const enSuffix = '-en.md';
+  const enFiles = new Set(fileList.filter(f => f.endsWith(enSuffix)));
   const entries = [];
   const processed = new Set();
 
   for (const file of fileList) {
     if (processed.has(file)) continue;
 
-    if (file.endsWith(cnSuffix)) {
-      const base = file.slice(0, -cnSuffix.length);
-      const enFile = base + '.md';
-      if (fileList.includes(enFile)) {
-        entries.push({ cn: file, en: enFile, bilingual: true });
+    if (file.endsWith(enSuffix)) {
+      const base = file.slice(0, -enSuffix.length);
+      const cnFile = base + '.md';
+      if (fileList.includes(cnFile)) {
+        entries.push({ cn: cnFile, en: file, bilingual: true });
         processed.add(file);
-        processed.add(enFile);
+        processed.add(cnFile);
       } else {
-        entries.push({ cn: file, bilingual: false });
+        entries.push({ file: file, bilingual: false });
         processed.add(file);
       }
     } else {
       const base = file.slice(0, -'.md'.length);
-      const cnFile = base + cnSuffix;
-      if (cnFiles.has(cnFile)) {
-        entries.push({ cn: cnFile, en: file, bilingual: true });
+      const enFile = base + enSuffix;
+      if (enFiles.has(enFile)) {
+        entries.push({ cn: file, en: enFile, bilingual: true });
         processed.add(file);
-        processed.add(cnFile);
+        processed.add(enFile);
       } else {
         entries.push({ file: file, bilingual: false });
         processed.add(file);

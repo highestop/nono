@@ -45,11 +45,11 @@ Create the date directory if it does not exist.
 
 ### Translation
 
-If the article is in a non-Chinese language (English, Japanese, etc.), save an additional Chinese translation alongside the original. The translated file:
+If the article is in a non-Chinese language (English, Japanese, etc.), save both a Chinese translation and the English original:
 
-- Uses the same output structure (`# <translated title>`, `> <original URL>`, translated body)
-- Filename is the original filename with a `-cn` suffix, e.g. `x-2018385296610746403-cn.md` or `ai-coding-2025-cn.md`
-- Saved in the same date directory as the original
+- **Chinese translation** (main file): uses the base filename, e.g. `x-2018385296610746403.md`. This is the primary file with tags and metadata.
+- **English original** (secondary file): uses the base filename with an `-en` suffix, e.g. `x-2018385296610746403-en.md`. This file has **no tags** in its metadata.
+- Both files are saved in the same date directory
 
 ## IMPORTANT: Long articles
 
@@ -71,7 +71,7 @@ Guidelines:
 - Tags should be concise nouns or noun phrases (e.g. `AI 编程`, `开源`, `数据中心`)
 - Follow the same CJK spacing rules (e.g. `AI 芯片` not `AI芯片`)
 - Use commas to separate tags (not `#` prefixes), so tag names can contain spaces
-- For translated articles, use the same tags in both the original and translated files
+- For translated articles, only add tags to the main (Chinese) file — the `-en` file has no tags
 
 ## Stop condition
 

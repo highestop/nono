@@ -14,7 +14,7 @@ Use Grep to search for `> - 标签：` lines across all articles in `<project_ro
 - A **tag index**: tag name → list of article paths
 - An **article index**: article path → list of tags
 
-Skip `-cn.md` files (bilingual duplicates share tags with their original).
+Skip `-en.md` files (bilingual English originals have no tags).
 
 ### 2. Identify near-duplicate or overlapping tags
 
@@ -72,7 +72,7 @@ After presenting the report, **wait for user confirmation** before making any ch
 
 ### 6. Apply confirmed changes
 
-For each confirmed change, edit the `> - 标签：` line in the affected article files. For bilingual pairs, update both the original and `-cn.md` files.
+For each confirmed change, edit the `> - 标签：` line in the affected article files. For bilingual pairs, only the main (Chinese) file has tags — `-en.md` files have no tags and should not be modified.
 
 ## User-requested tag changes
 
