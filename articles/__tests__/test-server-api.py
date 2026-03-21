@@ -10,7 +10,7 @@ import time
 import urllib.request
 import urllib.error
 
-# Add articles dir to path so we can import local
+# Add articles dir to path so we can import server
 ARTICLES_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ARTICLES_DIR)
 from server import extract_metadata, Handler

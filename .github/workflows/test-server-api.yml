@@ -1,4 +1,4 @@
-name: test-local-api
+name: test-server-api
 
 on:
   push:
@@ -6,12 +6,12 @@ on:
       - main
     paths:
       - "articles/server.py"
-      - "articles/__tests__/test-local-api.py"
-      - ".github/workflows/test-local-api.yml"
+      - "articles/__tests__/test-server-api.py"
+      - ".github/workflows/test-server-api.yml"
   pull_request:
     paths:
       - "articles/server.py"
-      - "articles/__tests__/test-local-api.py"
+      - "articles/__tests__/test-server-api.py"
 
 jobs:
   test:
@@ -25,5 +25,5 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Test local API
-        run: python3 articles/__tests__/test-local-api.py
+      - name: Test server API
+        run: python3 articles/__tests__/test-server-api.py
