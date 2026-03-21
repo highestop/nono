@@ -1,5 +1,5 @@
 ---
-name: markdown-articles-reader
+name: articles-reader
 description: Use when user wants to start/open the articles reader. Triggers on phrases like "启动文章阅读器", "打开阅读器", "start articles reader", etc.
 ---
 

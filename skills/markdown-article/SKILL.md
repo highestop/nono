@@ -61,7 +61,7 @@ When an article is very long (e.g. full podcast transcripts, lengthy interviews)
 
 ## Tags
 
-After saving the article, generate 3–5 keyword tags that best represent the article's core topics. Add them to the metadata header as a comma-separated list:
+After saving the article, generate keyword tags that best represent the article's core topics. The number of tags depends on the article — a focused article may need only 2–3, while a cross-domain piece may need 4–5. Prioritize tags with real filtering value over hitting a fixed count. Add them to the metadata header as a comma-separated list:
 
 ```markdown
 > - 标签：AI 芯片, 推理架构, 英伟达
