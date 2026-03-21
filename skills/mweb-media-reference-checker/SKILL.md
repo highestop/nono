@@ -5,7 +5,7 @@ description: 检查 MWeb 文档库中缺失或冗余的媒体文件引用
 
 # 工作流程
 
-- 参考 [file-structure-guide](/docs/mweb/docs-structure-guide.md) 文档以了解文档内容及其媒体文件在文档库中的组织方式
+- 参考 [docs-structure-guide](/docs/mweb/docs-structure-guide.md) 文档以了解文档内容及其媒体文件在文档库中的组织方式
 - 使用 `./script.sh`（相对于技能根目录）检查缺失或冗余的媒体文件引用
 - 分析脚本输出并以自然语言向用户展示检查结果
 - 对于**缺失的媒体文件**（被引用但不存在）：询问用户是否从文档中移除这些引用
