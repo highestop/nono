@@ -2,6 +2,8 @@
 
 | Skill | Description |
 |------|------|
+| [article-tags-review](skills/article-tags-review/SKILL.md) | Analyze all article tags for consistency, find near-duplicate or overlapping tags, and suggest optimizations. |
+| [articles-reader](skills/articles-reader/SKILL.md) | Use when user wants to start/open the articles reader. Triggers on phrases like "启动文章阅读器", "打开阅读器", "start articles reader", etc. |
 | [budget-export-csv-formatter](skills/budget-export-csv-formatter/SKILL.md) | 将鲨鱼记账 Pro App 导出的 CSV 文件格式化为结构化的账单分析 |
 | [claude-code-bash-helper](skills/claude-code-bash-helper/SKILL.md) | 在 Claude Code 中执行带环境变量和管道的 bash 命令时使用此技能 |
 | [game-player](skills/game-player/SKILL.md) | 玩一款网页游戏 |
@@ -10,11 +12,10 @@
 | [markdown-article-for-x](skills/markdown-article-for-x/SKILL.md) | Use when user provides an X (Twitter) Article URL to convert into a local markdown file. |
 | [markdown-article-for-xhs](skills/markdown-article-for-xhs/SKILL.md) | Use when user provides a Xiaohongshu (小红书) note URL to convert into a local markdown file. |
 | [markdown-article](skills/markdown-article/SKILL.md) | Use when user provides a web article URL to convert into a local markdown file. |
-| [markdown-articles-reader](skills/markdown-articles-reader/SKILL.md) | Use when user wants to start/open the articles reader. Triggers on phrases like "启动文章阅读器", "打开阅读器", "start articles reader", etc. |
 | [mweb-db-exporter](skills/mweb-db-exporter/SKILL.md) | 将 MWeb 数据库表导出为 JSON 格式，用于分析和数据处理 |
 | [mweb-media-reference-checker](skills/mweb-media-reference-checker/SKILL.md) | 检查 MWeb 文档库中缺失或冗余的媒体文件引用 |
 | [mweb-to-obsidian](skills/mweb-to-obsidian/SKILL.md) | 将 MWeb 数据迁移到 Obsidian |
 
 ---
 
-*This document was automatically generated based on commit [`aa2475e69db84eeb7e29599f7592a86415521bfb`](https://github.com/highestop/nono/commit/aa2475e69db84eeb7e29599f7592a86415521bfb).*
+*This document was automatically generated based on commit [`f0c8dcc98f63dea8a981e364d2ef10ef77f0b417`](https://github.com/highestop/nono/commit/f0c8dcc98f63dea8a981e364d2ef10ef77f0b417).*
