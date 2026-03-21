@@ -26,7 +26,6 @@ Xiaohongshu pages require login and have aggressive anti-scraping measures. Dire
    - **Publish date**: from the date display
    - **Title**: from the `<h1>` heading
    - **Body text**: from the note description area
-   - **Tags**: from the tag list (e.g. `#applewatch`, `#苹果手表`)
    - **Images**: use `page.evaluate` to query all `img` elements whose `src` contains `ci.xiaohongshu.com/spectrum/` — these are the note's content images (skip avatar images from `sns-avatar`)
 
 ## Extracting the note ID
@@ -52,7 +51,6 @@ The filename uses an `xhs-` prefix followed by the note ID:
 > - 来源：<author name>（小红书）
 > - 日期：<publish date>
 > - 原文链接：https://www.xiaohongshu.com/explore/<note_id>
-> - 标签：#tag1 #tag2 #tag3
 
 ---
 
