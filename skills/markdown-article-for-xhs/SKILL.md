@@ -5,12 +5,17 @@ description: Use when user provides a Xiaohongshu (小红书) note URL to conver
 
 Convert a Xiaohongshu note page into a well-formatted markdown file. Inherits all rules from [@markdown-article](../markdown-article/SKILL.md), with the following Xiaohongshu-specific additions and overrides.
 
-## IMPORTANT: Accepted URL formats
+## IMPORTANT: URL must be a static short link
 
-The input URL can be in any of these formats:
+The input URL **must** be in the static short link format:
 
-- Short link: `http://xhslink.com/o/<id>`
-- Full link: `https://www.xiaohongshu.com/explore/<note_id>` or `https://www.xiaohongshu.com/discovery/item/<note_id>`
+```
+http://xhslink.com/o/<id>
+```
+
+e.g. `http://xhslink.com/o/8Z2fmYgDoWW`
+
+If the user provides a full URL (e.g. `https://www.xiaohongshu.com/explore/...` or `https://www.xiaohongshu.com/discovery/item/...`), ask the user to provide the short link instead. Full URLs from redirects contain dynamic parameters that may expire or fail to load.
 
 ## IMPORTANT: Use xiaohongshu.day for content extraction
 
@@ -28,19 +33,12 @@ Xiaohongshu pages require login and have aggressive anti-scraping measures. Dire
    - **Body text**: from the note description area
    - **Images**: use `page.evaluate` to query all `img` elements whose `src` contains `ci.xiaohongshu.com/spectrum/` — these are the note's content images (skip avatar images from `sns-avatar`)
 
-## Extracting the note ID
-
-The note ID is needed for the filename and the canonical URL:
-
-- From short link `http://xhslink.com/o/8Z2fmYgDoWW`: after submitting to xiaohongshu.day, the result page will show the resolved note. Extract the note ID from the page's heading link or the resolved URL (format: `690afc280000000003021ea2`)
-- From full link `https://www.xiaohongshu.com/explore/690afc280000000003021ea2`: the note ID is the last path segment
-
 ## File location override
 
-The filename uses an `xhs-` prefix followed by the note ID:
+The filename uses an `xhs-` prefix followed by the short link ID (the last path segment of the short link URL):
 
 ```
-<project_root>/articles/2026-03-19/xhs-690afc280000000003021ea2.md
+<project_root>/articles/2026-03-19/xhs-8Z2fmYgDoWW.md
 ```
 
 ## Output structure
@@ -50,7 +48,7 @@ The filename uses an `xhs-` prefix followed by the note ID:
 
 > - 来源：<author name>（小红书）
 > - 日期：<publish date>
-> - 原文链接：https://www.xiaohongshu.com/explore/<note_id>
+> - 原文链接：http://xhslink.com/o/<short_link_id>
 
 ---
 
@@ -72,4 +70,4 @@ The filename uses an `xhs-` prefix followed by the note ID:
 ## Example
 
 Source URL: `http://xhslink.com/o/8Z2fmYgDoWW`
-Output path: `<project_root>/articles/2026-03-19/xhs-690afc280000000003021ea2.md`
+Output path: `<project_root>/articles/2026-03-19/xhs-8Z2fmYgDoWW.md`
