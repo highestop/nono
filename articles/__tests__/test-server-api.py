@@ -190,14 +190,14 @@ def test_get_articles_structure():
     status, body = api_get("/api/articles")
     assert status == 200, f"Expected 200, got {status}"
     data = json.loads(body)
-    assert "2099-01-01" in data, f"Expected '2099-01-01' folder, got keys: {list(data.keys())}"
-    items = data["2099-01-01"]
+    assert "2026-01-01" in data, f"Expected '2026-01-01' folder, got keys: {list(data.keys())}"
+    items = data["2026-01-01"]
     files = [item["file"] for item in items]
-    assert "wx-testHash123.md" in files, f"Expected wx fixture, got: {files}"
-    assert "xhs-abc123def456.md" in files, f"Expected xhs fixture, got: {files}"
-    assert "x-9999999999999999999.md" in files, f"Expected x fixture, got: {files}"
-    assert "x-9999999999999999999-en.md" in files, f"Expected x-en fixture, got: {files}"
-    assert "1234567890000.md" in files, f"Expected generic fixture, got: {files}"
+    assert "wx-abc123.md" in files, f"Expected wx fixture, got: {files}"
+    assert "xhs-abc123.md" in files, f"Expected xhs fixture, got: {files}"
+    assert "x-abc123.md" in files, f"Expected x fixture, got: {files}"
+    assert "x-abc123-en.md" in files, f"Expected x-en fixture, got: {files}"
+    assert "abc123.md" in files, f"Expected generic fixture, got: {files}"
 
 
 @api_test
@@ -205,22 +205,22 @@ def test_get_articles_metadata():
     """GET /api/articles: each item has correct title and tags."""
     status, body = api_get("/api/articles")
     data = json.loads(body)
-    items = {item["file"]: item for item in data["2099-01-01"]}
+    items = {item["file"]: item for item in data["2026-01-01"]}
 
-    wx = items["wx-testHash123.md"]
+    wx = items["wx-abc123.md"]
     assert wx["title"] == "测试微信公众号文章", f"wx title: {wx['title']}"
     assert wx["tags"] == ["AI 编程", "测试"], f"wx tags: {wx['tags']}"
 
-    xhs = items["xhs-abc123def456.md"]
+    xhs = items["xhs-abc123.md"]
     assert xhs["title"] == "测试小红书笔记标题", f"xhs title: {xhs['title']}"
 
-    x_cn = items["x-9999999999999999999.md"]
+    x_cn = items["x-abc123.md"]
     assert x_cn["tags"] == ["Agent", "产品设计"], f"x tags: {x_cn['tags']}"
 
-    x_en = items["x-9999999999999999999-en.md"]
+    x_en = items["x-abc123-en.md"]
     assert x_en["tags"] == [], f"x-en should have no tags, got: {x_en['tags']}"
 
-    generic = items["1234567890000.md"]
+    generic = items["abc123.md"]
     assert generic["title"] == "测试通用文章", f"generic title: {generic['title']}"
     assert generic["tags"] == ["Vibe Coding", "工程实践"], f"generic tags: {generic['tags']}"
 
@@ -237,8 +237,8 @@ def test_get_articles_skips_hidden():
 @api_test
 def test_post_notes_save_and_delete():
     """POST /api/notes: save notes then delete by sending empty list."""
-    file_path = "2099-01-01/wx-testHash123.md"
-    notes_path = os.path.join(FIXTURES_DIR, "2099-01-01", "wx-testHash123.notes.json")
+    file_path = "2026-01-01/wx-abc123.md"
+    notes_path = os.path.join(FIXTURES_DIR, "2026-01-01", "wx-abc123.notes.json")
 
     # Save notes
     notes = [{"id": 1, "startOffset": 0, "endOffset": 5, "text": "测试", "note": "a note"}]

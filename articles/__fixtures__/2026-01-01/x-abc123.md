@@ -1,8 +1,8 @@
 # 测试推文翻译版
 
 > - 作者：TestUser（X @testuser）
-> - 日期：2099-01-01
-> - 原文链接：https://x.com/testuser/status/9999999999999999999
+> - 日期：2026-01-01
+> - 原文链接：https://x.com/testuser/status/1234567890
 > - 标签：Agent, 产品设计
 
 ---
