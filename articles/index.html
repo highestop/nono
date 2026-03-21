@@ -6,6 +6,7 @@
 <title>Articles Reader</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown-light.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.1/marked.min.js"></script>
+<script src="core.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -511,76 +512,15 @@
 // Format: { "2026-03-17": [{ file: "wx-xxx.md", title: "...", tags: [...] }, ...] }
 let articles = {};
 
-// Tag system
-let allTags = {}; // tag -> Set of "folder/file" paths
+// Tag system — populated by rebuildTagIndex()
+let allTags = {};
 let selectedTags = new Set();
-// Metadata lookup: "folder/file" -> { title, tags }
 let articleMeta = {};
 
-function buildTagIndex() {
-  allTags = {};
-  articleMeta = {};
-  for (const [folder, items] of Object.entries(articles)) {
-    for (const item of items) {
-      const key = `${folder}/${item.file}`;
-      articleMeta[key] = { title: item.title, tags: item.tags || [] };
-      // Skip -en.md files for tag counting (English originals have no tags)
-      if (item.file.endsWith('-en.md')) continue;
-      for (const tag of (item.tags || [])) {
-        if (!allTags[tag]) allTags[tag] = new Set();
-        allTags[tag].add(key);
-      }
-    }
-  }
-}
-
-function getFilteredFiles(folder) {
-  if (selectedTags.size === 0) return articles[folder].map(i => i.file);
-  return articles[folder]
-    .filter(item => {
-      const tags = item.tags || [];
-      return [...selectedTags].every(t => tags.includes(t));
-    })
-    .map(i => i.file);
-}
-
-// Process articles: merge bilingual pairs
-// A bilingual pair is: "xxx.md" (Chinese, main) + "xxx-en.md" (English original)
-function processArticles(fileList) {
-  const enSuffix = '-en.md';
-  const enFiles = new Set(fileList.filter(f => f.endsWith(enSuffix)));
-  const entries = [];
-  const processed = new Set();
-
-  for (const file of fileList) {
-    if (processed.has(file)) continue;
-
-    if (file.endsWith(enSuffix)) {
-      const base = file.slice(0, -enSuffix.length);
-      const cnFile = base + '.md';
-      if (fileList.includes(cnFile)) {
-        entries.push({ cn: cnFile, en: file, bilingual: true });
-        processed.add(file);
-        processed.add(cnFile);
-      } else {
-        entries.push({ file: file, bilingual: false });
-        processed.add(file);
-      }
-    } else {
-      const base = file.slice(0, -'.md'.length);
-      const enFile = base + enSuffix;
-      if (enFiles.has(enFile)) {
-        entries.push({ cn: file, en: enFile, bilingual: true });
-        processed.add(file);
-        processed.add(enFile);
-      } else {
-        entries.push({ file: file, bilingual: false });
-        processed.add(file);
-      }
-    }
-  }
-
-  return entries;
+function rebuildTagIndex() {
+  const result = buildTagIndex(articles);
+  allTags = result.allTags;
+  articleMeta = result.articleMeta;
 }
 
 let sortedFolders = [];
@@ -591,14 +531,6 @@ const contentBody = document.getElementById('content-body');
 
 // Content cache: stores markdown text of each file
 const contentCache = {};
-
-// Extract title from markdown content (first # heading or first line)
-function extractTitle(md) {
-  const match = md.match(/^#\s+(.+)$/m);
-  if (match) return match[1].trim();
-  const firstLine = md.trim().split('\n')[0];
-  return firstLine ? firstLine.replace(/^#+\s*/, '').trim() : 'Untitled';
-}
 
 // Render tag filter pills
 function renderTagFilter() {
@@ -636,7 +568,7 @@ async function fetchMd(path) {
 // Build tree UI
 function buildTree() {
   sortedFolders.forEach((folder, idx) => {
-    const filteredFiles = getFilteredFiles(folder);
+    const filteredFiles = getFilteredFiles(articles[folder], selectedTags);
     if (filteredFiles.length === 0) return; // Skip empty folders after filtering
 
     const folderEl = document.createElement('div');
@@ -795,7 +727,7 @@ async function init() {
     console.error('Failed to fetch articles:', e);
   }
   sortedFolders = Object.keys(articles).sort((a, b) => b.localeCompare(a));
-  buildTagIndex();
+  rebuildTagIndex();
   renderTagFilter();
   buildTree();
 
@@ -1317,11 +1249,7 @@ function openNotesModal(filePath) {
   notesModal = overlay;
 }
 
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
+
 
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('.notes-btn');
