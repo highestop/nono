@@ -5,7 +5,7 @@ description: Use when user provides an X (Twitter) Article URL to convert into a
 
 Convert an X Article page into a well-formatted markdown file. Inherits all rules from [@markdown-article](../markdown-article/SKILL.md), with the following X-specific additions and overrides.
 
-## Important: Playwright MCP required
+## IMPORTANT: Playwright MCP required
 
 X pages are fully JavaScript-rendered. `curl`, `WebFetch`, and other static fetching methods **cannot** retrieve any article content. You **must** use Playwright MCP to load and extract the page.
 

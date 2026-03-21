@@ -5,14 +5,14 @@ description: Use when user provides a Xiaohongshu (小红书) note URL to conver
 
 Convert a Xiaohongshu note page into a well-formatted markdown file. Inherits all rules from [@markdown-article](../markdown-article/SKILL.md), with the following Xiaohongshu-specific additions and overrides.
 
-## Important: Accepted URL formats
+## IMPORTANT: Accepted URL formats
 
 The input URL can be in any of these formats:
 
 - Short link: `http://xhslink.com/o/<id>`
 - Full link: `https://www.xiaohongshu.com/explore/<note_id>` or `https://www.xiaohongshu.com/discovery/item/<note_id>`
 
-## Important: Use xiaohongshu.day for content extraction
+## IMPORTANT: Use xiaohongshu.day for content extraction
 
 Xiaohongshu pages require login and have aggressive anti-scraping measures. Direct access via `curl`, `WebFetch`, or even Playwright will be blocked by login walls.
 

@@ -5,7 +5,7 @@ description: Use when user provides a WeChat Official Account (微信公众号) 
 
 Convert a WeChat Official Account article page into a well-formatted markdown file. Inherits all rules from [@markdown-article](../markdown-article/SKILL.md), with the following WeChat-specific additions and overrides.
 
-## Important: URL must be a static short link
+## IMPORTANT: URL must be a static short link
 
 The input URL **must** be in the static short link format:
 
@@ -17,7 +17,7 @@ e.g. `https://mp.weixin.qq.com/s/7FcavO7t_2zBhVZEWlfaxg`
 
 If the user provides a long URL with query parameters (e.g. `__biz`, `mid`, `sn`, `chksm`), ask the user to provide the short link instead. Long URLs with dynamic parameters may expire or fail to load.
 
-## Important: Playwright MCP required
+## IMPORTANT: Playwright MCP required
 
 WeChat article pages have aggressive anti-scraping measures (captcha verification). `curl`, `WebFetch`, and other static fetching methods **cannot** retrieve article content. You **must** use Playwright MCP to load and extract the page.
 

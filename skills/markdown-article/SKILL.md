@@ -50,7 +50,7 @@ If the article is in a non-Chinese language (English, Japanese, etc.), save an a
 - Filename is the original filename with a `-cn` suffix, e.g. `x-2018385296610746403-cn.md` or `ai-coding-2025-cn.md`
 - Saved in the same date directory as the original
 
-## Long articles
+## IMPORTANT: Long articles
 
 When an article is very long (e.g. full podcast transcripts, lengthy interviews), writing the entire file at once can time out or stall. In such cases:
 
