@@ -1,5 +1,5 @@
 ---
-name: git-commit
+name: commit
 description: 提交并推送变更到 git 仓库
 ---
 
