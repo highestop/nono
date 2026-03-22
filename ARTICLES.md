@@ -1,5 +1,7 @@
 # Articles
 
+- **2026-03-22**
+  - [正式介绍一下最近的工作: db9.ai](articles/2026-03-22/wx-oIE4wE2C9VaT4X059dkfgg.md)
 - **2026-03-21**
   - ["Token 不用完会焦虑"！Karpathy 最新访谈自曝患上"AI 精神病"：软件世界正在被 Agent 接管](articles/2026-03-21/wx-Nn6MO_OKtTDmKtB7OtO_bg.md)
   - [一个男生真正的成长，需要经历这三段恋爱！](articles/2026-03-21/xhs-60up4MeRIxh.md)
@@ -26,4 +28,4 @@
 
 ---
 
-*This document was automatically generated based on commit [`06efee66332d5096e9b9bec0db9ff2af81f2dce8`](https://github.com/highestop/nono/commit/06efee66332d5096e9b9bec0db9ff2af81f2dce8).*
+*This document was automatically generated based on commit [`4f53f6ae5d0b4b33e117a04c0e0fa74b372d2457`](https://github.com/highestop/nono/commit/4f53f6ae5d0b4b33e117a04c0e0fa74b372d2457).*
