@@ -4,7 +4,7 @@
 > - 作者：dongxu
 > - 日期：2026-03-19
 > - 原文链接：https://mp.weixin.qq.com/s/oIE4wE2C9VaT4X059dkfgg
-> - 标签：AI Agent, 数据库, Agent Storage, PostgreSQL, 文件系统, 云原生, TiDB
+> - 标签：Agent, 数据库, Agent Storage, PostgreSQL, 文件系统, 云原生, TiDB
 
 ---
 
