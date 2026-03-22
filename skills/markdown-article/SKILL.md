@@ -51,14 +51,6 @@ If the article is in a non-Chinese language (English, Japanese, etc.), save both
 - **English original** (secondary file): uses the base filename with an `-en` suffix, e.g. `x-2018385296610746403-en.md`. This file has **no tags** in its metadata.
 - Both files are saved in the same date directory
 
-## IMPORTANT: Long articles
-
-When an article is very long (e.g. full podcast transcripts, lengthy interviews), writing the entire file at once can time out or stall. In such cases:
-
-1. First create the `.md` file with only the front matter (title, metadata, `---` separator) and an empty body
-2. Then append content **section by section** (one heading + its paragraphs per edit) using the Edit tool
-3. Never attempt to write the full article body in a single Write or Edit operation
-
 ## Tags
 
 After saving the article, generate keyword tags that best represent the article's core topics. The number of tags depends on the article — a focused article may need only 2–3, while a cross-domain piece may need 4–5. Prioritize tags with real filtering value over hitting a fixed count. Add them to the metadata header as a comma-separated list:
@@ -73,9 +65,21 @@ Guidelines:
 - Use commas to separate tags (not `#` prefixes), so tag names can contain spaces
 - For translated articles, only add tags to the main (Chinese) file — the `-en` file has no tags
 
+## IMPORTANT: Long articles
+
+When an article is very long (e.g. full podcast transcripts, lengthy interviews), writing the entire file at once can time out or stall. In such cases:
+
+1. First create the `.md` file with only the front matter (title, metadata, `---` separator) and an empty body
+2. Then append content **section by section** (one heading + its paragraphs per edit) using the Edit tool
+3. Never attempt to write the full article body in a single Write or Edit operation
+
 ## IMPORTANT: Validation
 
 Article constraints are enforced by CI via `articles/__tests__/test-articles-content.py`. When modifying this skill, review and update the validation script to keep it consistent with the skill's requirements.
+
+## IMPORTANT: Multiple articles
+
+When processing multiple URLs in one request, handle them **sequentially** — one article at a time. Do NOT use parallel agents or concurrent Playwright sessions, as this causes browser timeouts and failures.
 
 ## Stop condition
 
