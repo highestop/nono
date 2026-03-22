@@ -64,11 +64,11 @@ Output a structured report to the user:
 
 ### 5. Wait for user confirmation
 
-After presenting the report, **wait for user confirmation** before making any changes. The user may:
+After presenting the report, use `AskUserQuestion` to let the user choose how to proceed:
 
-- Accept all suggestions
-- Accept some and reject others
-- Modify suggestions
+- **全部接受**: apply all suggestions
+- **仅部分接受**: user specifies which to apply and which to skip
+- **全部拒绝**: discard all suggestions, no changes made
 
 ### 6. Apply confirmed changes
 
