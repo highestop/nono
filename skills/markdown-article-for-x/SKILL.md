@@ -1,66 +1,47 @@
 ---
 name: markdown-article-for-x
-description: Use when user provides an X (Twitter) Article URL to convert into a local markdown file.
+description: 当用户提供一个 X（Twitter）Article URL 时使用，将其转换为一个 GitHub issue。
 ---
 
-Convert an X Article page into a well-formatted markdown file. Inherits all rules from [@markdown-article](../markdown-article/SKILL.md), with the following X-specific additions and overrides.
+将一篇 X Article 页面转换为格式良好的 GitHub issue。继承 [@markdown-article](../markdown-article/SKILL.md) 的全部规则，并附加以下 X 特有的补充与覆盖项。
 
-## IMPORTANT: Playwright MCP required
+## 重要：必须使用 Playwright MCP
 
-X pages are fully JavaScript-rendered. `curl`, `WebFetch`, and other static fetching methods **cannot** retrieve any article content. You **must** use Playwright MCP to load and extract the page.
+X 页面完全由 JavaScript 渲染。`curl`、`WebFetch` 等静态抓取方式**无法**取到任何文章内容。**必须**使用 Playwright MCP 加载并提取页面。
 
-## X-specific steps
+## X 特有步骤
 
-After navigating to the page:
+导航到页面之后：
 
-1. Extract metadata before entering Focus mode:
-   - **Author display name**: from the page title (format `<name> on X: "..."`) or from the link text pointing to the author's profile
-   - **Username**: from the URL path (e.g. `HiTw93` from `x.com/HiTw93/status/...`)
-   - **Publish date**: from the `<time>` element's `datetime` attribute
-2. If the page has a "Focus mode" link (`/article/` path), navigate to it for a cleaner layout
-3. Remove X-specific UI noise: follower counts, "Sign up", "Log in", engagement metrics, "Want to publish your own Article?", etc.
+1. 在进入 Focus mode 之前先提取元数据：
+   - **作者显示名**：从页面 title（格式 `<name> on X: "..."`）或指向作者主页的链接文本中获取
+   - **用户名**：从 URL 路径中获取（例如 `x.com/HiTw93/status/...` 中的 `HiTw93`）
+2. 如果页面有「Focus mode」链接（`/article/` 路径），导航到它以获得更干净的版面
+3. 移除 X 特有的界面噪声：粉丝数、「Sign up」、「Log in」、互动指标、「Want to publish your own Article?」等
 
-## Image handling
+## 图片处理
 
-- Extract all content images from the article using `page.evaluate` to query `img` elements whose `src` contains `pbs.twimg.com/media/`
-- Replace `name=small` with `name=large` in image URLs for high resolution
-- Skip non-content images: profile avatars, icons, emoji images, and UI decoration images
-- Preserve images at their original positions in the article body using `![](url)` syntax
+- 用 `page.evaluate` 查询所有 `src` 包含 `pbs.twimg.com/media/` 的 `<img>` 元素，提取所有内容图
+- 把图片 URL 中的 `name=small` 替换为 `name=large` 以获得高分辨率
+- 跳过非内容图：头像、图标、表情图、装饰用 UI 图
+- 用 `![](url)` 语法在文章正文中保留图片在原始位置
 
-## File location override
+## 输出结构
 
-The filename uses an `x-` prefix followed by the article ID:
-
-- `x-<id>`: the `<id>` is extracted from the URL path (the last segment), e.g. for `https://x.com/HiTw93/status/2032091246588518683` the ID is `2032091246588518683`
-
-```
-<project_root>/articles/2026-03-14/x-2032091246588518683.md
-```
-
-## Output structure
+issue 标题就是文章标题。标签以 GitHub label 形式打上（见父技能）。正文使用标准的 metadata 块，含 X 特有字段：
 
 ```markdown
-# <article title>
+> - 来源：<作者显示名>（X @username）
+> - 原文链接：<原文 URL>
 
-> - 作者：<author display name>（X @username）
-> - 日期：<publish date>
-> - 原文链接：<original URL>
-> - 标签：<tag1>, <tag2>, <tag3>
-
----
-
-<markdown body with inline images>
+<带内联图片的 markdown 正文>
 
 ![](https://pbs.twimg.com/media/...)
 
-<more text and images...>
+<更多文字和图片...>
 ```
 
-## Example
+## 示例
 
-Source URL: `https://x.com/HiTw93/status/2032091246588518683`
-Output path: `<project_root>/articles/2026-03-14/x-2032091246588518683.md`
-
-## IMPORTANT: Validation
-
-Article constraints are enforced by CI via `articles/__tests__/test-articles-content.py`. When modifying this skill, review and update the validation script to keep it consistent with the skill's requirements.
+源 URL：`https://x.com/HiTw93/status/2032091246588518683`
+结果：在 `highestop/nono` 仓库中创建一个 issue，标题与文章一致。
