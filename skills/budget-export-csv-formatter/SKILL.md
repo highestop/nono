@@ -5,7 +5,7 @@ description: 将鲨鱼记账 Pro App 导出的 CSV 文件格式化为结构化�
 
 1. （我）在鲨鱼记账 Pro App 中导出 CSV 并通过 AirDrop 传输到本地
 2. （你）将 CSV 文件转换为 UTF-8 编码（例如在 VSCode 中打开并以 UTF-8 保存）
-3. （你）执行 [`@./scripts/formatter.js`](/skills/budget-export-csv-formatter/scripts/formatter.js) 脚本，将在同一目录生成解析后的 CSV 文件
+3. （你）执行 `formatter.js` 脚本，将在同一目录生成解析后的 CSV 文件
 
 **输入/输出示例：**
 
