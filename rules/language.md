@@ -1,5 +1,5 @@
 - 用中文和我沟通
-- 用英文写文档做记录
+- 用中文写文档
 - 用英文写代码注释
 - 用英文写 commit 和 pr 的 title
 - 用英文写 commit 和 pr 的 description
