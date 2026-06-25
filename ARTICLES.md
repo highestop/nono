@@ -1,5 +1,7 @@
 # Articles
 
+- **2026-06-10**
+  - [真正的过情关，是看见自己](articles/2026-06-10/xhs-2W8WlPz9aDE.md)
 - **2026-03-22**
   - [正式介绍一下最近的工作: db9.ai](articles/2026-03-22/wx-oIE4wE2C9VaT4X059dkfgg.md)
 - **2026-03-21**
@@ -28,4 +30,4 @@
 
 ---
 
-*This document was automatically generated based on commit [`4f53f6ae5d0b4b33e117a04c0e0fa74b372d2457`](https://github.com/highestop/nono/commit/4f53f6ae5d0b4b33e117a04c0e0fa74b372d2457).*
+*This document was automatically generated based on commit [`5ec8ce9adb70b65d374fedf74e12cc21dc410219`](https://github.com/highestop/nono/commit/5ec8ce9adb70b65d374fedf74e12cc21dc410219).*
