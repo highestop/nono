@@ -37,8 +37,7 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 - 必须先区分 fork 和非 fork 仓库，再决定 PR 目标：
   - 先使用 `git remote -v` 检查是否存在 `upstream`；存在时视为 fork，原 repo 为 `upstream` 对应的仓库。
   - 如果没有 `upstream`，继续使用 `gh repo view --json isFork,parent,nameWithOwner` 检查当前 `origin` 是否为 GitHub fork；`isFork` 为 `true` 时，原 repo 为 `parent.nameWithOwner`。
-  - 判定为 fork 的条件：存在 `upstream` remote，或 `gh repo view` 返回 `isFork: true`。
-  - 判定为非 fork 的条件：不存在 `upstream` remote，且 `gh repo view` 返回 `isFork: false`。
+  - 判定是否为 fork 的方法：存在 `upstream` remote，或 `gh repo view` 返回 `isFork` 的值，为 `true` 则为 fork，为 `false` 则为非 fork。
   - 只有确认不是 fork 时，才按普通仓库处理，向当前 `origin` 仓库创建 PR。
   - 如果无法确认 fork 状态，停止并说明缺少的信息，不要猜测 PR 目标。
 
