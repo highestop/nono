@@ -1,5 +1,5 @@
-- 用中文和我沟通
-- 用中文写文档
-- 用英文写代码注释
-- 用英文写 commit 和 pr 的 title
-- 用英文写 commit 和 pr 的 description
+- **使用中文和我沟通**
+- 默认使用英文写文档做记录，但优先匹配原文档使用的语言
+- 使用英文写代码注释
+- 使用英文写 commit 和 pr 的 title，保证 git 历史清晰
+- 使用英文写 commit 和 pr 的 description，便于他人阅读
