@@ -6,7 +6,7 @@
 - 保持简洁可操作，描述中无需描述细节
 
 **目录结构：**
-- 必须放在全局或项目的 agent skills 目录下，例如 `skills/`、`~/.claude/skills/` 或 `~/.codex/skills/`
+- 必须放在全局或项目的 agent skills 目录下，例如 `skills/` 或 `~/.agents/skills/`
 - 必需的结构：`skills/<skill-name>/SKILL.md`
 - `<skill-name>` 目录必须包含 `SKILL.md` 文件
 
