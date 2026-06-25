@@ -12,7 +12,6 @@
 !.codex/config/commit.config.json
 
 !AGENTS.md
-!ARTICLES.md
 !SKILLS.md
 
 !README.md
@@ -26,14 +25,8 @@
 !docs
 !docs/**
 
-!articles
-!articles/**
-
 !rules
 !rules/**
-
-!subscriptions
-!subscriptions/**
 
 !scripts
 !scripts/**
