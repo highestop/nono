@@ -1,210 +1,111 @@
 ---
 name: commit
-description: 提交并推送变更到 git 仓库
+description: 提交代码、跟踪 PR 状态、完成代码合并
 ---
 
 # Git 提交
 
-## 配置 API
+严格按步骤执行。只有完成或明确跳过当前步骤后，才能进入下一步。
 
-此技能通过就近搜索从 agent 配置目录读取 `commit.config.json`：
+## 配置
 
-1. **项目配置**：相对于当前工作目录的 `.agents/config/commit.config.json`、`.claude/config/commit.config.json` 或 `.codex/config/commit.config.json`
-2. **全局配置**：如果项目配置未找到，则使用 `~/.agents/config/commit.config.json`、`~/.claude/config/commit.config.json` 或 `~/.codex/config/commit.config.json`
+可从当前请求、项目配置或全局配置读取偏好。优先级：
 
-**重要**：包含个人信息（如 `gitUser` 凭据）的配置文件不应提交到版本控制。务必确保 agent 配置目录在 `.gitignore` 中被正确忽略，以保护敏感配置的隐私。使用全局配置目录存放个人偏好。
+1. 用户当前请求
+2. 项目配置：`.agents/config/commit.config.json`、`.claude/config/commit.config.json`、`.codex/config/commit.config.json`
+3. 全局配置：`~/.agents/config/commit.config.json`、`~/.claude/config/commit.config.json`、`~/.codex/config/commit.config.json`
+4. 默认值
 
-### 配置 Schema
+支持字段：
 
-| 字段 | 类型 | 描述 | 默认值 |
-| - | - | - | - |
-| `strategy` | `"main" \| "feature"` | 提交策略：直接提交到 main 分支或创建 feature 分支 | `"main"` |
-| `splitCommits` | `boolean` | 将不相关的变更拆分为独立的提交 | `true` |
-| `autoPush` | `boolean` | 自动推送提交到远程 | `true` |
-| `createPullRequest` | `boolean` | 使用 feature 分支策略时创建 PR | `true` |
-| `coAuthor` | `boolean` | 在提交中添加当前 agent 的共同作者标签 | `true` |
-| `agentName` | `"auto" \| "claude" \| "codex" \| "none"` | 共同作者标签使用的 agent 身份，`"auto"` 表示根据当前运行环境判断 | `"auto"` |
-| `types` | `string[]` | 允许的提交类型 | `["feat", "fix", "docs", "style", "refactor", "perf", "test", "chore"]` |
-| `scopes` | `string[]` | 此项目允许的作用域 | `["rule", "skill", "command", "plugin"]` |
-| `gitUser` | `object` | Git 用户身份验证配置 | `null` |
-| `gitUser.name` | `string` | 提交时预期的 git 用户名 | `null` |
-| `gitUser.email` | `string` | 提交时预期的 git 用户邮箱 | `null` |
+| 字段 | 默认值 | 说明 |
+| - | - | - |
+| `gitUser.name` | `null` | 期望的 git 用户名 |
+| `gitUser.email` | `null` | 期望的 git 邮箱 |
+| `coAuthor` | `true` | 是否添加当前 agent 的 co-author |
+| `featureBranchPrefix` | 当前 `git config user.name` | feature 分支名前缀，使用 kebab-case |
 
-### 命令行配置覆盖
+如用户在请求中临时覆盖配置，完成后询问是否保存；保存时优先写入 `.agents/config/commit.config.json`，除非用户指定其他 agent 目录。包含个人信息的配置不得提交到版本控制。
 
-用户可以在请求中使用自然语言直接覆盖任何配置设置。技能应智能解析用户意图并映射到相应的配置覆盖。
+## 工作流
 
-**优先级顺序**（从高到低）：
+### 1. 检查环境
 
-1. **用户参数** - 从当前请求推断的设置
-2. **配置文件值** - 项目配置或全局配置
-3. **默认值** - 系统默认值
+- 确认当前目录是 git 仓库。
+- 检查 `git config user.name` 和 `git config user.email`。
+- 仅检查已配置的 `gitUser` 字段：配置了 `gitUser.name` 就校验 `user.name`，配置了 `gitUser.email` 就校验 `user.email`；未配置字段不做要求。已配置字段缺失或不匹配时终止，并给出修复命令。
+- 使用 `git remote -v` 判断是否存在 `upstream`；存在时视为 fork，默认向原 repo 提 PR。
 
-**语义解析指南**：
+### 2. 分析变更
 
-- 解析用户意图而非匹配精确短语
-- 在请求中查找配置偏好的指示信息
-- 将自然语言表达映射到配置字段覆盖
-- 支持用户表达同一偏好的多种方式
+- 使用 `git status`、`git diff`、`git diff --cached` 分析变更。
+- 如果执行过程中发现用户新增或修改了工作区内容，重新从本步骤开始。
+- 按不相关主题拆分提交；不要把无关变更放进同一个 commit。
 
-### 配置示例
+### 3. 处理分支
 
-```json
-{
-  "strategy": "feature",
-  "splitCommits": true,
-  "autoPush": true,
-  "createPullRequest": true,
-  "coAuthor": false,
-  "types": ["feat", "fix", "docs", "refactor", "test"],
-  "scopes": ["api", "ui", "auth"],
-  "gitUser": {
-    "name": "John Doe",
-    "email": "john.doe@example.com"
-  }
-}
-```
+- 默认都使用 feature 分支提交；不要在 `main` 分支上直接提交。
+- feature 分支名使用 `<featureBranchPrefix>-<short-description>`，整体使用 kebab-case；未配置 `featureBranchPrefix` 时，从当前 `git config user.name` 推导。
+- fork 仓库默认向原 repo 提 PR。
+- 保持线性历史；使用 `git pull --rebase`，不要创建 merge commit。
 
-### 配置管理
+### 4. 创建提交
 
-- **配置位置**：
-  - 项目配置（当前工作目录）：`.agents/config/commit.config.json`、`.claude/config/commit.config.json`、`.codex/config/commit.config.json`
-  - 全局配置：`~/.agents/config/commit.config.json`、`~/.claude/config/commit.config.json`、`~/.codex/config/commit.config.json`
-- **搜索优先级**：项目配置优先于全局配置
-- **协作共享**：选择是否将项目配置文件提交用于团队规范，或添加到 .gitignore 仅本地使用
+- 使用 `git add` 暂存本次提交需要的文件。
+- Commit message 使用英文 Angular Conventional Commit，且不使用 scope：
+  - 示例：`chore: remove article assets`
+- 不要使用 amend 修改既有提交；创建新的 commit。
+- 如果 `coAuthor` 为 true，在提交正文最后添加当前 agent：
+  - Claude：`Co-Authored-By: Claude <noreply@anthropic.com>`
+  - Codex：`Co-Authored-By: Codex <noreply@openai.com>`
+  - 无法判断当前 agent 时，询问用户或跳过并说明原因。
 
-## 工作流程
+### 5. 推送和创建 PR
 
-触发此技能时执行以下步骤：
+- 提交后自动推送。
+- 推送失败且原因是 non-fast-forward：
+  1. 运行 `git pull --rebase`
+  2. 如有冲突，说明冲突文件并解决或等待用户处理
+  3. rebase 完成后使用 `git push --force-with-lease`
+- 如果 `--force-with-lease` 失败，不要直接使用 `--force`，先说明风险并询问用户。
+- 如果当前是 feature 分支且没有 PR，默认创建 PR；只有用户明确要求只提交不提 PR 时才跳过。
+  - fork 仓库：用 `gh pr create --repo <upstream-owner>/<upstream-repo>` 向原 repo 创建 PR
+  - 非 fork 仓库：用 `gh pr create` 创建 PR
+- PR 描述中说明建议使用 squash merge 或 rebase merge，并请求合并后删除 feature 分支。
+- 如果此次修改有关联 Issue，在 PR 中关联 Issue。
 
-### 1. 加载配置并解析参数
+### 6. 跟踪 PR
 
-- 分析用户输入以识别配置意图和偏好
-- 从自然语言表达中提取配置覆盖
-- 按顺序搜索配置文件：
-  1. `.agents/config/commit.config.json`（当前工作目录）
-  2. `.claude/config/commit.config.json`（当前工作目录）
-  3. `.codex/config/commit.config.json`（当前工作目录）
-  4. `~/.agents/config/commit.config.json`（全局配置）
-  5. `~/.claude/config/commit.config.json`（全局配置）
-  6. `~/.codex/config/commit.config.json`（全局配置）
-- 按优先级合并配置（从高到低）：
-  1. **用户参数**（从当前请求解析）
-  2. **配置文件值**（项目配置或全局配置）
-  3. **默认值**
-- 保存新配置时，优先创建 `.agents/config/` 目录；仅当用户明确选择特定 agent 目录时才写入 `.claude/config/` 或 `.codex/config/`
+- 创建或找到 PR 后，告诉用户 PR 链接。
+- 使用 `gh pr checks`、`gh pr view` 跟踪 check 和 review 状态。
+- 如果有 check 失败：
+  1. 总结失败 job 和关键错误
+  2. 修复问题
+  3. 按提交流程新增 commit、推送，并继续跟踪 PR
+- 如果 review 提出严重问题：
+  1. 总结问题
+  2. 判断问题是否真实、合理、需要修复，并说明依据
+  3. 询问用户是修复还是拒绝
+  4. 修复则新增 commit 并继续跟踪；拒绝则 dismiss review 并写明理由
+- 如果严重问题已修复但 review 被跳过，可按 reviewer 约定评论触发重审，例如 `@codex review`。
 
-### 2. 验证 Git 用户身份
+### 7. 合并 PR
 
-- 如果存在 `gitUser` 配置（配置了 `gitUser.name` 或 `gitUser.email`）：
-  - 使用 `git config user.name` 获取当前 git 用户名
-  - 使用 `git config user.email` 获取当前 git 用户邮箱
-  - 与配置值进行比较：
-    - 如果配置了 `gitUser.name` 且与当前 git 用户名不匹配，**终止并报错**
-    - 如果配置了 `gitUser.email` 且与当前 git 用户邮箱不匹配，**终止并报错**
-    - 如果无法获取 git 用户名/邮箱（未配置），**终止并报错**
-  - 显示验证错误，包含预期值与实际值
-  - 建议修复 git 配置的命令：`git config user.name "Expected Name"` 和/或 `git config user.email "expected@example.com"`
-- 如果不存在 `gitUser` 配置，跳过验证
-
-### 3. 分析变更
-
-- 使用 `git status` 验证当前目录是否为 git 仓库
-- 运行 `git diff` 和 `git diff --cached` 分析变更
-- 按以下维度分类变更：
-  - 文件类型（源代码、文档、测试、配置）
-  - 基于 `types` 配置的变更类型
-- 自动确定作用域：
-  - 为 agent 文件（rule、skill、command、plugin）添加作用域，其他不添加
-  - 适用时使用 `scopes` 配置中的作用域
-- 如果 `splitCommits` 为 true 且检测到多个不相关的变更，拆分为独立提交
-
-### 4. 执行分支策略
-
-- 通过 `git remote -v` 查找 `upstream` 远程来检查当前仓库是否为 fork
-- 如果检测到 fork（存在 upstream 远程）：
-  - **强制使用 feature 分支策略**，无论配置如何（开源贡献的要求）
-  - 创建新的 feature 分支，格式为 `<change-type>/<short-description>`
-- 如果不是 fork：
-  - 如果 `strategy` 为 `"main"`：保持在当前分支
-  - 如果 `strategy` 为 `"feature"`：创建新的 feature 分支，格式为 `<change-type>/<short-description>`
-
-### 5. 暂存文件
-
-- 使用 `git add` 自动暂存所有修改的文件
-
-### 6. 创建提交
-
-对每个提交组：
-
-- 生成 Angular Conventional Commit 消息：
-  - 格式：`<change-type>(<scope-if-configured>): <commit-title>`
-  - 复杂变更时添加 body
-  - 如果 `coAuthor` 为 true，根据当前 agent 或 `agentName` 配置添加对应共同作者：
-    - Claude：`Co-authored-by: Claude <noreply@anthropic.com>`
-    - Codex：`Co-authored-by: Codex <noreply@openai.com>`
-    - 无法判断时：询问用户，或跳过共同作者标签并说明原因
-- 使用 `git commit` 创建提交
-
-### 7. 推送和 PR
-
-**线性历史维护**：所有操作必须通过避免合并提交来保持线性 git 历史。
-
-- 如果 `autoPush` 为 true：
-  - 尝试 `git push`
-  - 如果因 non-fast-forward 推送失败（远程有新提交）：
-    1. 运行 `git pull --rebase` 以维护线性历史
-    2. 如果发生 rebase 冲突：
-       - 显示冲突文件并引导用户手动解决
-       - 用户解决后，运行 `git rebase --continue`
-    3. rebase 成功完成后，运行 `git push --force-with-lease`
-    4. 如果 `--force-with-lease` 失败，使用 `git push --force` 作为后备
-
-- 如果在 feature 分支上且 `createPullRequest` 为 true：
-  - **基于策略的 PR 创建**：
-    - 如果使用 `"main"` 策略：跳过 PR 创建（提交已直接在 main 上）
-    - 如果使用 `"feature"` 策略：使用线性历史设置创建 PR
-
-  - **使用线性合并设置创建 PR**：
-    - 如果仓库是 fork：
-      - 使用 `gh pr create --repo <upstream-owner>/<upstream-repo>` 创建到 `upstream/main` 的 PR
-      - 从 upstream 远程 URL 提取 upstream owner/repo
-    - 如果不是 fork：
-      - 使用 `gh pr create` 创建到 `origin/main` 的 PR
-
-  - **配置 PR 以维护线性历史**：
-    - 设置 PR 使用 squash merge：在 `--body` 中包含 "This PR should be merged using squash and merge to maintain linear history"
-    - 在 PR 描述中请求合并后自动删除分支
-
-  - 向用户返回 PR URL
-
-### 8. 处理配置更新
-
-- 如果用户在本次会话中提供了配置覆盖，使用当前 agent 提供的结构化询问工具（如 `AskUserQuestion` 或 `request_user_input`）：
-  - 问题："是否保存这些设置以供将来使用？"
-  - 选项：
-    - "是，保存设置"
-    - "否，仅用于本次提交"
-- 如果用户选择保存，使用当前 agent 提供的结构化询问工具：
-  - 问题："设置应保存在哪里？"
-  - 选项：
-    - "项目配置（仅当前项目）"
-    - "全局配置（所有项目）"
-- 首次创建项目配置时，使用当前 agent 提供的结构化询问工具：
-  - 问题："是否将配置文件添加到 .gitignore？"
-  - 选项：
-    - "是，仅本地保留"
-    - "否，与团队共享"
-- 更新已有配置文件时仅修改被覆盖的值，保持其他设置不变
+- PR checks 和 reviews 没问题后，询问用户是否自动合并。
+- 用户选择不合并时，到此结束。
+- 用户选择合并时：
+  - 使用 merge queue、squash merge 或 rebase merge，避免 merge commit
+  - 等待 PR 合并完成
+  - 确认远程 feature 分支已删除
+  - 如果有关联 Issue，确认 Issue 已关闭
+  - 如有预览环境，提供最新预览链接
 
 ## 关键规则
 
-- **线性历史原则**：保证 git 历史是线性的，始终可以 fast-forward push/pull
-- 使用 `git pull --rebase` 而非 `git pull` 以避免合并提交
-- 推送 rebase 后的提交时使用 `git push --force-with-lease`
-- 配置 PR 使用 squash merge 以防止合并 feature 分支时产生合并提交
-- 使用 TaskCreate 在开始时跟踪所有步骤，并在整个过程中更新状态
-- 为用户提供清晰的选项而非自由文本输入
-- 如果执行过程中出现任何新变更，从头重新开始整个提交工作流
-- 提交消息必须使用 Angular Conventional Commit 格式的英文
-- 妥善处理 git 错误，提供清晰的错误信息
+- 使用 `gh` CLI 操作 PR。
+- 默认保持线性历史。
+- 不直接在 `main` 提交。
+- 不使用 amend。
+- Commit message 使用英文 Angular Conventional Commit，且不使用 scope。
+- 妥善处理 git 错误，说明原因、影响和下一步。
+- 特殊规则：如果仓库属于 `moxt/paraflow`，git user 邮箱必须是 `erick.chen@paraflow.com`。
