@@ -1,46 +1,59 @@
 ---
 name: markdown-article-for-xhs
-description: 当用户提供一个小红书笔记 URL 时使用，将其转换为一个 GitHub issue。
+description: Use when user provides a Xiaohongshu (小红书) note URL to convert into a local markdown file.
 ---
 
-将一篇小红书笔记转换为格式良好的 GitHub issue。继承 [@markdown-article](../markdown-article/SKILL.md) 的全部规则，并附加以下小红书特有的补充与覆盖项。
+Convert a Xiaohongshu note page into a well-formatted markdown file. Inherits all rules from [@markdown-article](../markdown-article/SKILL.md), with the following Xiaohongshu-specific additions and overrides.
 
-## 重要：URL 必须是静态短链
+## IMPORTANT: URL must be a static short link
 
-输入 URL **必须**是静态短链格式：
+The input URL **must** be in the static short link format:
 
 ```
 http://xhslink.com/o/<id>
 ```
 
-例如 `http://xhslink.com/o/8Z2fmYgDoWW`
+e.g. `http://xhslink.com/o/8Z2fmYgDoWW`
 
-如果用户提供的是完整 URL（例如 `https://www.xiaohongshu.com/explore/...` 或 `https://www.xiaohongshu.com/discovery/item/...`），请要求用户改为提供短链。完整 URL 中的重定向参数是动态的，可能过期或加载失败。
+If the user provides a full URL (e.g. `https://www.xiaohongshu.com/explore/...` or `https://www.xiaohongshu.com/discovery/item/...`), ask the user to provide the short link instead. Full URLs from redirects contain dynamic parameters that may expire or fail to load.
 
-## 重要：使用 xiaohongshu.day 提取内容
+## IMPORTANT: Use xiaohongshu.day for content extraction
 
-小红书页面要求登录、且有强烈的反爬措施。直接通过 `curl`、`WebFetch` 甚至 Playwright 访问都会被登录墙拦下。
+Xiaohongshu pages require login and have aggressive anti-scraping measures. Direct access via `curl`, `WebFetch`, or even Playwright will be blocked by login walls.
 
-**必须通过 Playwright MCP 使用第三方工具 [xiaohongshu.day](https://xiaohongshu.day)** 来提取笔记内容：
+**You must use the third-party tool [xiaohongshu.day](https://xiaohongshu.day) via Playwright MCP** to extract note content:
 
-1. 导航到 `https://xiaohongshu.day`
-2. 在输入框（placeholder 为「输入小红书笔记链接」的 textbox）中粘贴用户给的 URL，按回车提交
-3. 等待内容加载完成（等待「处理中...」文本消失，超时约 15 秒）
-4. 从加载后的结果中提取：
-   - **作者名**：从作者信息区域
-   - **标题**：从 `<h1>` 标题
-   - **正文文字**：从笔记描述区域
-   - **图片**：用 `page.evaluate` 查询所有 `src` 包含 `ci.xiaohongshu.com/spectrum/` 的 `<img>` 元素——这些就是笔记的内容图（跳过来自 `sns-avatar` 的头像图）
+1. Navigate to `https://xiaohongshu.day`
+2. Type the user-provided URL into the input box (the textbox with placeholder "输入小红书笔记链接") and press Enter
+3. Wait for the content to load (wait for "处理中..." text to disappear, timeout ~15s)
+4. Extract from the loaded result:
+   - **Author name**: from the author info section
+   - **Publish date**: from the date display
+   - **Title**: from the `<h1>` heading
+   - **Body text**: from the note description area
+   - **Images**: use `page.evaluate` to query all `img` elements whose `src` contains `ci.xiaohongshu.com/spectrum/` — these are the note's content images (skip avatar images from `sns-avatar`)
 
-## 输出结构
+## File location override
 
-issue 标题就是笔记标题。标签以 GitHub label 形式打上（见父技能）。正文使用标准的 metadata 块，「来源」写为 `<作者名>（小红书）`，原文链接使用短链：
+The filename uses an `xhs-` prefix followed by the short link ID (the last path segment of the short link URL):
+
+```
+<project_root>/articles/2026-03-19/xhs-8Z2fmYgDoWW.md
+```
+
+## Output structure
 
 ```markdown
-> - 来源：<作者名>（小红书）
-> - 原文链接：http://xhslink.com/o/<short_link_id>
+# <note title>
 
-<笔记正文>
+> - 来源：<author name>（小红书）
+> - 日期：<publish date>
+> - 原文链接：http://xhslink.com/o/<short_link_id>
+> - 标签：<tag1>, <tag2>, <tag3>
+
+---
+
+<note body text>
 
 ![](image_1_url)
 
@@ -49,23 +62,25 @@ issue 标题就是笔记标题。标签以 GitHub label 形式打上（见父技
 ...
 ```
 
-## 图片处理
+## Image handling
 
-- 图片 URL 来自 `ci.xiaohongshu.com/spectrum/` 域名，保留完整 URL，包括 query 参数
-- 跳过作者头像图（来自 `sns-avatar-qc.xhscdn.com`）
+- Image URLs are from `ci.xiaohongshu.com/spectrum/` domain, keep the full URL including query parameters
+- Skip the author avatar image (from `sns-avatar-qc.xhscdn.com`)
 
-### 单张图片处理（文字优先）
+### Text-heavy image detection
 
-收集到全部内容图 URL 后，**用 Read 工具逐张查看图片**，把每张图归入下面两种类别中的**唯一一种**。每张图只按一种方式处理——绝不两种都做。
+Many Xiaohongshu notes use images that are primarily text (e.g. slides, lists, tips). After collecting all content image URLs, **use the Read tool to view each image** and judge whether each image is predominantly text or visual content.
 
-- **含任何文字**（标题叠层、说明字幕、幻灯片文字、要点列表、截图、手写笔记等）：把文字提取出来作为 markdown 正文内容，**不**保留这张图的 `![](url)` 引用。
-- **纯视觉**（无可读文字的照片、插图、图表、示意图）：只保留 `![](url)` 引用。
+- For text-heavy images (text slides, bullet points, numbered lists, text screenshots): extract the text and insert it as markdown body content with proper formatting. Do not include the image reference.
+- For visual images (photos, illustrations, charts, diagrams): keep the `![](url)` reference.
+- Use your best judgement on a per-image basis — e.g. a cover photo followed by text slides is fine: keep the cover as an image, extract the rest as text.
+- When extracting text, preserve the logical structure (headings, numbered lists, bullet points) and follow the same CJK spacing rules as the rest of the article.
 
-文字优先——如果一张图既有视觉元素又有文字（例如带说明字幕的卡通画格、带叠加标题的照片），按文字图处理，只提取文字。
+## Example
 
-提取文字时，保留逻辑结构（标题、有序列表、无序列表）并遵循与文章其他部分一致的中英文间距规则。
+Source URL: `http://xhslink.com/o/8Z2fmYgDoWW`
+Output path: `<project_root>/articles/2026-03-19/xhs-8Z2fmYgDoWW.md`
 
-## 示例
+## IMPORTANT: Validation
 
-源 URL：`http://xhslink.com/o/2W8WlPz9aDE`
-结果：在 `highestop/nono` 仓库中创建一个 issue，标题与笔记一致。参考：<https://github.com/highestop/nono/issues/4>
+Article constraints are enforced by CI via `articles/__tests__/test-articles-content.py`. When modifying this skill, review and update the validation script to keep it consistent with the skill's requirements.
