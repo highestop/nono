@@ -10,7 +10,7 @@ on:
 
 jobs:
   auto-summary:
-    if: github.repository == 'highestop/nono'
+    if: ${{ ! github.event.repository.fork }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
