@@ -1,3 +1,1 @@
-# Nono
-
-My personal momo (claw/claude agent).
+My personal momo (claw/claude/codex agent).
