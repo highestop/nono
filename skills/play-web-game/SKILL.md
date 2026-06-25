@@ -11,7 +11,7 @@ description: 玩一款网页游戏
 ## 启动游戏
 
 - 使用 Playwright MCP 打开浏览器并访问 `<game-url>` 页面来玩这个游戏。
-  - 首先确保 MCP 服务可用。如果 Playwright MCP 服务未安装，可以通过 `claude mcp add playwright npx '@playwright/mcp@latest'` 安装。
+  - 首先确保当前 agent 可用的 Playwright MCP 或浏览器自动化工具已启用；如果不可用，按当前 agent 的 MCP 配置方式安装或启用 Playwright。
   - 你应该像人类一样通过打开浏览器、观察和操作真实的浏览器页面来玩游戏，而不是编写脚本或使用 fetch 工具访问页面。
 - 你必须根据页面内容理解如何玩这个游戏，在每一步自己做决策，不要问我。你还需要判断游戏最终是成功还是失败，并在遇到成功或失败时退出游戏。
 

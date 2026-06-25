@@ -4,7 +4,7 @@
 
 **场景**：
 
-- 不存在 `.claude/config/commit.config.json`（项目配置和全局配置均无）
+- 不存在 `.agents/config/commit.config.json`（项目配置和全局配置均无）
 - 修改的文件：`src/auth.js`、`tests/auth.test.js`
 - 所有变更都与修复登录验证相关
 
@@ -18,7 +18,7 @@
 
 ## 示例 2：Feature 分支策略
 
-**配置**（`.claude/config/commit.config.json`）：
+**配置**（`.agents/config/commit.config.json`）：
 
 ```json
 {
@@ -34,7 +34,7 @@
 
 ## 示例 3：禁用提交拆分
 
-**配置**（`.claude/config/commit.config.json`）：
+**配置**（`.agents/config/commit.config.json`）：
 
 ```json
 {
@@ -54,7 +54,7 @@
 
 ## 示例 4：禁用自动推送
 
-**配置**（`.claude/config/commit.config.json`）：
+**配置**（`.agents/config/commit.config.json`）：
 
 ```json
 {
@@ -70,7 +70,7 @@
 
 ## 示例 5：启用自动创建 PR
 
-**配置**（`.claude/config/commit.config.json`）：
+**配置**（`.agents/config/commit.config.json`）：
 
 ```json
 {
@@ -89,7 +89,7 @@
 
 ## 示例 6：禁用共同作者标签
 
-**配置**（`.claude/config/commit.config.json`）：
+**配置**（`.agents/config/commit.config.json`）：
 
 ```json
 {
@@ -99,12 +99,12 @@
 
 **预期流程**：
 
-1. 创建提交时不包含 `Co-authored-by: Claude <noreply@anthropic.com>` 行
+1. 创建提交时不包含当前 agent 的 `Co-authored-by` 行
 2. 提交消息仅包含 conventional commit 格式
 
 ## 示例 7：自定义提交类型
 
-**配置**（`.claude/config/commit.config.json`）：
+**配置**（`.agents/config/commit.config.json`）：
 
 ```json
 {
@@ -120,7 +120,7 @@
 
 ## 示例 8：自定义作用域
 
-**配置**（`.claude/config/commit.config.json`）：
+**配置**（`.agents/config/commit.config.json`）：
 
 ```json
 {
@@ -151,8 +151,8 @@
 1. 分析用户意图：从 "with feature branch" 推断 strategy="feature"，从 "create PR" 推断 createPullRequest=true
 2. 为本次提交应用覆盖的值
 3. 按请求创建 feature 分支和 PR
-4. 通过 AskUserQuestion 询问："是否保存这些设置以供将来使用？"，选项 ["是，保存设置"、"否，仅用于本次提交"]
-5. 如果是，通过 AskUserQuestion 询问："设置应保存在哪里？"，选项 ["项目配置（仅当前项目）"、"全局配置（所有项目）"]
+4. 通过当前 agent 的结构化询问工具询问："是否保存这些设置以供将来使用？"，选项 ["是，保存设置"、"否，仅用于本次提交"]
+5. 如果是，通过当前 agent 的结构化询问工具询问："设置应保存在哪里？"，选项 ["项目配置（仅当前项目）"、"全局配置（所有项目）"]
 6. 用新值更新配置文件
 
 ## 示例 10：无已有配置时的命令行覆盖
@@ -169,16 +169,16 @@
 1. 分析用户意图：从 "without push" 推断 autoPush=false
 2. 应用默认值并覆盖：autoPush=false
 3. 创建提交但不推送到远程
-4. 通过 AskUserQuestion 询问："是否保存这些设置以供将来使用？"，选项 ["是，保存设置"、"否，仅用于本次提交"]
-5. 如果是，通过 AskUserQuestion 询问："设置应保存在哪里？"，选项 ["项目配置（仅当前项目）"、"全局配置（所有项目）"]
+4. 通过当前 agent 的结构化询问工具询问："是否保存这些设置以供将来使用？"，选项 ["是，保存设置"、"否，仅用于本次提交"]
+5. 如果是，通过当前 agent 的结构化询问工具询问："设置应保存在哪里？"，选项 ["项目配置（仅当前项目）"、"全局配置（所有项目）"]
 6. 用覆盖值创建新配置文件
-7. 如果是首次创建项目配置，通过 AskUserQuestion 询问："是否将配置文件添加到 .gitignore？"，选项 ["是，仅本地保留"、"否，与团队共享"]
+7. 如果是首次创建项目配置，通过当前 agent 的结构化询问工具询问："是否将配置文件添加到 .gitignore？"，选项 ["是，仅本地保留"、"否，与团队共享"]
 
 ## 示例 11：Fork 项目（强制 feature 分支）
 
 **触发**："commit"
 
-**配置**（`.claude/config/commit.config.json`）：
+**配置**（`.agents/config/commit.config.json`）：
 
 ```json
 {
@@ -208,7 +208,7 @@
 
 **触发**："commit with create PR"
 
-**配置**（`.claude/config/commit.config.json`）：
+**配置**（`.agents/config/commit.config.json`）：
 
 ```json
 {
@@ -301,7 +301,7 @@
 
 ## 示例 16：Git 用户身份验证
 
-**配置**（`.claude/config/commit.config.json`）：
+**配置**（`.agents/config/commit.config.json`）：
 
 ```json
 {

@@ -64,7 +64,7 @@ Output a structured report to the user:
 
 ### 5. Wait for user confirmation
 
-After presenting the report, use `AskUserQuestion` to let the user choose how to proceed:
+After presenting the report, use the current agent's structured user-input tool to let the user choose how to proceed:
 
 - **全部接受**: apply all suggestions
 - **仅部分接受**: user specifies which to apply and which to skip

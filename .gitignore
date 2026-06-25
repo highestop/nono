@@ -3,9 +3,17 @@
 !.gitignore
 !settings.json
 
+!.agents/
+!.agents/config
+!.agents/config/commit.config.json
+
 !.claude/
 !.claude/config
 !.claude/config/commit.config.json
+
+!.codex/
+!.codex/config
+!.codex/config/commit.config.json
 
 !AGENTS.md
 !ARTICLES.md
