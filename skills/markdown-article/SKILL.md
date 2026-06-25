@@ -73,10 +73,6 @@ When an article is very long (e.g. full podcast transcripts, lengthy interviews)
 2. Then append content **section by section** (one heading + its paragraphs per edit) using the Edit tool
 3. Never attempt to write the full article body in a single Write or Edit operation
 
-## IMPORTANT: Validation
-
-Article constraints are enforced by CI via `articles/__tests__/test-articles-content.py`. When modifying this skill, review and update the validation script to keep it consistent with the skill's requirements.
-
 ## IMPORTANT: Multiple articles
 
 When processing multiple URLs in one request, handle them **sequentially** — one article at a time. Do NOT use parallel agents or concurrent Playwright sessions, as this causes browser timeouts and failures.
