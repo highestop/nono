@@ -1,12 +1,11 @@
 # 正式介绍一下最近的工作: db9.ai
 
 > - 来源：我世界的源代码（微信公众号）
-> - 作者：dongxu
-> - 日期：2026-03-19
 > - 原文链接：https://mp.weixin.qq.com/s/oIE4wE2C9VaT4X059dkfgg
-> - 标签：Agent, 数据库, Agent Storage, PostgreSQL, 文件系统, 云原生, TiDB
+> - 标签：Agent, 数据库
 
 ---
+
 
 前几天 db9 上了 Hacker News 首页，所以正好趁此机会，正式的介绍一下吧。
 

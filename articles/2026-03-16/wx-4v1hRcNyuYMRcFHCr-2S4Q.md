@@ -4,11 +4,12 @@
 > - 作者：dongxu
 > - 日期：2026 年 3 月 10 日
 > - 原文链接：https://mp.weixin.qq.com/s/4v1hRcNyuYMRcFHCr-2S4Q
-> - 标签：OpenClaw, Agent, 插件开发
+> - 标签：Agent, OpenClaw, 插件开发
+
+> 省流：这是一篇硬核技术文，面向龙虾（OpenClaw）的插件开发者，如果只是想了解 mem9 的普通用户，请直接前往：[脑子是个好东西：最好的龙虾记忆方案 mem9](https://mp.weixin.qq.com/s?__biz=MzI3MjI4Njk0Ng==&mid=2247484689&idx=1&sn=039b8b9b0281e08f79e988664bf3e89d&scene=21#wechat_redirect)
 
 ---
 
-> 省流：这是一篇硬核技术文，面向龙虾（OpenClaw）的插件开发者，如果只是想了解 mem9 的普通用户，请直接前往：[脑子是个好东西：最好的龙虾记忆方案 mem9](https://mp.weixin.qq.com/s?__biz=MzI3MjI4Njk0Ng==&mid=2247484689&idx=1&sn=039b8b9b0281e08f79e988664bf3e89d&scene=21#wechat_redirect)
 
 预警：本文 AI 含量接近 30%，由 GPT 5.4 extended thinking 辅助。
 

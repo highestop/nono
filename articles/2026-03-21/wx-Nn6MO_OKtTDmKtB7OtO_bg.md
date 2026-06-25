@@ -1,12 +1,11 @@
 # "Token 不用完会焦虑"！Karpathy 最新访谈自曝患上"AI 精神病"：软件世界正在被 Agent 接管
 
 > - 来源：InfoQ（微信公众号）
-> - 作者：冬梅
-> - 日期：2026-03-21
 > - 原文链接：https://mp.weixin.qq.com/s/Nn6MO_OKtTDmKtB7OtO_bg
-> - 标签：Agent, Vibe Coding, 访谈, 行业观点
+> - 标签：Agent, Vibe Coding, 行业观点, 访谈
 
 ---
+
 
 整理｜冬梅
 

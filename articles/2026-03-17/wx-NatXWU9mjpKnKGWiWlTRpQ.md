@@ -1,12 +1,11 @@
 # 黄仁勋 GTC 2026 演讲实录：所有 SaaS 公司都将消失；Token 成本全球最低；"龙虾"创造了历史；Feynman 架构已在路上
 
 > - 来源：InfoQ（微信公众号）
-> - 作者：冬梅
-> - 日期：2026 年 3 月 17 日 07:21
 > - 原文链接：https://mp.weixin.qq.com/s/NatXWU9mjpKnKGWiWlTRpQ
 > - 标签：AI 芯片, Agent, 行业观点
 
 ---
+
 
 作者｜冬梅
 

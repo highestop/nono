@@ -1,11 +1,11 @@
 # Apple Watch 15 个健康功能超全解析！
 
 > - 来源：Watch 研究所（小红书）
-> - 日期：2025-11-05
 > - 原文链接：http://xhslink.com/o/8Z2fmYgDoWW
 > - 标签：Apple Watch, 健康, 智能穿戴
 
 ---
+
 
 有多少人选择 Apple Watch，其实就冲着它的健康功能？本期一口气整理了 15 个健康功能，让你的 Apple Watch 不再闲置！我们还针对一些热门疑问进行了解答，欢迎一起交流讨论，解锁 Apple Watch 的全部实力！
 
