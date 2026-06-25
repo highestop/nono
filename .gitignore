@@ -1,15 +1,6 @@
 *
 
 !.gitignore
-!settings.json
-
-!.agents/
-!.agents/config
-!.agents/config/commit.config.json
-
-!.codex/
-!.codex/config
-!.codex/config/commit.config.json
 
 !AGENTS.md
 !SKILLS.md
@@ -27,8 +18,3 @@
 
 !rules
 !rules/**
-
-!scripts
-!scripts/**
-
-**/__pycache__
