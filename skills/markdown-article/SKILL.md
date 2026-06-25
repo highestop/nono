@@ -1,96 +1,86 @@
 ---
 name: markdown-article
-description: 当用户提供一个网页文章 URL 时使用，将其转换为一个 GitHub issue。
+description: Use when user provides a web article URL to convert into a local markdown file.
 ---
 
-将一个网页文章转换为格式良好的 GitHub issue。
+Convert a web article page into a well-formatted markdown file.
 
-## 输入
+## Input
 
-一个有效的文章 URL，例如 `https://example.com/blog/some-article`
+A valid article URL, e.g. `https://example.com/blog/some-article`
 
-## 步骤
+## Steps
 
-1. 抓取页面内容（优先使用 Playwright MCP；不可用时回退到 `curl` + Python `markdownify` / `BeautifulSoup`）
-2. 从 `<article>`、`<main>` 或最相关的内容容器中提取文章正文
-3. 将提取出的 HTML 转换为格式良好的 markdown：
-   - 识别章节标题，设置正确的 `##` / `###` 级别
-   - 用带语言提示的代码围栏包裹代码片段（` ```bash`、` ```json`、` ```yaml` 等）
-   - 正确格式化列表、引用、表格、粗体/斜体
-   - **重要**：保留所有图片在其原始位置，使用 `![](url)` 语法——不要跳过图片，文章必须包含插图
-   - 移除界面噪声（导航、侧边栏、页脚、广告、分享按钮、评论区等）
-   - **重要**：确保中文与英文/数字之间留有正确的空格（例如 `使用 Claude 编写代码` 而不是 `使用Claude编写代码`、`共 15 个功能` 而不是 `共15个功能`）
-4. 如使用了 Playwright，关闭浏览器标签页
-5. 创建 GitHub issue（见下文「输出」）
+1. Fetch the page content (prefer Playwright MCP if available, otherwise use `curl` + Python `markdownify` / `BeautifulSoup` as fallback)
+2. Extract the article body from `<article>`, `<main>`, or the most relevant content container
+3. Convert the extracted HTML into well-formatted markdown:
+   - Identify section headings and set proper `##` / `###` levels
+   - Wrap code snippets in fenced code blocks with language hints (`bash, `json, ```yaml, etc.)
+   - Format lists, blockquotes, tables, bold/italic correctly
+   - IMPORTANT: Preserve ALL images at their original positions using `![caption](url)` syntax — do not skip images, articles must include illustrations
+   - Remove UI noise (navigation, sidebar, footer, ads, share buttons, comment sections, etc.)
+   - IMPORTANT: Ensure proper spacing between Chinese and English/numbers (e.g. `使用 Claude 编写代码` not `使用Claude编写代码`, `共 15 个功能` not `共15个功能`)
+4. If Playwright was used, close the browser tab
 
-## 输出
+## Output
 
-通过 `gh issue create` 在目标仓库创建一个 GitHub issue：
-
-- **仓库**：`highestop/nono`
-- **标题**：与文章标题一致（即原本会作为 `# <文章标题>` 的那个标题——不要在 `--title` 中包含 `# ` 前缀）
-- **正文**：
+A single `.md` file with the following structure:
 
 ```markdown
-> - 来源：<来源>
-> - 原文链接：<原文 URL>
+# <article title>
 
-<markdown 正文>
+> <original URL>
+
+<markdown body>
 ```
 
-标签**不**写入正文——它们以 GitHub label 的形式打在 issue 上（见下文「标签」）。
+### File location
 
-使用 heredoc 把正文传给 `gh issue create --body` 以保留格式，并通过 `--label` 传递标签（每个标签一个 flag）：
+The file MUST be saved to `<project_root>/articles/<date>/<slug>.md`, where `<project_root>` is the current working directory (the project root where Claude Code is running):
 
-```bash
-gh issue create --repo highestop/nono --title "<文章标题>" \
-  --label "<tag1>" --label "<tag2>" --label "<tag3>" \
-  --body "$(cat <<'EOF'
-> - 来源：...
-...
-EOF
-)"
+- `<date>`: the date when this skill is executed, formatted as `YYYY-MM-DD` (e.g. `2026-03-14`)
+- `<slug>`: a Unix timestamp in milliseconds at the time of execution (e.g. `1742280000000`)
+
+Create the date directory if it does not exist.
+
+### Translation
+
+If the article is in a non-Chinese language (English, Japanese, etc.), save both a Chinese translation and the English original:
+
+- **Chinese translation** (main file): uses the base filename, e.g. `x-2018385296610746403.md`. This is the primary file with tags and metadata.
+- **English original** (secondary file): uses the base filename with an `-en` suffix, e.g. `x-2018385296610746403-en.md`. This file has **no tags** in its metadata.
+- Both files are saved in the same date directory
+
+## Tags
+
+After saving the article, generate keyword tags that best represent the article's core topics. The number of tags depends on the article — a focused article may need only 2–3, while a cross-domain piece may need 4–5. Prioritize tags with real filtering value over hitting a fixed count. Add them to the metadata header as a comma-separated list:
+
+```markdown
+> - 标签：AI 芯片, 推理架构, 英伟达
 ```
 
-创建完成后，把 issue URL 报告给用户。
+Guidelines:
+- Tags should be concise nouns or noun phrases (e.g. `AI 编程`, `开源`, `数据中心`)
+- Follow the same CJK spacing rules (e.g. `AI 芯片` not `AI芯片`)
+- Use commas to separate tags (not `#` prefixes), so tag names can contain spaces
+- For translated articles, only add tags to the main (Chinese) file — the `-en` file has no tags
 
-### 翻译
+## IMPORTANT: Long articles
 
-如果原文是非中文（英文、日文等），**只创建一个 issue**：issue 正文使用**中文译文**（含 metadata 块），标签作为 label 打上；然后把**原文作为一条 comment 追加到这个 issue 上**。
+When an article is very long (e.g. full podcast transcripts, lengthy interviews), writing the entire file at once can time out or stall. In such cases:
 
-```bash
-gh issue comment <issue-url> --repo highestop/nono --body-file <path>
-```
+1. First create the `.md` file with only the front matter (title, metadata, `---` separator) and an empty body
+2. Then append content **section by section** (one heading + its paragraphs per edit) using the Edit tool
+3. Never attempt to write the full article body in a single Write or Edit operation
 
-不要为原文单独建 issue。
+## IMPORTANT: Validation
 
-## 标签
+Article constraints are enforced by CI via `articles/__tests__/test-articles-content.py`. When modifying this skill, review and update the validation script to keep it consistent with the skill's requirements.
 
-正文起草完后，生成最能代表文章核心主题的关键词标签。数量按文章而定——主题集中的文章 2–3 个即可，跨领域的文章可能需要 4–5 个。优先选择真正具有筛选价值的标签，而不是凑够固定数量。
+## IMPORTANT: Multiple articles
 
-标签以 **GitHub label** 形式打在 issue 上（不写入正文）。
+When processing multiple URLs in one request, handle them **sequentially** — one article at a time. Do NOT use parallel agents or concurrent Playwright sessions, as this causes browser timeouts and failures.
 
-规范：
-- 标签是简洁的名词或名词短语（例如 `AI 编程`、`开源`、`数据中心`）
-- 遵循同样的中英文间距规则（例如 `AI 芯片` 而不是 `AI芯片`）
-- **必带标签**：所有由本技能创建的 issue 都必须打上 `稍后阅读` 标签（与生成的主题标签一起传入）。如果该标签不存在，按下文流程创建。
-- 翻译类文章只给主 issue 打 label——译文以 comment 形式追加，不再单独打 label
+## Stop condition
 
-### 把标签应用到 issue
-
-1. 运行 `gh label list --repo highestop/nono --limit 200` 获取现有 label。
-2. 对每个选定的标签，检查是否已存在（区分大小写完全匹配）。
-3. 如果存在缺失的标签，先用 `AskUserQuestion` 列给用户确认；确认后用 `gh label create "<名称>" --repo highestop/nono` 创建（不传颜色/描述参数——交给 GitHub 用默认值）。
-4. 把全部标签（已有 + 新建）通过重复的 `--label` 标志传给 `gh issue create`。
-
-## 重要：长文章
-
-`gh issue create --body` 可以接受较大的正文，单次调用一般足够。如果正文超出 CLI 参数大小或调用失败，回退到 `--body-file <path>`，使用 `/tmp/` 下的临时文件。**不要**把一篇文章拆成多个 issue。
-
-## 重要：多篇文章
-
-当一次请求里包含多个 URL 时，**串行处理**——一次创建一个 issue。**不要**使用并行 agent 或并发 Playwright 会话，会导致浏览器超时和失败。
-
-## 终止条件
-
-当 issue（以及翻译类文章对应的副 issue）创建完成、并把 URL 报告给用户后，任务结束。
+The task is done when the markdown file (and translation if applicable) is written and its path is reported to the user.
