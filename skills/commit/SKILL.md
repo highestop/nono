@@ -7,22 +7,23 @@ description: 提交并推送变更到 git 仓库
 
 ## 配置 API
 
-此技能通过就近搜索从 `.claude/config/commit.config.json` 读取配置：
+此技能通过就近搜索从 agent 配置目录读取 `commit.config.json`：
 
-1. **项目配置**：相对于当前工作目录的 `.claude/config/commit.config.json`
-2. **全局配置**：如果项目配置未找到，则使用 `~/.claude/config/commit.config.json`
+1. **项目配置**：相对于当前工作目录的 `.agents/config/commit.config.json`、`.claude/config/commit.config.json` 或 `.codex/config/commit.config.json`
+2. **全局配置**：如果项目配置未找到，则使用 `~/.agents/config/commit.config.json`、`~/.claude/config/commit.config.json` 或 `~/.codex/config/commit.config.json`
 
-**重要**：包含个人信息（如 `gitUser` 凭据）的配置文件不应提交到版本控制。务必确保 `.claude/config/` 目录在 `.gitignore` 中被正确忽略，以保护敏感配置的隐私。使用全局配置（`~/.claude/config/`）存放个人偏好。
+**重要**：包含个人信息（如 `gitUser` 凭据）的配置文件不应提交到版本控制。务必确保 agent 配置目录在 `.gitignore` 中被正确忽略，以保护敏感配置的隐私。使用全局配置目录存放个人偏好。
 
 ### 配置 Schema
 
 | 字段 | 类型 | 描述 | 默认值 |
 | - | - | - | - |
-| `strategy` | `"main"` | `"feature"` | 提交策略：直接提交到 main 分支或创建 feature 分支 | `"main"` |
+| `strategy` | `"main" \| "feature"` | 提交策略：直接提交到 main 分支或创建 feature 分支 | `"main"` |
 | `splitCommits` | `boolean` | 将不相关的变更拆分为独立的提交 | `true` |
 | `autoPush` | `boolean` | 自动推送提交到远程 | `true` |
 | `createPullRequest` | `boolean` | 使用 feature 分支策略时创建 PR | `true` |
-| `coAuthor` | `boolean` | 在提交中添加 Claude 共同作者标签 | `true` |
+| `coAuthor` | `boolean` | 在提交中添加当前 agent 的共同作者标签 | `true` |
+| `agentName` | `"auto" \| "claude" \| "codex" \| "none"` | 共同作者标签使用的 agent 身份，`"auto"` 表示根据当前运行环境判断 | `"auto"` |
 | `types` | `string[]` | 允许的提交类型 | `["feat", "fix", "docs", "style", "refactor", "perf", "test", "chore"]` |
 | `scopes` | `string[]` | 此项目允许的作用域 | `["rule", "skill", "command", "plugin"]` |
 | `gitUser` | `object` | Git 用户身份验证配置 | `null` |
@@ -67,8 +68,8 @@ description: 提交并推送变更到 git 仓库
 ### 配置管理
 
 - **配置位置**：
-  - 项目配置（当前工作目录）：`.claude/config/commit.config.json`
-  - 全局配置：`~/.claude/config/commit.config.json`
+  - 项目配置（当前工作目录）：`.agents/config/commit.config.json`、`.claude/config/commit.config.json`、`.codex/config/commit.config.json`
+  - 全局配置：`~/.agents/config/commit.config.json`、`~/.claude/config/commit.config.json`、`~/.codex/config/commit.config.json`
 - **搜索优先级**：项目配置优先于全局配置
 - **协作共享**：选择是否将项目配置文件提交用于团队规范，或添加到 .gitignore 仅本地使用
 
@@ -81,13 +82,17 @@ description: 提交并推送变更到 git 仓库
 - 分析用户输入以识别配置意图和偏好
 - 从自然语言表达中提取配置覆盖
 - 按顺序搜索配置文件：
-  1. `.claude/config/commit.config.json`（当前工作目录）
-  2. `~/.claude/config/commit.config.json`（全局配置）
+  1. `.agents/config/commit.config.json`（当前工作目录）
+  2. `.claude/config/commit.config.json`（当前工作目录）
+  3. `.codex/config/commit.config.json`（当前工作目录）
+  4. `~/.agents/config/commit.config.json`（全局配置）
+  5. `~/.claude/config/commit.config.json`（全局配置）
+  6. `~/.codex/config/commit.config.json`（全局配置）
 - 按优先级合并配置（从高到低）：
   1. **用户参数**（从当前请求解析）
   2. **配置文件值**（项目配置或全局配置）
   3. **默认值**
-- 保存新配置时，如果 `.claude/config/` 目录不存在则创建
+- 保存新配置时，优先创建 `.agents/config/` 目录；仅当用户明确选择特定 agent 目录时才写入 `.claude/config/` 或 `.codex/config/`
 
 ### 2. 验证 Git 用户身份
 
@@ -110,7 +115,7 @@ description: 提交并推送变更到 git 仓库
   - 文件类型（源代码、文档、测试、配置）
   - 基于 `types` 配置的变更类型
 - 自动确定作用域：
-  - 为 Claude Agent 文件（rule、skill、command、plugin）添加作用域，其他不添加
+  - 为 agent 文件（rule、skill、command、plugin）添加作用域，其他不添加
   - 适用时使用 `scopes` 配置中的作用域
 - 如果 `splitCommits` 为 true 且检测到多个不相关的变更，拆分为独立提交
 
@@ -135,7 +140,10 @@ description: 提交并推送变更到 git 仓库
 - 生成 Angular Conventional Commit 消息：
   - 格式：`<change-type>(<scope-if-configured>): <commit-title>`
   - 复杂变更时添加 body
-  - 如果 `coAuthor` 为 true，添加 `Co-authored-by: Claude <noreply@anthropic.com>`
+  - 如果 `coAuthor` 为 true，根据当前 agent 或 `agentName` 配置添加对应共同作者：
+    - Claude：`Co-authored-by: Claude <noreply@anthropic.com>`
+    - Codex：`Co-authored-by: Codex <noreply@openai.com>`
+    - 无法判断时：询问用户，或跳过共同作者标签并说明原因
 - 使用 `git commit` 创建提交
 
 ### 7. 推送和 PR
@@ -172,17 +180,17 @@ description: 提交并推送变更到 git 仓库
 
 ### 8. 处理配置更新
 
-- 如果用户在本次会话中提供了配置覆盖，使用 AskUserQuestion 工具：
+- 如果用户在本次会话中提供了配置覆盖，使用当前 agent 提供的结构化询问工具（如 `AskUserQuestion` 或 `request_user_input`）：
   - 问题："是否保存这些设置以供将来使用？"
   - 选项：
     - "是，保存设置"
     - "否，仅用于本次提交"
-- 如果用户选择保存，使用 AskUserQuestion 工具：
+- 如果用户选择保存，使用当前 agent 提供的结构化询问工具：
   - 问题："设置应保存在哪里？"
   - 选项：
     - "项目配置（仅当前项目）"
     - "全局配置（所有项目）"
-- 首次创建项目配置时，使用 AskUserQuestion 工具：
+- 首次创建项目配置时，使用当前 agent 提供的结构化询问工具：
   - 问题："是否将配置文件添加到 .gitignore？"
   - 选项：
     - "是，仅本地保留"
