@@ -30,4 +30,4 @@
 
 ---
 
-*This document was automatically generated based on commit [`f3e62c6b4ef8965bf9bf02bfddd9a69b4b39ab35`](https://github.com/erickchenyn/nono/commit/f3e62c6b4ef8965bf9bf02bfddd9a69b4b39ab35).*
+*This document was automatically generated based on commit [`c48d76411de05e55f29dbb9ec7faa7f968950171`](https://github.com/highestop/nono/commit/c48d76411de05e55f29dbb9ec7faa7f968950171).*
