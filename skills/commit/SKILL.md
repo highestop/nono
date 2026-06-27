@@ -97,10 +97,11 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 - PR checks 和 reviews 没问题后，询问用户是否自动合并。
 - 用户选择不合并时，到此结束。
 - 用户选择合并时：
+  - 如果项目开启了 merge queue，优先使用 merge queue
   - 默认使用 rebase merge，保留每个 commit 及其完整 message 和 co-author trailer
   - 仅当用户明确要求 squash，或 PR 包含多个细碎临时提交且需要压缩时，才使用 squash merge
-  - 使用 squash merge 时，必须在 squash commit body 中保留所有必要的 `Co-Authored-By` trailer
-  - 不要使用 merge commit
+    - 使用 squash merge 时，必须在 squash commit body 中保留所有必要的 `Co-Authored-By` trailer
+  - 不要使用 merge commit，避免在 `main` 分支上出现分叉
   - 等待 PR 合并完成
   - 确认远程 feature 分支已删除
   - 如果有关联 Issue，确认 Issue 已关闭
