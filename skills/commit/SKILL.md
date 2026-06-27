@@ -24,6 +24,7 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 | `gitUser.email` | `null` | 期望的 git 邮箱 |
 | `coAuthor` | `true` | 是否添加当前 agent 的 co-author |
 | `featureBranchPrefix` | 当前 `git config user.name` | feature 分支名前缀，使用 kebab-case |
+| `prMergeMethod` | `rebase` | PR 合并方式，默认使用 rebase merge 保留每个 commit 及其 message |
 
 如用户在请求中临时覆盖配置，完成后询问是否保存；保存时优先写入 `.agents/config/commit.config.json`，除非用户指定其他 agent 目录。包含个人信息的配置不得提交到版本控制。
 
@@ -73,7 +74,7 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 - 如果当前是 feature 分支且没有 PR，默认创建 PR；只有用户明确要求只提交不提 PR 时才跳过。
   - fork 仓库：把 feature branch 推送到自己的 fork，再用 `gh pr create --repo <upstream-owner>/<upstream-repo> --head <fork-owner>:<feature-branch>` 向原 repo 创建跨仓库 PR；不需要切换到原 repo owner 身份。
   - 非 fork 仓库：推送当前 feature 分支后，用 `gh pr create` 向当前仓库创建 PR。
-- PR 描述中说明建议使用 squash merge 或 rebase merge，并请求合并后删除 feature 分支。
+- PR 描述中说明默认使用 rebase merge，并请求合并后删除 feature 分支。
 - 如果此次修改有关联 Issue，在 PR 中关联 Issue。
 
 ### 6. 跟踪 PR
@@ -96,7 +97,10 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 - PR checks 和 reviews 没问题后，询问用户是否自动合并。
 - 用户选择不合并时，到此结束。
 - 用户选择合并时：
-  - 使用 merge queue、squash merge 或 rebase merge，避免 merge commit
+  - 默认使用 rebase merge，保留每个 commit 及其完整 message 和 co-author trailer
+  - 仅当用户明确要求 squash，或 PR 包含多个细碎临时提交且需要压缩时，才使用 squash merge
+  - 使用 squash merge 时，必须在 squash commit body 中保留所有必要的 `Co-Authored-By` trailer
+  - 不要使用 merge commit
   - 等待 PR 合并完成
   - 确认远程 feature 分支已删除
   - 如果有关联 Issue，确认 Issue 已关闭
@@ -106,6 +110,7 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 
 - 使用 `gh` CLI 操作 PR。
 - 默认保持线性历史。
+- 默认使用 rebase merge 合并 PR，以保留每个 commit 及其 co-author 信息。
 - 不直接在 `main` 提交。
 - 不使用 amend。
 - Commit message 使用英文 Angular Conventional Commit，且不使用 scope。
