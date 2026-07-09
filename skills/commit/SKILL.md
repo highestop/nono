@@ -66,6 +66,8 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 ### 5. 推送和创建 PR
 
 - 提交后自动推送。
+- PR title 使用英文 Angular Conventional Commit，且不使用 scope：
+  - 示例：`chore: remove article assets`
 - 推送失败且原因是 non-fast-forward：
   1. 运行 `git pull --rebase`
   2. 如有冲突，说明冲突文件并解决或等待用户处理
@@ -114,6 +116,5 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 - 默认使用 rebase merge 合并 PR，以保留每个 commit 及其 co-author 信息。
 - 不直接在 `main` 提交。
 - 不使用 amend。
-- Commit message 使用英文 Angular Conventional Commit，且不使用 scope。
+- PR title 和 Commit message 均使用英文 Angular Conventional Commit，且不使用 scope。
 - 妥善处理 git 错误，说明原因、影响和下一步。
-- 特殊规则：如果仓库属于 `moxt/paraflow`，git user 邮箱必须是 `erick.chen@paraflow.com`。
