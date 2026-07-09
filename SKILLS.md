@@ -7,8 +7,9 @@
 | [mweb-db-exporter](skills/mweb-db-exporter/SKILL.md) | 将 MWeb 数据库表导出为 JSON 格式，用于分析和数据处理 |
 | [mweb-media-reference-checker](skills/mweb-media-reference-checker/SKILL.md) | 检查 MWeb 文档库中缺失或冗余的媒体文件引用 |
 | [mweb-to-obsidian](skills/mweb-to-obsidian/SKILL.md) | 将 MWeb 数据迁移到 Obsidian |
+| [open-meteo-forecast](skills/open-meteo-forecast/SKILL.md) | 使用无需授权的 Open-Meteo Forecast API 查询天气预报，适用于按经纬度或地点查询未来几小时或几天的温度、降水量、降水概率、风速等天气数据；不适用于需要商业 SLA、官方气象警报或已指定使用其他天气供应商的任务。 |
 | [play-web-game](skills/play-web-game/SKILL.md) | 玩一款网页游戏 |
 
 ---
 
-*This document was automatically generated based on commit [`d807b73d07ddcdb92c368b19d9c10846456f8d18`](https://github.com/highestop/nono/commit/d807b73d07ddcdb92c368b19d9c10846456f8d18).*
+*This document was automatically generated based on commit [`bdc64e2c4352367fb8c59e50e042bc12804500a7`](https://github.com/highestop/nono/commit/bdc64e2c4352367fb8c59e50e042bc12804500a7).*
