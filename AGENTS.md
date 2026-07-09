@@ -4,4 +4,4 @@
 - 编写文档：[@rules/format](/rules/format.md)
 - 行为方式：[@rules/behavior](/rules/behavior.md)
 - 编写 SKILL 文档：[@rules/skill](/rules/skill.md)
-- 提交：[@skills/committer](/skills/committer/SKILL.md)
+- 提交：[@skills/commit](/skills/commit/SKILL.md)
