@@ -1,4 +1,4 @@
-# SKILL 文档
+# 技能
 
 遵循 Agent Skills 规范：<https://agentskills.io/specification>
 
