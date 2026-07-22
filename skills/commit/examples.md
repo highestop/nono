@@ -87,20 +87,12 @@
 4. 使用 `gh pr create` 创建到 origin 仓库的 PR
 5. 向用户返回 PR URL
 
-## 示例 6：禁用共同作者标签
-
-**配置**（`.agents/config/commit.config.json`）：
-
-```json
-{
-  "coAuthor": false
-}
-```
+## 示例 6：添加共同作者标签
 
 **预期流程**：
 
-1. 创建提交时不包含当前 agent 的 `Co-authored-by` 行
-2. 提交消息仅包含 conventional commit 格式
+1. 创建提交时在正文最后添加当前 agent 的 `Co-Authored-By` trailer
+2. 提交消息使用 conventional commit 格式
 
 ## 示例 7：自定义提交类型
 

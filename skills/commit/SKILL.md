@@ -22,9 +22,6 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 | - | - | - |
 | `gitUser.name` | `null` | 期望的 git 用户名 |
 | `gitUser.email` | `null` | 期望的 git 邮箱 |
-| `coAuthor` | `true` | 是否添加当前 agent 的 co-author |
-| `featureBranchPrefix` | 当前 `git config user.name` | feature 分支名前缀，使用 kebab-case |
-| `prMergeMethod` | `rebase` | PR 合并方式，默认使用 rebase merge 保留每个 commit 及其 message |
 
 如用户在请求中临时覆盖配置，完成后询问是否保存；保存时优先写入 `.agents/config/commit.config.json`，除非用户指定其他 agent 目录。包含个人信息的配置不得提交到版本控制。
 
@@ -49,7 +46,7 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 ### 3. 处理分支
 
 - 默认都使用 feature 分支提交；不要在 `main` 分支上直接提交。
-- feature 分支名使用 `<featureBranchPrefix>-<short-description>`，整体使用 kebab-case；未配置 `featureBranchPrefix` 时，从当前 `git config user.name` 推导。
+- feature 分支名使用 `<git-user-name>-<short-description>`，整体使用 kebab-case；`<git-user-name>` 从当前 `git config user.name` 推导。
 - 保持线性历史；使用 `git pull --rebase`，不要创建 merge commit。
 
 ### 4. 创建提交
@@ -58,7 +55,7 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 - Commit message 使用英文 Angular Conventional Commit，且不使用 scope：
   - 示例：`chore: remove article assets`
 - 不要使用 amend 修改既有提交；创建新的 commit。
-- 如果 `coAuthor` 为 true，在提交正文最后添加当前 agent：
+- 在提交正文最后添加当前 agent：
   - Claude：`Co-Authored-By: Claude <noreply@anthropic.com>`
   - Codex：`Co-Authored-By: Codex <noreply@openai.com>`
   - 无法判断当前 agent 时，询问用户或跳过并说明原因。
