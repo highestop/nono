@@ -1,66 +1,66 @@
-> 需要了解 MWeb 的内部数据库结构，用于查询、分析或构建与 MWeb 数据交互的工具时，使用此指南。
+> Use this guide when you need to understand MWeb's internal database structure for querying, analysis, or building tools that interact with MWeb data.
 
-## 基本内容
+## Fundamentals
 
-- MWeb `mainlib.db` SQLite 数据库的 schema 知识
-- 表之间的关系和数据流
-- 关键表的字段定义和数据类型
-- 查询模式和常见用例
+- Schema knowledge for the MWeb `mainlib.db` SQLite database
+- Relationships and data flow between tables
+- Field definitions and data types for key tables
+- Query patterns and common use cases
 
-## 数据库概述
+## Database overview
 
-MWeb 将所有文档库数据存储在名为 `mainlib.db` 的 SQLite 数据库文件中，位于文档库根目录。
+MWeb stores all document-library data in a SQLite database file named `mainlib.db` at the root of the document library.
 
-### 核心表
+### Core tables
 
-#### `article` - 文档元数据
-- **用途**：存储文档库中所有文档的元数据
-- **关键字段**：
-  - `id` - 主键，自增
-  - `uuid` - 文档的唯一标识符
-  - `type` - 文档类型（markdown 等）
-  - `state` - 文档状态（已发布、草稿等）
-  - `docName` - 不含扩展名的文档文件名（通常为 NULL/空）
-  - `dateAdd` - 文档创建时间戳
-  - `dateModif` - 最后修改时间戳
-  - `dateArt` - 文章日期时间戳
+#### `article` - Document metadata
+- **Purpose**: Store metadata for all documents in the library
+- **Key fields**:
+  - `id` - Auto-incrementing primary key
+  - `uuid` - Unique document identifier
+  - `type` - Document type, such as Markdown
+  - `state` - Document state, such as published or draft
+  - `docName` - Document filename without the extension, usually NULL or empty
+  - `dateAdd` - Document creation timestamp
+  - `dateModif` - Last modification timestamp
+  - `dateArt` - Article date timestamp
 
-#### `cat` - 分类/文件夹结构
-- **用途**：定义层级文件夹结构
-- **关键字段**：
-  - `id` - 主键，分类标识符
-  - `name` - 分类/文件夹名称
-  - `pid` - 父分类 UUID（用于层级关系，0 = 根分类）
-  - `siteName` - 关联的站点名称
-  - `siteURL` - 关联的站点 URL
+#### `cat` - Category and folder structure
+- **Purpose**: Define the hierarchical folder structure
+- **Key fields**:
+  - `id` - Primary key and category identifier
+  - `name` - Category or folder name
+  - `pid` - Parent category UUID, used for hierarchy; 0 represents the root category
+  - `siteName` - Associated site name
+  - `siteURL` - Associated site URL
 
-#### `cat_article` - 分类与文档的关系
-- **用途**：分类与文章之间的多对多关系
-- **关键字段**：
-  - `rid` - 外键，关联 `cat.uuid`
-  - `aid` - 外键，关联 `article.uuid`
+#### `cat_article` - Category-to-document relationships
+- **Purpose**: Represent the many-to-many relationship between categories and articles
+- **Key fields**:
+  - `rid` - Foreign key referencing `cat.uuid`
+  - `aid` - Foreign key referencing `article.uuid`
 
-#### `tag` - 标签定义
-- **用途**：存储所有可用标签
-- **关键字段**：
-  - `id` - 主键，标签标识符
-  - `name` - 标签名称
-  - `uuid` - 标签的唯一标识符
+#### `tag` - Tag definitions
+- **Purpose**: Store all available tags
+- **Key fields**:
+  - `id` - Primary key and tag identifier
+  - `name` - Tag name
+  - `uuid` - Unique tag identifier
 
-#### `tag_article` - 标签与文档的关系
-- **用途**：标签与文章之间的多对多关系
-- **关键字段**：
-  - `rid` - 外键，关联 `tag.uuid`
-  - `aid` - 外键，关联 `article.uuid`
+#### `tag_article` - Tag-to-document relationships
+- **Purpose**: Represent the many-to-many relationship between tags and articles
+- **Key fields**:
+  - `rid` - Foreign key referencing `tag.uuid`
+  - `aid` - Foreign key referencing `article.uuid`
 
-#### `settings` - 应用配置
-- **用途**：存储 MWeb 应用的设置和偏好
-- **关键字段**：
-  - 应用行为的配置键值对
+#### `settings` - Application configuration
+- **Purpose**: Store MWeb application settings and preferences
+- **Key fields**:
+  - Configuration key-value pairs for application behavior
 
-## 常用查询模式
+## Common query patterns
 
-### 查找特定分类下的文档
+### Find documents in a specific category
 ```sql
 SELECT a.* FROM article a
 JOIN cat_article ca ON a.uuid = ca.aid
@@ -68,21 +68,21 @@ JOIN cat c ON ca.rid = c.uuid
 WHERE c.name = 'CategoryName';
 ```
 
-### 查找文档所属的所有分类
+### Find all categories for a document
 ```sql
 SELECT c.name FROM cat c
 JOIN cat_article ca ON c.uuid = ca.rid
-WHERE ca.aid = ?;  -- 此处使用 article.uuid
+WHERE ca.aid = ?;  -- Use article.uuid here
 ```
 
-### 查找文档的所有标签
+### Find all tags for a document
 ```sql
 SELECT t.name FROM tag t
 JOIN tag_article ta ON t.uuid = ta.rid
-WHERE ta.aid = ?;  -- 此处使用 article.uuid
+WHERE ta.aid = ?;  -- Use article.uuid here
 ```
 
-### 获取分类层级
+### Retrieve the category hierarchy
 ```sql
 WITH RECURSIVE category_tree AS (
   SELECT id, uuid, name, pid, 0 as level
@@ -95,16 +95,16 @@ WITH RECURSIVE category_tree AS (
 SELECT * FROM category_tree ORDER BY level, name;
 ```
 
-## 适用场景
+## Use cases
 
-- 构建需要查询 MWeb 数据的工具之前
-- 分析文档元数据和关系时
-- 实现分类或标签管理功能之前
-- 为集成目的理解 MWeb 数据模型时
+- Before building tools that query MWeb data
+- When analyzing document metadata and relationships
+- Before implementing category or tag management features
+- When understanding the MWeb data model for integration purposes
 
-## 约束
+## Constraints
 
-- 这是纯知识型技能——不执行数据库操作
-- 数据库 schema 可能因 MWeb 版本不同而有所差异
-- 修改前务必备份数据库
-- 直接修改数据库可能影响 MWeb 应用的稳定性
+- This is a knowledge-only guide and does not perform database operations
+- The database schema may vary between MWeb versions
+- Always back up the database before making changes
+- Direct database modifications may affect the stability of the MWeb application

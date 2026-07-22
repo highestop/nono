@@ -1,43 +1,43 @@
 ---
 name: open-meteo-forecast
-description: 使用无需授权的 Open-Meteo 天气预报 API 查询天气预报，适用于按经纬度或地点查询未来几小时或几天的温度、降水量、降水概率、风速等天气数据；不适用于需要商业 SLA、官方气象警报或已指定使用其他天气供应商的任务。
+description: Query weather forecasts with the unauthenticated Open-Meteo Forecast API. Use for hourly or daily weather data such as temperature, precipitation, precipitation probability, and wind speed by coordinates or location; do not use for tasks requiring a commercial SLA, official weather alerts, or another specified weather provider.
 ---
 
-# Open-Meteo 天气预报
+# Open-Meteo Forecast
 
-- 免费天气预报 API 不需要 `API key`，直接请求 `https://api.open-meteo.com/v1/forecast`
-- 对商业用途、高频请求或稳定性要求高的场景，提醒用户确认 Open-Meteo 的条款与付费方案
-- 优先使用经纬度查询；只有用户只给地点名时，才用 Open-Meteo 地理编码 API 查坐标
-- 查询局部天气时，不要只用城市中心点；应按区县、街道或用户给定坐标分别查询
-- Open-Meteo 地理编码 API 对中文区县名可能不完整；如果地名不能匹配到目标行政区，必须改用明确坐标
-- 回答必须说明数据源、坐标、时区、时间窗口和单位
+- The free Forecast API does not require an `API key`; request `https://api.open-meteo.com/v1/forecast` directly
+- For commercial use, high request volume, or high reliability requirements, remind the user to review Open-Meteo's terms and paid plans
+- Prefer coordinate-based queries. Use the Open-Meteo Geocoding API only when the user provides a location name without coordinates
+- Do not rely only on a city-center point for local weather. Query each district, street, or user-provided coordinate separately
+- The Open-Meteo Geocoding API may have incomplete coverage of Chinese district names. If a place name does not match the target administrative area, use explicit coordinates
+- Every answer must state the data source, coordinates, timezone, time window, and units
 
-## 工作流程
+## Workflow
 
-1. 明确用户要查的地点、时间窗口和指标，例如 `<未来 6 小时>`、`<未来 3 天>`、`<降水量>`、`<降水概率>`
-2. 获取坐标：
-   - 已有坐标：直接使用 `latitude` 和 `longitude`
-   - 只有地点名：请求 `https://geocoding-api.open-meteo.com/v1/search?name={location}&count=10&language=zh&format=json`
-   - 地点可能有歧义、缺失或匹配到错误行政区时，向用户确认或改用坐标
-3. 请求天气预报 API：
-   - 小时级：使用 `hourly=temperature_2m,precipitation_probability,precipitation,rain,showers,snowfall,weather_code,wind_speed_10m`
-   - 天级：使用 `daily=temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,weather_code`
-   - 使用 `timezone={timezone}`，默认跟随用户时区或目标地点时区
-4. 解析结果：
-   - `precipitation`、`rain`、`showers` 单位通常为 `mm`
-   - `snowfall` 单位通常为 `cm`
-   - `precipitation_probability` 单位为 `%`
-   - 未来 `<N>` 小时应取当前时间之后、`N` 小时窗口内的小时记录，并计算累计降水量
-5. 输出结论：
-   - 先给累计值和风险判断，再给小时明细
-   - 区分“预计降水量”和“降水概率”
-   - 说明这是模型预报，不等同于实时雷达或官方预警
+1. Determine the location, time window, and metrics the user wants, such as `<next 6 hours>`, `<next 3 days>`, `<precipitation amount>`, or `<precipitation probability>`
+2. Obtain coordinates:
+   - Existing coordinates: use `latitude` and `longitude` directly
+   - Location name only: request `https://geocoding-api.open-meteo.com/v1/search?name={location}&count=10&language=zh&format=json`
+   - If the location is ambiguous, missing, or matched to the wrong administrative area, confirm with the user or use coordinates
+3. Request the Forecast API:
+   - Hourly: use `hourly=temperature_2m,precipitation_probability,precipitation,rain,showers,snowfall,weather_code,wind_speed_10m`
+   - Daily: use `daily=temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,weather_code`
+   - Use `timezone={timezone}` and default to the user's timezone or the target location's timezone
+4. Parse the results:
+   - `precipitation`, `rain`, and `showers` are usually measured in `mm`
+   - `snowfall` is usually measured in `cm`
+   - `precipitation_probability` is measured in `%`
+   - For the next `<N>` hours, select hourly records after the current time and within the N-hour window, then calculate cumulative precipitation
+5. Present the conclusion:
+   - Lead with the cumulative value and risk assessment, followed by hourly details
+   - Distinguish between "forecast precipitation" and "precipitation probability"
+   - Explain that this is a model forecast, not real-time radar or an official alert
 
-## 可复用脚本
+## Reusable script
 
-使用 [@skills/open-meteo-forecast/scripts/query_forecast.py](/skills/open-meteo-forecast/scripts/query_forecast.py) 查询小时级预报。
+Use [@skills/open-meteo-forecast/scripts/query_forecast.py](/skills/open-meteo-forecast/scripts/query_forecast.py) to query hourly forecasts.
 
-按坐标查询：
+Query by coordinates:
 
 ```bash
 python3 skills/open-meteo-forecast/scripts/query_forecast.py \
@@ -48,7 +48,7 @@ python3 skills/open-meteo-forecast/scripts/query_forecast.py \
   --timezone Asia/Shanghai
 ```
 
-按地点名查询（ 必须检查输出里的 `geocoding.admin1`、`latitude` 和 `longitude` 是否符合预期 ）：
+Query by location name. Check that `geocoding.admin1`, `latitude`, and `longitude` in the output match the expected location:
 
 ```bash
 python3 skills/open-meteo-forecast/scripts/query_forecast.py \
@@ -57,7 +57,7 @@ python3 skills/open-meteo-forecast/scripts/query_forecast.py \
   --timezone Asia/Shanghai
 ```
 
-指定一级行政区过滤：
+Filter by first-level administrative area:
 
 ```bash
 python3 skills/open-meteo-forecast/scripts/query_forecast.py \
@@ -67,35 +67,35 @@ python3 skills/open-meteo-forecast/scripts/query_forecast.py \
   --timezone Asia/Shanghai
 ```
 
-输出为 JSON，重点字段：
+The output is JSON. Key fields:
 
-| 字段 | 说明 |
+| Field | Description |
 |---|---|
-| `label` | 查询地点标签 |
-| `latitude` / `longitude` | 实际使用的坐标 |
-| `timezone` | 结果时区 |
-| `window_start` / `window_end` | 统计窗口 |
-| `total_precipitation_mm` | 窗口内累计预计降水量 |
-| `hourly[]` | 每小时的降水量、降水概率、温度、风速等 |
+| `label` | Query location label |
+| `latitude` / `longitude` | Coordinates actually used |
+| `timezone` | Result timezone |
+| `window_start` / `window_end` | Statistical window |
+| `total_precipitation_mm` | Cumulative forecast precipitation within the window |
+| `hourly[]` | Hourly precipitation, precipitation probability, temperature, wind speed, and other data |
 
-## API 示例
+## API examples
 
-未来 6 小时降水：
+Precipitation for the next 6 hours:
 
 ```text
 https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=precipitation,precipitation_probability,rain,showers&timezone={timezone}&forecast_days=2
 ```
 
-未来 3 天日级预报：
+Daily forecast for the next 3 days:
 
 ```text
 https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=precipitation_sum,precipitation_probability_max,temperature_2m_max,temperature_2m_min,weather_code&timezone={timezone}&forecast_days=3
 ```
 
-## GWT 示例
+## GWT examples
 
-| 给定 | 当 | 则 |
+| Given | When | Then |
 |---|---|---|
-| 用户问“查北京市朝阳区未来 6 小时降雨量” | 使用地名或区中心坐标查询小时级 `precipitation` | 返回 6 小时累计降水量、逐小时明细、降水概率和坐标 |
-| 用户问“未来 3 天北京几个区哪里雨更大” | 分别查询每个区的坐标和日级 `precipitation_sum` | 用表格比较各区 3 天累计降水量，并说明差异可信度 |
-| 用户只给“北京” | 使用城市中心坐标，或询问是否要查具体区县 | 不把城市中心结果误称为全市每个局部地区 |
+| The user asks, "How much rain will Chaoyang District, Beijing, receive in the next 6 hours?" | Query hourly `precipitation` using the place name or district-center coordinates | Return cumulative precipitation over 6 hours, hourly details, precipitation probability, and coordinates |
+| The user asks, "Which Beijing districts will receive more rain over the next 3 days?" | Query coordinates and daily `precipitation_sum` separately for each district | Compare cumulative precipitation over 3 days by district in a table and explain the confidence of the differences |
+| The user provides only "Beijing" | Use city-center coordinates or ask whether to query a specific district | Do not present city-center results as representative of every local area in the city |

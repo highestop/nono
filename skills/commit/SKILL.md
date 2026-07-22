@@ -1,30 +1,30 @@
 ---
 name: commit
-description: 提交代码、跟踪 PR 状态、完成代码合并
+description: Commit code, track PR status, and complete code merges
 ---
 
-# Git 提交
+# Git commits
 
-严格按步骤执行。只有完成或明确跳过当前步骤后，才能进入下一步。
+Follow the steps strictly. Proceed to the next step only after completing or explicitly skipping the current step.
 
-## 配置
+## Configuration
 
-可从当前请求、项目配置或全局配置读取偏好。优先级：
+Read preferences from the current request, project configuration, or global configuration. Precedence:
 
-1. 用户当前请求
-2. 项目配置：`.agents/config/commit.config.json`、`.claude/config/commit.config.json`、`.codex/config/commit.config.json`
-3. 全局配置：`~/.agents/config/commit.config.json`、`~/.claude/config/commit.config.json`、`~/.codex/config/commit.config.json`
-4. 默认值
+1. Current user request
+2. Project configuration: `.agents/config/commit.config.json`, `.claude/config/commit.config.json`, `.codex/config/commit.config.json`
+3. Global configuration: `~/.agents/config/commit.config.json`, `~/.claude/config/commit.config.json`, `~/.codex/config/commit.config.json`
+4. Default values
 
-支持字段：
+Supported fields:
 
-| 字段 | 类型 | 说明 | 默认值 |
+| Field | Type | Description | Default |
 | - | - | - | - |
-| `gitUser.name` | `string` / `null` | 期望的 git 用户名 | `null` |
-| `gitUser.email` | `string` / `null` | 期望的 git 邮箱 | `null` |
-| `coAuthors` | `string` / `string[]` / `null` | 一个或多个共同作者，每项只包含 `<name> <email>` | `null` |
+| `gitUser.name` | `string` / `null` | Expected Git username | `null` |
+| `gitUser.email` | `string` / `null` | Expected Git email | `null` |
+| `coAuthors` | `string` / `string[]` / `null` | One or more co-authors, with each item containing only `<name> <email>` | `null` |
 
-单个共同作者配置：
+Single co-author configuration:
 
 ```json
 {
@@ -32,7 +32,7 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 }
 ```
 
-多个共同作者配置：
+Multiple co-author configuration:
 
 ```json
 {
@@ -43,104 +43,104 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 }
 ```
 
-配置值不要包含固定前缀 `Co-Authored-By: `。配置了 `coAuthors` 时，将字符串归一化为单元素列表，按配置顺序为每项生成 `Co-Authored-By: <name> <email>`；不要再追加根据当前 agent 推断的共同作者。未配置时保持根据当前 agent 推断共同作者的默认行为。
+Do not include the fixed `Co-Authored-By: ` prefix in configuration values. When `coAuthors` is configured, normalize a string to a single-item list and generate `Co-Authored-By: <name> <email>` for each item in configuration order. Do not append co-authors inferred from the current agent. When it is not configured, retain the default behavior of inferring a co-author from the current agent.
 
-如用户在请求中临时覆盖配置，完成后询问是否保存；保存时优先写入 `.agents/config/commit.config.json`，除非用户指定其他 agent 目录。包含个人信息的配置不得提交到版本控制。
+If the user temporarily overrides configuration in a request, ask whether to save it after completing the work. When saving, prefer `.agents/config/commit.config.json` unless the user specifies another agent directory. Do not commit configuration containing personal information to version control.
 
-## 工作流
+## Workflow
 
-### 1. 检查环境
+### 1. Check the environment
 
-- 确认当前目录是 git 仓库。
-- 检查 `git config user.name` 和 `git config user.email`。
-- 仅检查已配置的 `gitUser` 字段：配置了 `gitUser.name` 就校验 `user.name`，配置了 `gitUser.email` 就校验 `user.email`；未配置字段不做要求。已配置字段缺失或不匹配时终止，并给出修复命令。
-- 未配置 `gitUser.name` 时，按以下优先级推导用于 feature 分支名的用户标识：
-  1. 当前 `git config user.name`
-  2. 当前 `gh` 授权账号的登录名，使用 `gh api user --jq '.login'` 获取
-- 如果以上方式均无法获取用户标识，询问用户；不要静默写入 Git 配置。
-- 必须先区分 fork 和非 fork 仓库，再决定 PR 目标：
-  - 先使用 `git remote -v` 检查是否存在 `upstream`；存在时视为 fork，原 repo 为 `upstream` 对应的仓库。
-  - 如果没有 `upstream`，继续使用 `gh repo view --json isFork,parent,nameWithOwner` 检查当前 `origin` 是否为 GitHub fork；`isFork` 为 `true` 时，原 repo 为 `parent.nameWithOwner`。
-  - 判定是否为 fork 的方法：存在 `upstream` remote，或 `gh repo view` 返回 `isFork` 的值，为 `true` 则为 fork，为 `false` 则为非 fork。
+- Confirm that the current directory is a Git repository.
+- Check `git config user.name` and `git config user.email`.
+- Check only configured `gitUser` fields: validate `user.name` when `gitUser.name` is configured, and validate `user.email` when `gitUser.email` is configured. Do not require unconfigured fields. Stop and provide remediation commands when a configured field is missing or does not match.
+- When `gitUser.name` is not configured, derive the user identifier for the feature branch name in this order:
+  1. The current `git config user.name`
+  2. The login of the account currently authenticated with `gh`, retrieved with `gh api user --jq '.login'`
+- If neither method provides a user identifier, ask the user. Do not silently write Git configuration.
+- Distinguish forked from non-forked repositories before choosing the PR target:
+  - First use `git remote -v` to check for an `upstream` remote. If it exists, treat the repository as a fork and use the repository associated with `upstream` as the original repository.
+  - If there is no `upstream`, use `gh repo view --json isFork,parent,nameWithOwner` to check whether the current `origin` is a GitHub fork. When `isFork` is `true`, use `parent.nameWithOwner` as the original repository.
+  - Determine fork status from either the presence of an `upstream` remote or the `isFork` value returned by `gh repo view`: `true` means forked and `false` means non-forked.
 
-### 2. 分析变更
+### 2. Analyze changes
 
-- 使用 `git status`、`git diff`、`git diff --cached` 分析变更。
-- 如果执行过程中发现用户新增或修改了工作区内容，重新从本步骤开始。
-- 按不相关主题拆分提交；不要把无关变更放进同一个 commit。
+- Analyze changes with `git status`, `git diff`, and `git diff --cached`.
+- If the user adds or modifies workspace content during execution, restart from this step.
+- Split unrelated topics into separate commits. Do not include unrelated changes in the same commit.
 
-### 3. 处理分支
+### 3. Handle the branch
 
-- 默认都使用 feature 分支提交；不要在 `main` 分支上直接提交。
-- feature 分支名使用 `<user-name>-<short-description>`，整体使用 kebab-case；`<user-name>` 使用检查环境时确定的用户标识。
-- 保持线性历史；使用 `git pull --rebase`，不要创建 merge commit。
+- Use a feature branch by default. Do not commit directly to `main`.
+- Name feature branches `<user-name>-<short-description>` in kebab-case. Use the user identifier determined during the environment check for `<user-name>`.
+- Keep history linear. Use `git pull --rebase` and do not create merge commits.
 
-### 4. 创建提交
+### 4. Create commits
 
-- 使用 `git add` 暂存本次提交需要的文件。
-- Commit message 使用英文 Angular Conventional Commit，且不使用 scope：
-  - 示例：`chore: remove article assets`
-- 不要使用 amend 修改既有提交；创建新的 commit。
-- 在提交正文最后添加共同作者：
-  - 配置了 `coAuthors` 时，追加所有由配置生成的 `Co-Authored-By: <name> <email>` trailer。
-  - 未配置时，根据当前 agent 推断：
-    - Claude：`Co-Authored-By: Claude <noreply@anthropic.com>`
-    - Codex：`Co-Authored-By: Codex <noreply@openai.com>`
-    - 无法判断当前 agent 时，询问用户或跳过并说明原因。
+- Stage the files needed for the commit with `git add`.
+- Write commit messages in English using Angular Conventional Commits without a scope:
+  - Example: `chore: remove article assets`
+- Do not amend existing commits. Create a new commit.
+- Add co-authors at the end of the commit body:
+  - When `coAuthors` is configured, append every `Co-Authored-By: <name> <email>` trailer generated from the configuration.
+  - When it is not configured, infer the co-author from the current agent:
+    - Claude: `Co-Authored-By: Claude <noreply@anthropic.com>`
+    - Codex: `Co-Authored-By: Codex <noreply@openai.com>`
+    - If the current agent cannot be determined, ask the user or skip the co-author and explain why.
 
-### 5. 推送和创建 PR
+### 5. Push and create a PR
 
-- 提交后自动推送。
-- PR title 使用英文 Angular Conventional Commit，且不使用 scope：
-  - 示例：`chore: remove article assets`
-- 推送失败且原因是 non-fast-forward：
-  1. 运行 `git pull --rebase`
-  2. 如有冲突，说明冲突文件并解决或等待用户处理
-  3. rebase 完成后使用 `git push --force-with-lease`
-- 如果 `--force-with-lease` 失败，不要直接使用 `--force`，先说明风险并询问用户。
-- 如果当前是 feature 分支且没有 PR，默认创建 PR；只有用户明确要求只提交不提 PR 时才跳过。
-  - fork 仓库：把 feature branch 推送到自己的 fork，再用 `gh pr create --repo <upstream-owner>/<upstream-repo> --head <fork-owner>:<feature-branch>` 向原 repo 创建跨仓库 PR；不需要切换到原 repo owner 身份。
-  - 非 fork 仓库：推送当前 feature 分支后，用 `gh pr create` 向当前仓库创建 PR。
-- PR 描述中说明默认使用 rebase merge，并请求合并后删除 feature 分支。
-- 配置了 `coAuthors` 时，在 PR 描述末尾追加所有由配置生成的 `Co-Authored-By: <name> <email>`；未配置时不向 PR 描述追加推断的共同作者。
-- 如果此次修改有关联 Issue，在 PR 中关联 Issue。
+- Push automatically after creating a commit.
+- Write PR titles in English using Angular Conventional Commits without a scope:
+  - Example: `chore: remove article assets`
+- If a push fails because of a non-fast-forward update:
+  1. Run `git pull --rebase`
+  2. If conflicts occur, identify the conflicting files and resolve them or wait for the user to handle them
+  3. After the rebase completes, use `git push --force-with-lease`
+- If `--force-with-lease` fails, do not use `--force` directly. Explain the risk and ask the user first.
+- If the current branch is a feature branch without a PR, create one by default. Skip PR creation only when the user explicitly requests a commit without a PR.
+  - Forked repository: push the feature branch to your fork, then create a cross-repository PR against the original repository with `gh pr create --repo <upstream-owner>/<upstream-repo> --head <fork-owner>:<feature-branch>`. You do not need to switch to the original repository owner's identity.
+  - Non-forked repository: push the current feature branch, then use `gh pr create` to open a PR against the current repository.
+- State in the PR description that rebase merge is the default and request deletion of the feature branch after merge.
+- When `coAuthors` is configured, append every generated `Co-Authored-By: <name> <email>` trailer to the end of the PR description. When it is not configured, do not append inferred co-authors to the PR description.
+- Link any related issue in the PR.
 
-### 6. 跟踪 PR
+### 6. Track the PR
 
-- 创建或找到 PR 后，告诉用户 PR 链接。
-- 使用 `gh pr checks`、`gh pr view` 跟踪 check 和 review 状态。
-- 如果有 check 失败：
-  1. 总结失败 job 和关键错误
-  2. 修复问题
-  3. 按提交流程新增 commit、推送，并继续跟踪 PR
-- 如果 review 提出严重问题：
-  1. 总结问题
-  2. 判断问题是否真实、合理、需要修复，并说明依据
-  3. 询问用户是修复还是拒绝
-  4. 修复则新增 commit 并继续跟踪；拒绝则 dismiss review 并写明理由
-- 如果严重问题已修复但 review 被跳过，可按 reviewer 约定评论触发重审，例如 `@codex review`。
+- After creating or finding a PR, give the user its link.
+- Track check and review status with `gh pr checks` and `gh pr view`.
+- If a check fails:
+  1. Summarize the failed job and key errors
+  2. Fix the problem
+  3. Create a new commit and push it by following the commit workflow, then continue tracking the PR
+- If a review raises a serious issue:
+  1. Summarize the issue
+  2. Determine whether it is real, reasonable, and requires a fix, and explain the evidence
+  3. Ask the user whether to fix or reject it
+  4. If fixing it, create a new commit and continue tracking. If rejecting it, dismiss the review and provide a reason
+- If a serious issue has been fixed but review was skipped, trigger another review using the reviewer's convention, such as commenting `@codex review`.
 
-### 7. 合并 PR
+### 7. Merge the PR
 
-- PR checks 和 reviews 没问题后，询问用户是否自动合并。
-- 用户选择不合并时，到此结束。
-- 用户选择合并时：
-  - 如果项目开启了 merge queue，优先使用 merge queue
-  - 默认使用 rebase merge，保留每个 commit 及其完整 message 和 co-author trailer
-  - 仅当用户明确要求 squash，或 PR 包含多个细碎临时提交且需要压缩时，才使用 squash merge
-    - 使用 squash merge 时，必须在 squash commit body 中保留所有必要的 `Co-Authored-By` trailer
-  - 不要使用 merge commit，避免在 `main` 分支上出现分叉
-  - 等待 PR 合并完成
-  - 确认远程 feature 分支已删除
-  - 如果有关联 Issue，确认 Issue 已关闭
-  - 如有预览环境，提供最新预览链接
+- After PR checks and reviews have no issues, ask the user whether to merge automatically.
+- If the user chooses not to merge, stop here.
+- If the user chooses to merge:
+  - Prefer the merge queue when the project has one enabled
+  - Use rebase merge by default, preserving every commit and its complete message and co-author trailers
+  - Use squash merge only when the user explicitly requests it or when the PR contains multiple small temporary commits that should be compressed
+    - When using squash merge, preserve all required `Co-Authored-By` trailers in the squash commit body
+  - Do not use a merge commit, to avoid branches in `main` history
+  - Wait for the PR to merge successfully
+  - Confirm that the remote feature branch has been deleted
+  - If there is a related issue, confirm that it has been closed
+  - If a preview environment exists, provide the latest preview link
 
-## 关键规则
+## Critical rules
 
-- 使用 `gh` CLI 操作 PR。
-- 默认保持线性历史。
-- 默认使用 rebase merge 合并 PR，以保留每个 commit 及其 co-author 信息。
-- 不直接在 `main` 提交。
-- 不使用 amend。
-- PR title 和 Commit message 均使用英文 Angular Conventional Commit，且不使用 scope。
-- 妥善处理 git 错误，说明原因、影响和下一步。
+- Use the `gh` CLI to manage PRs.
+- Keep history linear by default.
+- Use rebase merge by default to preserve every commit and its co-author information.
+- Do not commit directly to `main`.
+- Do not amend commits.
+- Write PR titles and commit messages in English using Angular Conventional Commits without a scope.
+- Handle Git errors properly and explain the cause, impact, and next step.

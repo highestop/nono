@@ -1,20 +1,20 @@
 ---
-name: Agent 工作流模板
-about: 为 Agent 初始化工作流创建 Issue 的模板
+name: Agent workflow template
+about: Template for creating an issue to initialize an agent workflow
 ---
 
 -
 
-> ## 工作流
+> ## Workflow
 >
-> ### 1. 了解问题，获取有关的信息
+> ### 1. Understand the problem and gather relevant information
 >
-> - 如果包含 github 链接（issue 或 pr 等），可以使用 gh cli 获取相关信息（没有安装或不在仓库下则提醒我）
+> - If the request includes a GitHub link, such as an issue or PR, use the `gh` CLI to retrieve relevant information. Notify me if it is not installed or the current directory is not a repository.
 >
-> ### 2. 分析问题，沟通细节和方案，不要修改任何代码
+> ### 2. Analyze the problem and discuss details and approaches without modifying any code
 >
-> **重要**：每一轮会话结束后，都要总结一下并 comment 到 issue 中，不用和我确认。关键信息如分析结果、实现方案等，必须足够详细清晰，不要遗漏重要信息，尽可能使用列表、表格、流程图等更直观的表达方式
+> **Important**: At the end of every conversation turn, post a summary as a comment on the issue without asking me for confirmation. Key information, such as analysis results and implementation plans, must be sufficiently detailed and clear, omit no important information, and use lists, tables, flowcharts, or other intuitive formats whenever possible.
 >
-> ### 3. 完成并提交变更
+> ### 3. Complete and submit the changes
 >
-> **重要**：每次修改代码后，都要用 commit skill 来提交代码、创建 pr 并把 pr 关联到这个 issue 上。不用和我确认，但先不要合并 pr，等我人工 review
+> **Important**: After every code change, use the commit skill to commit the code, create a PR, and link the PR to this issue. Do not ask me for confirmation, but do not merge the PR until I review it manually.

@@ -1,7 +1,7 @@
-# 语言
+# Language
 
-- **使用中文和我沟通**
-- 默认使用英文写文档做记录，但优先匹配原文档使用的语言
-- 使用英文写代码注释
-- 使用英文写 commit 和 pr 的 title，保证 git 历史清晰
-- 使用英文写 commit 和 pr 的 description，便于他人阅读
+- **Communicate with me in Chinese**
+- Write documentation and records in English by default, but prioritize the language of the original document
+- Write code comments in English
+- Write commit and PR titles in English to keep Git history clear
+- Write commit and PR descriptions in English so others can read them easily

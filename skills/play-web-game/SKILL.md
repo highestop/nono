@@ -1,31 +1,31 @@
 ---
 name: play-web-game
-description: 玩一款网页游戏
+description: Play a web game
 ---
 
-## 游戏参数
+## Game parameters
 
-- 开始游戏前，你需要知道 `<game-url>`，并给出一个 `<game-name>`。
-- `<game-cache-directory>` 默认为 `~/.game-cache/`，除非明确指定使用其他目录
+- Before starting, obtain the `<game-url>` and assign a `<game-name>`.
+- `<game-cache-directory>` defaults to `~/.game-cache/` unless another directory is explicitly specified
 
-## 启动游戏
+## Start the game
 
-- 使用 Playwright MCP 打开浏览器并访问 `<game-url>` 页面来玩这个游戏。
-  - 首先确保当前 agent 可用的 Playwright MCP 或浏览器自动化工具已启用；如果不可用，按当前 agent 的 MCP 配置方式安装或启用 Playwright。
-  - 你应该像人类一样通过打开浏览器、观察和操作真实的浏览器页面来玩游戏，而不是编写脚本或使用 fetch 工具访问页面。
-- 你必须根据页面内容理解如何玩这个游戏，在每一步自己做决策，不要问我。你还需要判断游戏最终是成功还是失败，并在遇到成功或失败时退出游戏。
+- Use the Playwright MCP to open a browser, visit `<game-url>`, and play the game.
+  - First ensure that the current agent's Playwright MCP or browser-automation tool is enabled. If unavailable, install or enable Playwright using the current agent's MCP configuration method.
+  - Play like a human by opening a browser and observing and interacting with the actual rendered page. Do not write scripts or use a fetch tool to access the page.
+- Infer how to play from the page content and make every decision yourself without asking me. Determine whether the final outcome is a success or failure, and exit the game when either outcome occurs.
 
-## 过程记录与经验总结
+## Session records and lessons learned
 
-- 在 `<game-cache-directory>` 下创建名为 `<game-name>` 的目录作为此游戏的主目录。
-- 每次游戏会话在主目录中创建一个 `game-<index>` 子目录，用于存储该次游戏会话的详细过程。
-  - 游戏日志文件为 `session.txt`，每行一条记录，每行以 `[timestamp]` 开头。
-  - 你应该在每次决策和操作时记录日志，包括你的当前状态、你的思考、你的决策。
-  - 游戏结束后，无论成功还是失败，你都应在该游戏会话目录中创建 `summary.txt` 文件，总结本次游戏的经验。
-- 游戏结束后，你还应在主目录的 `game-guide.txt` 中迭代更新你对这个游戏的知识和经验，帮助你成为更有经验的玩家。
-- 在开始新游戏前，你应该回顾之前所有游戏会话的总结，从成功经验和失败教训中学习，带着你对这个游戏最新、最深入的理解和经验进入游戏。
+- Create a directory named `<game-name>` under `<game-cache-directory>` as the game's root directory.
+- For each game session, create a `game-<index>` subdirectory under the root directory to store the session details.
+  - Use `session.txt` as the game log, with one entry per line and each line beginning with `[timestamp]`.
+  - Log every decision and action, including your current state, reasoning, and decision.
+  - When the game ends, whether in success or failure, create `summary.txt` in the session directory to summarize what you learned.
+- After the game, iteratively update your knowledge and experience in `game-guide.txt` under the root directory to become a more capable player.
+- Before starting a new game, review the summaries of all previous sessions. Learn from successful strategies and failed attempts, then begin with your latest and deepest understanding of the game.
 
-### session.txt 参考格式
+### `session.txt` reference format
 
 ```txt
 [2026-01-12 00:00:00] ..
@@ -35,34 +35,34 @@ description: 玩一款网页游戏
 [2026-01-12 00:00:04] ..
 ```
 
-### summary.txt 参考格式
+### `summary.txt` reference format
 
 ```txt
-游戏结果: xx
-游戏时长: xx
-游戏 Token 消耗: xx
+Game Result: xx
+Game Duration: xx
+Game Token Consumption: xx
 
-[成功经验]:
-（逐条列出）
+[Successful Strategies]:
+(List each item)
 
-[失败经验/改进建议]:
-（逐条列出）
+[Failed Attempts/Improvement Suggestions]:
+(List each item)
 ```
 
-### game-guide.txt 参考格式
+### `game-guide.txt` reference format
 
 ```txt
-[这是什么游戏]: （一句话总结）
-[游戏目标是什么]: （一句话总结）
+[What Kind of Game Is This]: (One-sentence summary)
+[What Is the Goal]: (One-sentence summary)
 
-[游戏有哪些阶段/每个阶段做什么]:
-（逐条列出）
+[Game Stages/What to Do in Each Stage]:
+(List each item)
 
-[不同游戏阶段的关键决策/其对游戏结果的重要性估计]:
-（按组列出，如果有不同维度的决策因素，可以用表格表达它们的关系，重要性估计最好是量化指标）
+[Key Decisions by Game Stage/Estimated Importance to the Outcome]:
+(List by group. If decisions have multiple dimensions, use a table to show their relationships. Prefer quantitative importance estimates.)
 ```
 
-## 其他规则
+## Additional rules
 
-- 游戏日志记录使用与游戏一致的语言。例如，如果游戏界面是中文的，则日志用中文。
-- 游戏不能存档/读档，如果在游戏过程中遇到意外退出，只能重新开始。
+- Write game logs in the same language as the game. For example, if the game interface is in Chinese, write the logs in Chinese.
+- Do not save or load game state. If the game exits unexpectedly, restart from the beginning.

@@ -1,31 +1,31 @@
 ---
 name: mweb-to-obsidian
-description: 将 MWeb 数据迁移到 Obsidian
+description: Migrate MWeb data to Obsidian
 ---
 
-## 前期准备
+## Preparation
 
-* 确保在 MWeb 根目录下工作，记为 `<MWebRoot>`（根目录包含 `mainlib.db` 文件和 `docs/` 目录）
-* 迁移目标目录 `<ObsidianRoot>` 为 `<MWebRoot>/Obsidian Vault`
-* 创建三个目录：`<ObsidianRoot>/All Notes`、`<ObsidianRoot>/Attachments`、`<ObsidianRoot>/Migration Logs`
+* Work from the MWeb root directory, represented by `<MWebRoot>`, which contains the `mainlib.db` file and the `docs/` directory
+* Set the migration target directory `<ObsidianRoot>` to `<MWebRoot>/Obsidian Vault`
+* Create three directories: `<ObsidianRoot>/All Notes`, `<ObsidianRoot>/Attachments`, and `<ObsidianRoot>/Migration Logs`
 
-## 工作流程
+## Workflow
 
-扫描 `<MWebRoot>/docs` 下的每个 Markdown 文件（文件名形如 `<NoteID>.md`），记住这个 NoteID 直到该文件的所有相关工作完成，对每个文件执行以下操作：
+Scan every Markdown file under `<MWebRoot>/docs`, with filenames in the form `<NoteID>.md`. Retain the NoteID until all work related to that file is complete, and perform the following actions for each file:
 
-* 执行 `note_category.sh` 脚本，传入笔记文件 ID，获取该笔记文件所有关联的分类全名
-    * 如果找到多个，默认选择第一个
-    * 如果没有找到，默认为 `/`
-* 在 `<ObsidianRoot>/All Notes` 目录下创建与分类全名对应的目录名，如果是多级分类则创建所有层级的目录，然后将文件复制进去，注意不要移动或删除原始文件
-* 检查新笔记文件内容是否包含本地文件引用（格式如 `![..](media/<NoteID>/<filename>)`）
-    * 如果包含，在 `<MWebRoot>/docs/media/<NoteID>/` 目录中找到所有被引用的文件
-    * 将这些文件复制到 `<ObsidianRoot>/Attachments/<NoteID>/`，注意不要移动或删除原始文件
-    * 在笔记文件内容中，将文件引用路径替换为 `![](Attachments/<NoteID>/<filename>)`
-* 在 `<ObsidianRoot>/Migration Logs` 中创建 `<NoteID>.txt` 文件，记录：
-    * 基于 `<MWebRoot>` 的原始文件全名、新文件全名
-    * 原始文件的所有分类全名
-    * 原始文件的所有本地文件引用、新文件的所有文件引用
+* Run the `note_category.sh` script with the note file ID to retrieve the full names of all categories associated with that note file
+    * If multiple categories are found, choose the first one by default
+    * If none are found, default to `/`
+* Under `<ObsidianRoot>/All Notes`, create a directory whose name corresponds to the full category name. For nested categories, create every level, then copy the file there. Do not move or delete the original file
+* Check whether the new note file contains local file references in a form such as `![..](media/<NoteID>/<filename>)`
+    * If it does, find every referenced file in `<MWebRoot>/docs/media/<NoteID>/`
+    * Copy those files to `<ObsidianRoot>/Attachments/<NoteID>/`. Do not move or delete the original files
+    * In the note content, replace each file-reference path with `![](Attachments/<NoteID>/<filename>)`
+* Create `<NoteID>.txt` in `<ObsidianRoot>/Migration Logs` and record:
+    * The full original and new filenames relative to `<MWebRoot>`
+    * The full names of all categories for the original file
+    * All local file references in the original file and all file references in the new file
 
-## 工作原则
+## Working principle
 
-* 不修改任何原始 MWeb 文件
+* Do not modify any original MWeb files
