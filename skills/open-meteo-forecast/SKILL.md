@@ -1,15 +1,15 @@
 ---
 name: open-meteo-forecast
-description: 使用无需授权的 Open-Meteo Forecast API 查询天气预报，适用于按经纬度或地点查询未来几小时或几天的温度、降水量、降水概率、风速等天气数据；不适用于需要商业 SLA、官方气象警报或已指定使用其他天气供应商的任务。
+description: 使用无需授权的 Open-Meteo 天气预报 API 查询天气预报，适用于按经纬度或地点查询未来几小时或几天的温度、降水量、降水概率、风速等天气数据；不适用于需要商业 SLA、官方气象警报或已指定使用其他天气供应商的任务。
 ---
 
-# Open-Meteo Forecast
+# Open-Meteo 天气预报
 
-- 免费 Forecast API 不需要 `API key`，直接请求 `https://api.open-meteo.com/v1/forecast`
+- 免费天气预报 API 不需要 `API key`，直接请求 `https://api.open-meteo.com/v1/forecast`
 - 对商业用途、高频请求或稳定性要求高的场景，提醒用户确认 Open-Meteo 的条款与付费方案
-- 优先使用经纬度查询；只有用户只给地点名时，才用 Open-Meteo Geocoding API 查坐标
+- 优先使用经纬度查询；只有用户只给地点名时，才用 Open-Meteo 地理编码 API 查坐标
 - 查询局部天气时，不要只用城市中心点；应按区县、街道或用户给定坐标分别查询
-- Open-Meteo Geocoding API 对中文区县名可能不完整；如果地名不能匹配到目标行政区，必须改用明确坐标
+- Open-Meteo 地理编码 API 对中文区县名可能不完整；如果地名不能匹配到目标行政区，必须改用明确坐标
 - 回答必须说明数据源、坐标、时区、时间窗口和单位
 
 ## 工作流程
@@ -19,7 +19,7 @@ description: 使用无需授权的 Open-Meteo Forecast API 查询天气预报，
    - 已有坐标：直接使用 `latitude` 和 `longitude`
    - 只有地点名：请求 `https://geocoding-api.open-meteo.com/v1/search?name={location}&count=10&language=zh&format=json`
    - 地点可能有歧义、缺失或匹配到错误行政区时，向用户确认或改用坐标
-3. 请求 Forecast API：
+3. 请求天气预报 API：
    - 小时级：使用 `hourly=temperature_2m,precipitation_probability,precipitation,rain,showers,snowfall,weather_code,wind_speed_10m`
    - 天级：使用 `daily=temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,weather_code`
    - 使用 `timezone={timezone}`，默认跟随用户时区或目标地点时区
@@ -94,7 +94,7 @@ https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=prec
 
 ## GWT 示例
 
-| Given | When | Then |
+| 给定 | 当 | 则 |
 |---|---|---|
 | 用户问“查北京市朝阳区未来 6 小时降雨量” | 使用地名或区中心坐标查询小时级 `precipitation` | 返回 6 小时累计降水量、逐小时明细、降水概率和坐标 |
 | 用户问“未来 3 天北京几个区哪里雨更大” | 分别查询每个区的坐标和日级 `precipitation_sum` | 用表格比较各区 3 天累计降水量，并说明差异可信度 |

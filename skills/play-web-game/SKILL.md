@@ -38,9 +38,9 @@ description: 玩一款网页游戏
 ### summary.txt 参考格式
 
 ```txt
-Game Result: xx
-Game Duration: xx
-Game Token Consumption: xx
+游戏结果: xx
+游戏时长: xx
+游戏 Token 消耗: xx
 
 [成功经验]:
 （逐条列出）
