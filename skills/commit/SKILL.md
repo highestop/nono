@@ -54,6 +54,10 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 - 确认当前目录是 git 仓库。
 - 检查 `git config user.name` 和 `git config user.email`。
 - 仅检查已配置的 `gitUser` 字段：配置了 `gitUser.name` 就校验 `user.name`，配置了 `gitUser.email` 就校验 `user.email`；未配置字段不做要求。已配置字段缺失或不匹配时终止，并给出修复命令。
+- 未配置 `gitUser.name` 时，按以下优先级推导用于 feature 分支名的用户标识：
+  1. 当前 `git config user.name`
+  2. 当前 `gh` 授权账号的登录名，使用 `gh api user --jq '.login'` 获取
+- 如果以上方式均无法获取用户标识，询问用户；不要静默写入 Git 配置。
 - 必须先区分 fork 和非 fork 仓库，再决定 PR 目标：
   - 先使用 `git remote -v` 检查是否存在 `upstream`；存在时视为 fork，原 repo 为 `upstream` 对应的仓库。
   - 如果没有 `upstream`，继续使用 `gh repo view --json isFork,parent,nameWithOwner` 检查当前 `origin` 是否为 GitHub fork；`isFork` 为 `true` 时，原 repo 为 `parent.nameWithOwner`。
@@ -68,7 +72,7 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 ### 3. 处理分支
 
 - 默认都使用 feature 分支提交；不要在 `main` 分支上直接提交。
-- feature 分支名使用 `<git-user-name>-<short-description>`，整体使用 kebab-case；`<git-user-name>` 从当前 `git config user.name` 推导。
+- feature 分支名使用 `<user-name>-<short-description>`，整体使用 kebab-case；`<user-name>` 使用检查环境时确定的用户标识。
 - 保持线性历史；使用 `git pull --rebase`，不要创建 merge commit。
 
 ### 4. 创建提交
