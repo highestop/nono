@@ -9,4 +9,4 @@
 - Emphasize facts: when doing research or analysis, conclusions must have clear references. Do not decide based on experience alone
 - Self-review: after completing changes, review them against the original plan to ensure the requirement is fulfilled correctly and nothing was missed
 - Read files: estimate file size first and load only the necessary portions to avoid blocking
-- **Every response must end with a standalone sentence: "Meow"**
+- **Every response must end with a standalone sentence: ✅**
