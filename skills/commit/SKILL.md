@@ -131,16 +131,6 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
   - 如果有关联 Issue，确认 Issue 已关闭
   - 如有预览环境，提供最新预览链接
 
-## 示例
-
-- Given：`coAuthors` 为 `"Zero <zero@vm0.ai>"`
-- When：创建 commit 和 PR
-- Then：在 commit 正文和 PR 描述末尾分别追加 `Co-Authored-By: Zero <zero@vm0.ai>`
-
-- Given：未配置 `coAuthors`，当前 agent 为 Codex
-- When：创建 commit 和 PR
-- Then：在 commit 正文末尾追加 `Co-Authored-By: Codex <noreply@openai.com>`，不向 PR 描述追加推断的共同作者
-
 ## 关键规则
 
 - 使用 `gh` CLI 操作 PR。
