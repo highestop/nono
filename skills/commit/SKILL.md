@@ -18,10 +18,32 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 
 支持字段：
 
-| 字段 | 默认值 | 说明 |
-| - | - | - |
-| `gitUser.name` | `null` | 期望的 git 用户名 |
-| `gitUser.email` | `null` | 期望的 git 邮箱 |
+| 字段 | 类型 | 说明 | 默认值 |
+| - | - | - | - |
+| `gitUser.name` | `string` / `null` | 期望的 git 用户名 | `null` |
+| `gitUser.email` | `string` / `null` | 期望的 git 邮箱 | `null` |
+| `coAuthors` | `string` / `string[]` / `null` | 一个或多个共同作者，每项只包含 `<name> <email>` | `null` |
+
+单个共同作者配置：
+
+```json
+{
+  "coAuthors": "Zero <zero@vm0.ai>"
+}
+```
+
+多个共同作者配置：
+
+```json
+{
+  "coAuthors": [
+    "Zero <zero@vm0.ai>",
+    "Moxt <noreply@moxt.ai>"
+  ]
+}
+```
+
+配置值不要包含固定前缀 `Co-Authored-By: `。配置了 `coAuthors` 时，将字符串归一化为单元素列表，按配置顺序为每项生成 `Co-Authored-By: <name> <email>`；不要再追加根据当前 agent 推断的共同作者。未配置时保持根据当前 agent 推断共同作者的默认行为。
 
 如用户在请求中临时覆盖配置，完成后询问是否保存；保存时优先写入 `.agents/config/commit.config.json`，除非用户指定其他 agent 目录。包含个人信息的配置不得提交到版本控制。
 
@@ -55,10 +77,12 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
 - Commit message 使用英文 Angular Conventional Commit，且不使用 scope：
   - 示例：`chore: remove article assets`
 - 不要使用 amend 修改既有提交；创建新的 commit。
-- 在提交正文最后添加当前 agent：
-  - Claude：`Co-Authored-By: Claude <noreply@anthropic.com>`
-  - Codex：`Co-Authored-By: Codex <noreply@openai.com>`
-  - 无法判断当前 agent 时，询问用户或跳过并说明原因。
+- 在提交正文最后添加共同作者：
+  - 配置了 `coAuthors` 时，追加所有由配置生成的 `Co-Authored-By: <name> <email>` trailer。
+  - 未配置时，根据当前 agent 推断：
+    - Claude：`Co-Authored-By: Claude <noreply@anthropic.com>`
+    - Codex：`Co-Authored-By: Codex <noreply@openai.com>`
+    - 无法判断当前 agent 时，询问用户或跳过并说明原因。
 
 ### 5. 推送和创建 PR
 
@@ -74,6 +98,7 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
   - fork 仓库：把 feature branch 推送到自己的 fork，再用 `gh pr create --repo <upstream-owner>/<upstream-repo> --head <fork-owner>:<feature-branch>` 向原 repo 创建跨仓库 PR；不需要切换到原 repo owner 身份。
   - 非 fork 仓库：推送当前 feature 分支后，用 `gh pr create` 向当前仓库创建 PR。
 - PR 描述中说明默认使用 rebase merge，并请求合并后删除 feature 分支。
+- 配置了 `coAuthors` 时，在 PR 描述末尾追加所有由配置生成的 `Co-Authored-By: <name> <email>`；未配置时不向 PR 描述追加推断的共同作者。
 - 如果此次修改有关联 Issue，在 PR 中关联 Issue。
 
 ### 6. 跟踪 PR
@@ -105,6 +130,16 @@ description: 提交代码、跟踪 PR 状态、完成代码合并
   - 确认远程 feature 分支已删除
   - 如果有关联 Issue，确认 Issue 已关闭
   - 如有预览环境，提供最新预览链接
+
+## 示例
+
+- Given：`coAuthors` 为 `"Zero <zero@vm0.ai>"`
+- When：创建 commit 和 PR
+- Then：在 commit 正文和 PR 描述末尾分别追加 `Co-Authored-By: Zero <zero@vm0.ai>`
+
+- Given：未配置 `coAuthors`，当前 agent 为 Codex
+- When：创建 commit 和 PR
+- Then：在 commit 正文末尾追加 `Co-Authored-By: Codex <noreply@openai.com>`，不向 PR 描述追加推断的共同作者
 
 ## 关键规则
 
