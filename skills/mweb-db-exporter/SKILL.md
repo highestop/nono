@@ -1,58 +1,58 @@
 ---
 name: mweb-db-exporter
-description: 将 MWeb 数据库表导出为 JSON 格式，用于分析和数据处理
+description: Export MWeb database tables to JSON for analysis and data processing
 ---
 
-# MWeb 数据库导出器
+# MWeb database exporter
 
-当你需要将 MWeb 的 SQLite 数据库表导出为 JSON 格式，用于数据分析、备份或与其他工具集成时，使用此技能。
+Use this skill when you need to export MWeb SQLite database tables to JSON for data analysis, backup, or integration with other tools.
 
-## 工作流程
+## Workflow
 
-- 参考 [database-guide](/docs/mweb/database-guide.md) 文档以了解数据库结构
-- 执行 `./script.sh`（相对于技能根目录）导出数据库表
-- 分析脚本输出并以自然语言向用户展示导出结果
-- 验证导出数据的完整性和格式正确性
-- 报告导出过程中发现的任何问题
+- Refer to [database-guide](/docs/mweb/database-guide.md) to understand the database structure
+- Run `./script.sh`, relative to the skill root, to export the database tables
+- Analyze the script output and present the exported results to the user in natural language
+- Verify the completeness and correct format of the exported data
+- Report any issues found during export
 
-## 功能说明
+## Features
 
-- 扫描 MWeb `mainlib.db` SQLite 数据库中的所有表
-- 通过命令行输出将每个表的数据导出为 JSON 格式
-- 验证 JSON 格式正确性和数据完整性
-- 检查记录数量并正确处理空表
-- 报告导出统计信息和任何验证问题
-- 正确处理特殊字符、Unicode 内容和 NULL 值
+- Scan every table in the MWeb `mainlib.db` SQLite database
+- Export data from each table as JSON through command-line output
+- Validate JSON formatting and data completeness
+- Check record counts and handle empty tables correctly
+- Report export statistics and validation issues
+- Handle special characters, Unicode content, and NULL values correctly
 
-## 导出过程
+## Export process
 
-### 导出的数据库表
-- **`article`** - 文档元数据和属性
-- **`cat`** - 分类/文件夹结构
-- **`cat_article`** - 分类与文档的关系
-- **`tag`** - 标签定义
-- **`tag_article`** - 标签与文档的关系
-- **`settings`** - 应用配置
+### Exported database tables
+- **`article`** - Document metadata and properties
+- **`cat`** - Category and folder structure
+- **`cat_article`** - Category-to-document relationships
+- **`tag`** - Tag definitions
+- **`tag_article`** - Tag-to-document relationships
+- **`settings`** - Application configuration
 
-### 验证检查
-- **JSON 格式**：确保所有输出为有效 JSON
-- **记录数量**：验证数据完整性
-- **空表**：将空表作为有效的空数组 `[]` 处理
-- **数据类型**：正确保留 INTEGER、TEXT 和 NULL 值
-- **特殊字符**：正确转义 Unicode 和特殊字符
+### Validation checks
+- **JSON format**: Ensure all output is valid JSON
+- **Record count**: Verify data completeness
+- **Empty tables**: Handle empty tables as valid empty arrays, `[]`
+- **Data types**: Preserve INTEGER, TEXT, and NULL values correctly
+- **Special characters**: Escape Unicode and special characters correctly
 
-## 适用场景
+## Use cases
 
-- 需要在应用外部分析 MWeb 数据时
-- 迁移数据到其他系统或格式之前
-- 为文档库元数据创建备份时
-- 构建需要访问 MWeb 数据结构的集成时
-- 调试数据关系和完整性问题时
+- When analyzing MWeb data outside the application
+- Before migrating data to another system or format
+- When creating backups of document-library metadata
+- When building integrations that need access to MWeb data structures
+- When debugging data relationships and integrity issues
 
-## 约束
+## Constraints
 
-- 需要当前目录下存在 `mainlib.db` 文件
-- 不修改原始数据库（只读操作）
-- 仅命令行输出，不创建文件
-- 依赖系统中可用的 SQLite3
-- 对于记录较多的大型数据库可能需要较长时间
+- Require a `mainlib.db` file in the current directory
+- Do not modify the original database; operations are read-only
+- Output only to the command line; do not create files
+- Require SQLite3 to be available on the system
+- Large databases with many records may take longer to process

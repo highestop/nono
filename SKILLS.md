@@ -2,13 +2,13 @@
 
 | Skill | Description |
 |------|------|
-| [budget-export-csv-formatter](skills/budget-export-csv-formatter/SKILL.md) | 将鲨鱼记账 Pro 应用导出的 CSV 文件格式化为结构化的账单分析 |
-| [commit](skills/commit/SKILL.md) | 提交代码、跟踪 PR 状态、完成代码合并 |
-| [mweb-db-exporter](skills/mweb-db-exporter/SKILL.md) | 将 MWeb 数据库表导出为 JSON 格式，用于分析和数据处理 |
-| [mweb-media-reference-checker](skills/mweb-media-reference-checker/SKILL.md) | 检查 MWeb 文档库中缺失或冗余的媒体文件引用 |
-| [mweb-to-obsidian](skills/mweb-to-obsidian/SKILL.md) | 将 MWeb 数据迁移到 Obsidian |
-| [open-meteo-forecast](skills/open-meteo-forecast/SKILL.md) | 使用无需授权的 Open-Meteo 天气预报 API 查询天气预报，适用于按经纬度或地点查询未来几小时或几天的温度、降水量、降水概率、风速等天气数据；不适用于需要商业 SLA、官方气象警报或已指定使用其他天气供应商的任务。 |
-| [play-web-game](skills/play-web-game/SKILL.md) | 玩一款网页游戏 |
+| [budget-export-csv-formatter](skills/budget-export-csv-formatter/SKILL.md) | Format CSV files exported from the Shark Bookkeeping Pro App into structured billing analysis |
+| [commit](skills/commit/SKILL.md) | Commit code, track PR status, and complete code merges |
+| [mweb-db-exporter](skills/mweb-db-exporter/SKILL.md) | Export MWeb database tables to JSON for analysis and data processing |
+| [mweb-media-reference-checker](skills/mweb-media-reference-checker/SKILL.md) | Check an MWeb document library for missing or redundant media file references |
+| [mweb-to-obsidian](skills/mweb-to-obsidian/SKILL.md) | Migrate MWeb data to Obsidian |
+| [open-meteo-forecast](skills/open-meteo-forecast/SKILL.md) | Query weather forecasts with the unauthenticated Open-Meteo Forecast API. Use for hourly or daily weather data such as temperature, precipitation, precipitation probability, and wind speed by coordinates or location; do not use for tasks requiring a commercial SLA, official weather alerts, or another specified weather provider. |
+| [play-web-game](skills/play-web-game/SKILL.md) | Play a web game |
 
 ---
 

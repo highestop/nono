@@ -1,17 +1,17 @@
-# 格式
+# Format
 
-- 文档内容和结构尽可能简洁，以减少上下文占用
-    - 结构简单时使用列表而非章节
-    - 示例能内联说明清楚时，无需单独分节或文件
-- 使用空格以提高可读性
-    - 在中文与英文、数字之间添加空格，如 `格式 Markdown`、`编号 1.0`
-    - 在全角的括号内、全角的破折号前后添加空格，如 `（ xx ）`、`xx —— xx`
-- 使用 `<尖括号>` 或 `{花括号}` 表示占位符和变量
-- 使用 `行内代码` 语法标记技术术语、文件名和命令名
-- 使用 Markdown 自适应表格宽度，不用纵向对齐
-- **禁止**包含暴露系统路径和用户名的绝对路径
-- 优先使用 `~/` 或 `$HOME` 表示主目录引用
-- 根据渲染场景选择项目文件链接的目标
-    - 在项目感知的内容中，使用 `[@{file_path}](/{file_path})`，其中 `{file_path}` 为相对于项目根目录的路径
-    - 在外部内容（ 如 `GitHub issue`、`PR`、`release`、聊天或邮件 ）中，使用 `[@{file_path}](https://github.com/{owner}/{repo}/blob/{ref}/{file_path})`
-    - 当前链接的 `{ref}` 使用默认分支，不可变链接的 `{ref}` 使用 `commit SHA`
+- Keep documentation content and structure as concise as possible to reduce context usage
+    - Use lists instead of sections when the structure is simple
+    - Avoid separate sections or files when an inline example is sufficient
+- Use spaces to improve readability
+    - Add spaces between Chinese and English text or numbers, such as `格式 Markdown` and `编号 1.0`
+    - Add spaces inside full-width parentheses and around full-width dashes, such as `（ xx ）` and `xx —— xx`
+- Use `<angle brackets>` or `{curly braces}` for placeholders and variables
+- Use `inline code` syntax for technical terms, file names, and command names
+- Use Markdown tables that adapt to content width; do not align columns vertically
+- **Do not** include absolute paths that expose system paths or usernames
+- Prefer `~/` or `$HOME` for home-directory references
+- Choose project-file link targets according to the rendering context
+    - In project-aware content, use `[@{file_path}](/{file_path})`, where `{file_path}` is relative to the project root
+    - In external content, such as a `GitHub issue`, `PR`, `release`, chat, or email, use `[@{file_path}](https://github.com/{owner}/{repo}/blob/{ref}/{file_path})`
+    - For `{ref}`, use the default branch for current links and a `commit SHA` for immutable links

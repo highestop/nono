@@ -1,41 +1,41 @@
-# 技能
+# Skills
 
-遵循 Agent Skills 规范：<https://agentskills.io/specification>
+Follow the Agent Skills specification: <https://agentskills.io/specification>
 
-**描述格式：**
-- 清晰传达技能**做什么**以及**何时使用**
-- 包含**约束条件**，说明不应做什么或不适用的场景
-- 保持简洁可操作，描述中无需描述细节
+**Description format:**
+- Clearly state **what** the skill does and **when** to use it
+- Include **constraints** that explain what the skill should not do or when it does not apply
+- Keep it concise and actionable; do not include implementation details in the description
 
-**目录结构：**
-- 必须放在全局或项目的 agent skills 目录下，例如 `~/.agents/skills/`、`~/.claude/skills/` 或 `~/.codex/skills/`
-- 必需的结构：`skills/<skill-name>/SKILL.md`
-- `<skill-name>` 目录必须包含 `SKILL.md` 文件
+**Directory structure:**
+- Place the skill in a global or project agent skills directory, such as `~/.agents/skills/`, `~/.claude/skills/`, or `~/.codex/skills/`
+- Required structure: `skills/<skill-name>/SKILL.md`
+- The `<skill-name>` directory must contain a `SKILL.md` file
 
-**命名规范：**
-- 目录名必须与 SKILL.md frontmatter 中的 `name` 字段一致
-- 避免通用名称，优先使用具体的功能身份
+**Naming conventions:**
+- The directory name must match the `name` field in the `SKILL.md` frontmatter
+- Avoid generic names; prefer a specific functional identity
 
-**用户交互：**
-- 优先使用当前 agent 提供的结构化询问工具（如 `AskUserQuestion` 或 `request_user_input`）让用户选择，提供带有标签和描述的清晰选项，避免使用自由文本提示
+**User interaction:**
+- Prefer structured question tools provided by the current agent, such as `AskUserQuestion` or `request_user_input`, to let the user choose from clearly labeled and described options instead of using free-form prompts
 
-**用户偏好配置（如需要）：**
-- 配置文件应命名为 `<skill-name>.config.{json|yaml|...}`，放在 agent 配置目录下
-- 使用就近原则：项目配置优先于全局配置，例如 `.agents/config/`、`.claude/config/`、`.codex/config/`
-- **重要**：包含敏感或用户特定数据的配置文件不应提交到版本控制
-  - 确保 agent 配置目录在 `.gitignore` 中被正确忽略
-  - 编写技能文档时，提醒用户配置文件应保持本地/私有
-  - 使用全局配置目录存放不应共享的个人偏好
-- 必须在 schema 表格中记录所有配置字段及其明确的默认值（字段 | 类型 | 描述 | 默认值）
-- 必须说明每个字段的配置方式并提供示例配置
-- 支持命令行覆盖：用户可通过自然语言在请求中覆盖配置
-- 优先级顺序：用户参数 > 配置文件值 > 默认值
-- 当用户在使用技能时提供不同偏好，在所有操作完成后通过当前 agent 的结构化询问工具询问是否保存/修改配置
-- 使用当前 agent 的结构化询问工具询问保存位置："项目配置" 还是 "全局配置"
-- 首次创建项目配置时，询问是否添加到 .gitignore（团队共享 vs 仅本地）
-- 更新已有配置文件时仅修改被覆盖的值，保持其他设置不变
+**User preference configuration, if needed:**
+- Name the configuration file `<skill-name>.config.{json|yaml|...}` and place it in an agent configuration directory
+- Follow proximity precedence: project configuration overrides global configuration, for example `.agents/config/`, `.claude/config/`, or `.codex/config/`
+- **Important**: Do not commit configuration files containing sensitive or user-specific data to version control
+  - Ensure agent configuration directories are properly ignored in `.gitignore`
+  - When writing skill documentation, remind users to keep configuration files local or private
+  - Store personal preferences that should not be shared in a global configuration directory
+- Document every configuration field and its explicit default value in a schema table: Field | Type | Description | Default
+- Explain how to configure each field and provide an example configuration
+- Support request-level overrides: users may override configuration through natural-language requests
+- Precedence: user parameters > configuration file values > defaults
+- When a user provides different preferences while using the skill, use the current agent's structured question tool after all operations are complete to ask whether to save or update the configuration
+- Use the current agent's structured question tool to ask where to save it: "Project configuration" or "Global configuration"
+- When creating project configuration for the first time, ask whether to add it to `.gitignore`: team-shared or local only
+- When updating an existing configuration file, modify only the overridden values and preserve all other settings
 
-**文档要求：**
-- 必须包含使用 GWT（Given/When/Then）模式的示例场景
-- 对于复杂技能，将长内容拆分到 `docs/` 目录
-- 从主 SKILL.md 文件中引用额外的文档
+**Documentation requirements:**
+- Include example scenarios using the GWT (Given/When/Then) pattern
+- For complex skills, split lengthy content into the `docs/` directory
+- Reference additional documents from the main `SKILL.md` file

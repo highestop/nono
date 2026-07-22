@@ -1,45 +1,45 @@
-> 需要了解 MWeb 文档及其媒体文件在文档库中的组织方式时，使用此指南。
+> Use this guide when you need to understand how MWeb documents and their media files are organized in a document library.
 
-## 基本内容
+## Fundamentals
 
-- MWeb 基于时间戳的文件命名规则
-- 文档与媒体目录的对应关系
-- 文件路径模式和引用结构
-- 文档如何链接媒体文件的示例
+- MWeb's timestamp-based file-naming convention
+- The relationship between documents and media directories
+- File-path patterns and reference structure
+- Examples of how documents link to media files
 
-## 文档结构
+## Document structure
 
-### 文件组织
-- **文档**：存储在 `docs/` 目录下
-- **媒体文件**：存储在 `docs/media/{timestamp}/` 子目录下
-- **命名规则**：两者使用相同的时间戳标识符
+### File organization
+- **Documents**: Stored in the `docs/` directory
+- **Media files**: Stored in `docs/media/{timestamp}/` subdirectories
+- **Naming convention**: Both use the same timestamp identifier
 
-### 结构模式
+### Structure pattern
 ```
 docs/
-├── {timestamp}.md              # 文档文件
+├── {timestamp}.md              # Document file
 └── media/
-    └── {timestamp}/           # 该文档对应的媒体目录
+    └── {timestamp}/           # Media directory for this document
         ├── image1.png
         ├── image2.jpg
         └── ...
 ```
 
-### 示例
-- **文档文件**：`docs/17671544643078.md`
-- **媒体目录**：`docs/media/17671544643078/`
-- **文档中的媒体引用**：`![](media/17671544643078/hello.png)`
-- **实际文件路径**：`docs/media/17671544643078/hello.png`
+### Example
+- **Document file**: `docs/17671544643078.md`
+- **Media directory**: `docs/media/17671544643078/`
+- **Media reference in the document**: `![](media/17671544643078/hello.png)`
+- **Actual file path**: `docs/media/17671544643078/hello.png`
 
-## 适用场景
+## Use cases
 
-- 处理 MWeb 文档库之前
-- 构建处理 MWeb 文件的工具时
-- 需要理解文件路径关系时
-- 实现媒体文件操作之前
+- Before processing an MWeb document library
+- When building tools that process MWeb files
+- When you need to understand file-path relationships
+- Before implementing media-file operations
 
-## 约束
+## Constraints
 
-- 这是纯知识型技能——不执行文件操作
-- 此结构仅适用于 MWeb 文档库，不适用于其他 Markdown 系统
-- 假设使用标准的 MWeb 导出/组织模式
+- This is a knowledge-only guide and does not perform file operations
+- This structure applies only to MWeb document libraries, not other Markdown systems
+- Assume the standard MWeb export and organization pattern

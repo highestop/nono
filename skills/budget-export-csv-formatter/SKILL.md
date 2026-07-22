@@ -1,15 +1,15 @@
 ---
 name: budget-export-csv-formatter
-description: 将鲨鱼记账 Pro 应用导出的 CSV 文件格式化为结构化的账单分析
+description: Format CSV files exported from the Shark Bookkeeping Pro App into structured billing analysis
 ---
 
-1. （我）在鲨鱼记账 Pro 应用中导出 CSV 并通过 AirDrop 传输到本地
-2. （你）将 CSV 文件转换为 UTF-8 编码（例如在 VSCode 中打开并以 UTF-8 保存）
-3. （你）执行 `formatter.js` 脚本，将在同一目录生成解析后的 CSV 文件
+1. (Me) Export a CSV file from the Shark Bookkeeping Pro App and transfer it locally via AirDrop
+2. (You) Convert the CSV file to UTF-8 encoding, for example by opening it in VSCode and saving it as UTF-8
+3. (You) Run the `formatter.js` script, which generates the parsed CSV file in the same directory
 
-**输入/输出示例：**
+**Input/output example:**
 
-输入（鲨鱼记账导出的 TSV 格式）：
+Input (TSV format exported from Shark Bookkeeping):
 ```
 Time	Type	Category	Amount	Description
 2024-01-15	支出	餐饮	25.50	午餐；麦当劳
@@ -18,7 +18,7 @@ Time	Type	Category	Amount	Description
 2024-01-16	支出	餐饮	32.00	聚餐；火锅
 ```
 
-输出（格式化后的 CSV）：
+Output (formatted CSV):
 ```csv
 支出,餐饮,,57.5
 ,,聚餐,32
@@ -29,6 +29,6 @@ Time	Type	Category	Amount	Description
 ,,月薪,5000
 ```
 
-使用示例：
-- "请格式化我在 ~/Downloads/budget-export.csv 的账单文件"
-- "用账单格式化工具处理我刚 AirDrop 到 Downloads 的 CSV 文件"
+Usage examples:
+- "Please format my billing file at ~/Downloads/budget-export.csv"
+- "Use the billing formatter to process the CSV file I just AirDropped to Downloads"
