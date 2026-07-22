@@ -1,9 +1,9 @@
 ---
 name: budget-export-csv-formatter
-description: 将鲨鱼记账 Pro App 导出的 CSV 文件格式化为结构化的账单分析
+description: 将鲨鱼记账 Pro 应用导出的 CSV 文件格式化为结构化的账单分析
 ---
 
-1. （我）在鲨鱼记账 Pro App 中导出 CSV 并通过 AirDrop 传输到本地
+1. （我）在鲨鱼记账 Pro 应用中导出 CSV 并通过 AirDrop 传输到本地
 2. （你）将 CSV 文件转换为 UTF-8 编码（例如在 VSCode 中打开并以 UTF-8 保存）
 3. （你）执行 `formatter.js` 脚本，将在同一目录生成解析后的 CSV 文件
 
