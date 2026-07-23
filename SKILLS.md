@@ -3,7 +3,7 @@
 | Skill | Description |
 |------|------|
 | [budget-export-csv-formatter](skills/budget-export-csv-formatter/SKILL.md) | Format CSV files exported from the Shark Bookkeeping Pro App into structured billing analysis |
-| [commit](skills/commit/SKILL.md) | Commit code, track PR status, and complete code merges |
+| [pr-commit](skills/pr-commit/SKILL.md) | Commit code, track PR status, and complete code merges |
 | [mweb-db-exporter](skills/mweb-db-exporter/SKILL.md) | Export MWeb database tables to JSON for analysis and data processing |
 | [mweb-media-reference-checker](skills/mweb-media-reference-checker/SKILL.md) | Check an MWeb document library for missing or redundant media file references |
 | [mweb-to-obsidian](skills/mweb-to-obsidian/SKILL.md) | Migrate MWeb data to Obsidian |

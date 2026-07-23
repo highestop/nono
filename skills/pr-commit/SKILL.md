@@ -1,5 +1,5 @@
 ---
-name: commit
+name: pr-commit
 description: Commit code, track PR status, and complete code merges
 ---
 
@@ -12,8 +12,8 @@ Follow the steps strictly. Proceed to the next step only after completing or exp
 Read preferences from the current request, project configuration, or global configuration. Precedence:
 
 1. Current user request
-2. Project configuration: `.agents/config/commit.config.json`, `.claude/config/commit.config.json`
-3. Global configuration: `~/.agents/config/commit.config.json`, `~/.claude/config/commit.config.json`
+2. Project configuration: `.agents/config/pr-commit.config.json`, `.claude/config/pr-commit.config.json`
+3. Global configuration: `~/.agents/config/pr-commit.config.json`, `~/.claude/config/pr-commit.config.json`
 4. Default values
 
 Supported fields:
@@ -45,7 +45,7 @@ Multiple co-author configuration:
 
 Do not include the fixed `Co-Authored-By: ` prefix in configuration values. When `coAuthors` is configured, normalize a string to a single-item list and generate `Co-Authored-By: <name> <email>` for each item in configuration order. Do not append co-authors inferred from the current agent. When it is not configured, retain the default behavior of inferring a co-author from the current agent.
 
-If the user temporarily overrides configuration in a request, ask whether to save it after completing the work. When saving, prefer `.agents/config/commit.config.json` unless the user specifies another agent directory. Do not commit configuration containing personal information to version control.
+If the user temporarily overrides configuration in a request, ask whether to save it after completing the work. When saving, prefer `.agents/config/pr-commit.config.json` unless the user specifies another agent directory. Do not commit configuration containing personal information to version control.
 
 ## Workflow
 

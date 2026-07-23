@@ -17,4 +17,4 @@ about: Template for creating an issue to initialize an agent workflow
 >
 > ### 3. Complete and submit the changes
 >
-> **Important**: After every code change, use the commit skill to commit the code, create a PR, and link the PR to this issue. Do not ask me for confirmation, but do not merge the PR until I review it manually.
+> **Important**: After every code change, use the `pr-commit` skill to commit the code, create a PR, and link the PR to this issue. Do not ask me for confirmation, but do not merge the PR until I review it manually.
