@@ -78,8 +78,8 @@ If the user temporarily overrides configuration in a request, ask whether to sav
 ### 4. Create commits
 
 - Stage the files needed for the commit with `git add`.
-- Write commit messages in English using Angular Conventional Commits without a scope:
-  - Example: `chore: remove article assets`
+- Write commit messages in English using Angular Conventional Commits (optional with scope):
+  - Example: `feat: add article formatter`, `chore(skills): update fetch article skill`
 - Do not amend existing commits. Create a new commit.
 - Add co-authors at the end of the commit body:
   - When `coAuthors` is configured, append every `Co-Authored-By: <name> <email>` trailer generated from the configuration.
@@ -91,8 +91,8 @@ If the user temporarily overrides configuration in a request, ask whether to sav
 ### 5. Push and create a PR
 
 - Push automatically after creating a commit.
-- Write PR titles in English using Angular Conventional Commits without a scope:
-  - Example: `chore: remove article assets`
+- Write PR titles in English using Angular Conventional Commits (optional with scope):
+  - Example: `feat: add article formatter`, `chore(skills): update fetch article skill`
 - If a push fails because of a non-fast-forward update:
   1. Run `git pull --rebase`
   2. If conflicts occur, identify the conflicting files and resolve them or wait for the user to handle them
@@ -142,5 +142,5 @@ If the user temporarily overrides configuration in a request, ask whether to sav
 - Use rebase merge by default to preserve every commit and its co-author information.
 - Do not commit directly to `main`.
 - Do not amend commits.
-- Write PR titles and commit messages in English using Angular Conventional Commits without a scope.
+- Write PR titles and commit messages in English using Angular Conventional Commits (optional with scope).
 - Handle Git errors properly and explain the cause, impact, and next step.
