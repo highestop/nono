@@ -12,8 +12,8 @@ Follow the steps strictly. Proceed to the next step only after completing or exp
 Read preferences from the current request, project configuration, or global configuration. Precedence:
 
 1. Current user request
-2. Project configuration: `.agents/config/commit.config.json`, `.claude/config/commit.config.json`, `.codex/config/commit.config.json`
-3. Global configuration: `~/.agents/config/commit.config.json`, `~/.claude/config/commit.config.json`, `~/.codex/config/commit.config.json`
+2. Project configuration: `.agents/config/commit.config.json`, `.claude/config/commit.config.json`
+3. Global configuration: `~/.agents/config/commit.config.json`, `~/.claude/config/commit.config.json`
 4. Default values
 
 Supported fields:
