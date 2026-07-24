@@ -5,7 +5,8 @@
     - Avoid separate sections or files when an inline example is sufficient
 - Use spaces to improve readability
     - Add spaces between Chinese and English text or numbers, such as `格式 Markdown` and `编号 1.0`
-    - Add spaces inside full-width parentheses and around full-width dashes, such as `（ xx ）` and `xx —— xx`
+    - Add spaces around full-width dashes, such as `xx —— xx`
+    - Add spaces around emoji, such as `xx 😀 xx`
 - Use `<angle brackets>` or `{curly braces}` for placeholders and variables
 - Use `inline code` syntax for technical terms, file names, and command names
 - Use Markdown tables that adapt to content width; do not align columns vertically
