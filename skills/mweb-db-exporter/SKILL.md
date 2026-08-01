@@ -1,6 +1,6 @@
 ---
 name: mweb-db-exporter
-description: Export MWeb database tables to JSON for analysis and data processing
+description: Export all tables from an MWeb mainlib.db SQLite database as JSON with schema and record summaries. Use for MWeb data analysis, backup, migration, integration, or integrity debugging; operate read-only and do not use for non-MWeb databases or requests that require export files.
 ---
 
 # MWeb database exporter

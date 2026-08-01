@@ -1,6 +1,6 @@
 ---
 name: play-web-game
-description: Play a web game
+description: Autonomously play a browser-based web game through rendered-page interaction while recording session logs and reusable strategy notes. Use when the user provides a game URL and wants the agent to play until success or failure; do not use scripted or fetch-based gameplay, saved states, or non-browser games.
 ---
 
 ## Game parameters
