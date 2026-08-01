@@ -1,6 +1,6 @@
 ---
 name: pr-commit
-description: Commit code, track PR status, and complete code merges
+description: Manage GitHub code changes from environment checks through conventional commits, push, pull-request creation and tracking, check or review remediation, and user-confirmed merge. Use when asked to commit or push changes, create or track a PR, address PR feedback, or merge a ready PR; never commit directly to main or merge without confirmation.
 ---
 
 # Git commits

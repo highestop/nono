@@ -1,6 +1,6 @@
 ---
 name: mweb-media-reference-checker
-description: Check an MWeb document library for missing or redundant media file references
+description: Audit an MWeb document library for missing media references and unreferenced media files, then guide user-approved cleanup. Use for integrity checks, routine maintenance, or post-migration cleanup; do not modify documents or delete files without explicit confirmation.
 ---
 
 # Workflow

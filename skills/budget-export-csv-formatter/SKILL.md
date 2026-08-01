@@ -1,6 +1,6 @@
 ---
 name: budget-export-csv-formatter
-description: Format CSV files exported from the Shark Bookkeeping Pro App into structured billing analysis
+description: Transform UTF-8, tab-separated CSV exports from the Shark Bookkeeping Pro App into categorized billing-analysis CSV files. Use when aggregating that app's transactions by type, category, and description; do not use for arbitrary CSV schemas or exports from other bookkeeping apps.
 ---
 
 1. (Me) Export a CSV file from the Shark Bookkeeping Pro App and transfer it locally via AirDrop
