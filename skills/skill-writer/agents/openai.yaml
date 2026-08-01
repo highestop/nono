@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Writer"
+  short_description: "Create and revise compliant agent skills"
+  default_prompt: "Use $skill-writer to create or revise an agent skill."
