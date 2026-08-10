@@ -1,5 +1,5 @@
 ---
-name: pr-commit
+name: code-committer
 description: Manage GitHub code changes from environment checks through conventional commits, push, pull-request creation and tracking, check or review remediation, and user-confirmed merge. Use when asked to commit or push changes, create or track a PR, address PR feedback, or merge a ready PR; never commit directly to main or merge without confirmation.
 ---
 
@@ -12,8 +12,8 @@ Follow the steps strictly. Proceed to the next step only after completing or exp
 Read preferences from the current request, project configuration, or global configuration. Precedence:
 
 1. Current user request
-2. Project configuration: `.agents/config/pr-commit.config.json`, `.claude/config/pr-commit.config.json`
-3. Global configuration: `~/.agents/config/pr-commit.config.json`, `~/.claude/config/pr-commit.config.json`
+2. Project configuration: `.agents/config/code-committer.config.json`, `.claude/config/code-committer.config.json`
+3. Global configuration: `~/.agents/config/code-committer.config.json`, `~/.claude/config/code-committer.config.json`
 4. Default values
 
 Supported fields:
@@ -45,7 +45,7 @@ Multiple co-author configuration:
 
 Do not include the fixed `Co-Authored-By: ` prefix in configuration values. When `coAuthors` is configured, normalize a string to a single-item list and generate `Co-Authored-By: <name> <email>` for each item in configuration order. Do not append co-authors inferred from the current agent. When it is not configured, retain the default behavior of inferring a co-author from the current agent.
 
-If the user temporarily overrides configuration in a request, ask whether to save it after completing the work. When saving, prefer `.agents/config/pr-commit.config.json` unless the user specifies another agent directory. Do not commit configuration containing personal information to version control.
+If the user temporarily overrides configuration in a request, ask whether to save it after completing the work. When saving, prefer `.agents/config/code-committer.config.json` unless the user specifies another agent directory. Do not commit configuration containing personal information to version control.
 
 ## Workflow
 
