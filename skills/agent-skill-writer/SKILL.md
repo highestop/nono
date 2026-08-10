@@ -1,9 +1,9 @@
 ---
-name: skill-writer
+name: agent-skill-writer
 description: Create and revise Agent Skills-compliant skills, including metadata, directory structure, interaction design, preference configuration, and examples. Use when creating, converting, or editing a skill; do not use for general documentation, rules, or non-skill agent files.
 ---
 
-# Skill Writer
+# Agent Skill Writer
 
 Follow the Agent Skills specification: <https://agentskills.io/specification>.
 
@@ -63,11 +63,11 @@ Apply these requirements only when the skill needs persistent user preferences:
 ### Create a skill
 
 - **Given:** A user describes a repeatable workflow and the requests that should trigger it.
-- **When:** Use `skill-writer` to create the skill.
+- **When:** Use `agent-skill-writer` to create the skill.
 - **Then:** Create a correctly named skill directory with compliant frontmatter, focused instructions, relevant constraints, and GWT examples.
 
 ### Convert rules into a skill
 
 - **Given:** A repository contains a rules document that should become an invocable skill.
-- **When:** Use `skill-writer` to convert the document.
+- **When:** Use `agent-skill-writer` to convert the document.
 - **Then:** Preserve its substantive requirements, add skill metadata and an actionable workflow, update references, and remove the superseded rules file when requested.
