@@ -1,5 +1,5 @@
 ---
-name: mweb-to-obsidian
+name: mweb-to-obsidian-migrator
 description: Migrate an MWeb library to an Obsidian vault by copying notes and attachments, recreating category paths, rewriting copied media links, and recording migration logs. Use when converting an MWeb root containing mainlib.db and docs/; never modify, move, or delete the original MWeb files.
 ---
 
