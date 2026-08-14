@@ -10,7 +10,8 @@
 | [mweb-media-reference-checker](skills/mweb-media-reference-checker/SKILL.md) | Audit an MWeb document library for missing media references and unreferenced media files, then guide user-approved cleanup. Use for integrity checks, routine maintenance, or post-migration cleanup; do not modify documents or delete files without explicit confirmation. |
 | [mweb-to-obsidian-migrator](skills/mweb-to-obsidian-migrator/SKILL.md) | Migrate an MWeb library to an Obsidian vault by copying notes and attachments, recreating category paths, rewriting copied media links, and recording migration logs. Use when converting an MWeb root containing mainlib.db and docs/; never modify, move, or delete the original MWeb files. |
 | [open-meteo-forecast](skills/open-meteo-forecast/SKILL.md) | Query weather forecasts with the unauthenticated Open-Meteo Forecast API. Use for hourly or daily weather data such as temperature, precipitation, precipitation probability, and wind speed by coordinates or location; do not use for tasks requiring a commercial SLA, official weather alerts, or another specified weather provider. |
+| [ti-live-report](skills/ti-live-report/SKILL.md) | Report the currently active Dota 2 The International (TI) from Liquipedia with stage-specific standings or results. Use for current TI status, Group Stage standings, or Main Event schedules and results; do not use for other tournaments or inactive TI editions. |
 
 ---
 
-*This document was automatically generated based on commit [`a23daea2fce64fe322115f92e1b255eff959978e`](https://github.com/highestop/nono/commit/a23daea2fce64fe322115f92e1b255eff959978e).*
+*This document was automatically generated based on commit [`f95b0b2d089528813b79c3c06f8f495d7f8419e3`](https://github.com/highestop/nono/commit/f95b0b2d089528813b79c3c06f8f495d7f8419e3).*
