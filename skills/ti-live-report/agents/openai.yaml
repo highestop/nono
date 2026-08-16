@@ -1,4 +1,4 @@
 interface:
   display_name: "TI Live Report"
-  short_description: "Report the active TI from Liquipedia"
-  default_prompt: "Use $ti-live-report to report the currently active The International tournament from Liquipedia."
+  short_description: "Report active TI results and upcoming matches"
+  default_prompt: "Use $ti-live-report to report the active TI results and upcoming schedule from Liquipedia."
