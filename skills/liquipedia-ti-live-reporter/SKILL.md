@@ -1,9 +1,9 @@
 ---
-name: ti-live-report
+name: liquipedia-ti-live-reporter
 description: Report the currently active Dota 2 The International (TI) from Liquipedia with stage-specific standings, results, and upcoming matches. Use for current TI status, Group Stage standings, Main Event results, or the next TI schedule; do not use for other tournaments or inactive TI editions.
 ---
 
-# TI Live Report
+# Liquipedia TI Live Reporter
 
 - Use Liquipedia as the sole source of tournament facts
 - Start at `https://liquipedia.net/dota2/The_International` and identify the active annual edition; do not assume that the newest edition is active
