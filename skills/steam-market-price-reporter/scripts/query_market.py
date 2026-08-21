@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Query public Steam Community Market prices and historical medians."""
+"""Query public Steam Community Market prices with optional historical medians."""
 
 import argparse
 import calendar
@@ -274,7 +274,61 @@ def search_market(client, args):
     }
 
 
+def get_price_overview(client, args, item_name):
+    overview_url = build_url(
+        "/priceoverview/",
+        {
+            "appid": args.appid,
+            "currency": args.currency_id,
+            "country": args.country,
+            "market_hash_name": item_name,
+            "l": args.language,
+        },
+    )
+    overview = client.get_json(overview_url)
+    if not overview.get("success"):
+        raise SteamMarketError(f"Steam price overview failed for {item_name!r}")
+    return overview
+
+
+def query_current_items(client, args):
+    snapshot = datetime.now(timezone.utc)
+    rows = []
+
+    for item_name in args.item:
+        encoded = urllib.parse.quote(item_name, safe="")
+        overview = get_price_overview(client, args, item_name)
+        rows.append(
+            {
+                "requested_name": item_name,
+                "market_name": item_name,
+                "market_url": f"{MARKET_BASE_URL}/listings/{args.appid}/{encoded}",
+                "current_target": parse_money(overview.get("lowest_price")),
+                "current_target_text": overview.get("lowest_price"),
+                "current_target_is_direct": True,
+                "volume_24h": overview.get("volume"),
+            }
+        )
+
+    return {
+        "source": "Steam Community Market",
+        "mode": "report",
+        "report_scope": "current-only",
+        "appid": args.appid,
+        "snapshot_utc": snapshot.isoformat(),
+        "currency": {
+            "target_id": args.currency_id,
+            "target_code": args.currency_code,
+            "target_symbol": args.currency_symbol,
+        },
+        "items": rows,
+    }
+
+
 def query_items(client, args):
+    if args.current_only:
+        return query_current_items(client, args)
+
     snapshot = datetime.now(timezone.utc)
     week_start = snapshot - timedelta(days=7)
     month_start = previous_calendar_month(snapshot)
@@ -297,19 +351,7 @@ def query_items(client, args):
             )
             current_target_is_direct = False
         else:
-            overview_url = build_url(
-                "/priceoverview/",
-                {
-                    "appid": args.appid,
-                    "currency": args.currency_id,
-                    "country": args.country,
-                    "market_hash_name": item_name,
-                    "l": args.language,
-                },
-            )
-            overview = client.get_json(overview_url)
-            if not overview.get("success"):
-                raise SteamMarketError(f"Steam price overview failed for {item_name!r}")
+            overview = get_price_overview(client, args, item_name)
             current_target = parse_money(overview.get("lowest_price"))
 
         rows.append(
@@ -345,6 +387,7 @@ def query_items(client, args):
     return {
         "source": "Steam Community Market",
         "mode": "report",
+        "report_scope": "current-and-history",
         "appid": args.appid,
         "snapshot_utc": snapshot.isoformat(),
         "windows": {
@@ -431,6 +474,30 @@ def format_search_markdown(result):
 
 def format_report_markdown(result):
     symbol = result["currency"]["target_symbol"]
+    current_only = result.get("report_scope") == "current-only"
+    if current_only:
+        lines = [
+            "| Name | Current lowest |",
+            "|---|---|",
+        ]
+        for item in result["items"]:
+            linked_name = (
+                f'[{markdown_escape(item["market_name"])}]({item["market_url"]})'
+            )
+            current_lowest = format_money(
+                item["current_target"],
+                symbol,
+                not item["current_target_is_direct"],
+            )
+            lines.append(f"| {linked_name} | {current_lowest} |")
+        lines.extend(
+            [
+                "",
+                f'Source: Steam Community Market. Snapshot: `{result["snapshot_utc"]}`.',
+            ]
+        )
+        return "\n".join(lines)
+
     lines = [
         "| Name | Current lowest | 7-day median | 1-month median |",
         "|---|---|---|---|",
@@ -464,7 +531,7 @@ def format_report_markdown(result):
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Query Steam Community Market prices and historical medians."
+        description="Query Steam Community Market prices with optional historical medians."
     )
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument(
@@ -485,6 +552,11 @@ def parse_args():
     parser.add_argument("--language", default="schinese", help="Steam language name.")
     parser.add_argument("--currency-code", default="CNY", help="Output currency code.")
     parser.add_argument("--currency-symbol", default="¥", help="Output currency symbol.")
+    parser.add_argument(
+        "--current-only",
+        action="store_true",
+        help="Query current lowest prices without fetching historical data.",
+    )
     parser.add_argument(
         "--exchange-rate",
         type=float,
@@ -518,6 +590,10 @@ def parse_args():
         parser.error("--currency-id must be positive")
     if args.exchange_rate is not None and args.exchange_rate <= 0:
         parser.error("--exchange-rate must be positive")
+    if args.search and args.current_only:
+        parser.error("--current-only can only be used with --item")
+    if args.current_only and args.exchange_rate is not None:
+        parser.error("--exchange-rate cannot be used with --current-only")
     if not 1 <= args.search_count <= 100:
         parser.error("--search-count must be between 1 and 100")
     if args.request_delay < 0 or args.retries < 0 or args.timeout <= 0:
