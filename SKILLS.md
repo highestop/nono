@@ -2,10 +2,8 @@
 
 | Skill | Description |
 |------|------|
-| [agent-skill-writer](skills/agent-skill-writer/SKILL.md) | Create and revise Agent Skills-compliant skills, including metadata, directory structure, interaction design, preference configuration, and examples. Use when creating, converting, or editing a skill; do not use for general documentation, rules, or non-skill agent files. |
 | [budget-export-csv-formatter](skills/budget-export-csv-formatter/SKILL.md) | Transform UTF-8, tab-separated CSV exports from the Shark Bookkeeping Pro App into categorized billing-analysis CSV files. Use when aggregating that app's transactions by type, category, and description; do not use for arbitrary CSV schemas or exports from other bookkeeping apps. |
 | [code-committer](skills/code-committer/SKILL.md) | Manage GitHub code changes from environment checks through conventional commits, push, pull-request creation and tracking, check or review remediation, and user-confirmed merge. Use when asked to commit or push changes, create or track a PR, address PR feedback, or merge a ready PR; never commit directly to main or merge without confirmation. |
-| [game-player](skills/game-player/SKILL.md) | Autonomously play a browser-based web game through rendered-page interaction while recording session logs and reusable strategy notes. Use when the user provides a game URL and wants the agent to play until success or failure; do not use scripted or fetch-based gameplay, saved states, or non-browser games. |
 | [liquipedia-ti-live-reporter](skills/liquipedia-ti-live-reporter/SKILL.md) | Report the currently active Dota 2 The International (TI) from Liquipedia with stage-specific standings, results, and upcoming matches. Use for current TI status, Group Stage standings, Main Event results, or the next TI schedule; do not use for other tournaments or inactive TI editions. |
 | [mweb-db-exporter](skills/mweb-db-exporter/SKILL.md) | Export all tables from an MWeb mainlib.db SQLite database as JSON with schema and record summaries. Use for MWeb data analysis, backup, migration, integration, or integrity debugging; operate read-only and do not use for non-MWeb databases or requests that require export files. |
 | [mweb-media-reference-checker](skills/mweb-media-reference-checker/SKILL.md) | Audit an MWeb document library for missing media references and unreferenced media files, then guide user-approved cleanup. Use for integrity checks, routine maintenance, or post-migration cleanup; do not modify documents or delete files without explicit confirmation. |
@@ -15,4 +13,4 @@
 
 ---
 
-*This document was automatically generated based on commit [`2eda22714aaa3db870a7273a7eb224bc2d7e986e`](https://github.com/highestop/nono/commit/2eda22714aaa3db870a7273a7eb224bc2d7e986e).*
+*This document was automatically generated based on commit [`2f33f4c1fc6d0bfa53e338b8a716477b534ca86b`](https://github.com/highestop/nono/commit/2f33f4c1fc6d0bfa53e338b8a716477b534ca86b).*
