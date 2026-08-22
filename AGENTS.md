@@ -1,5 +1,4 @@
 - Language preferences: [@rules/language](/rules/language.md)
 - Behavior: [@rules/behavior](/rules/behavior.md)
 - Writing documentation: [@rules/format](/rules/format.md)
-- Writing Skill documents: [@skills/agent-skill-writer](/skills/agent-skill-writer/SKILL.md)
 - PR & commit: [@skills/code-committer](/skills/code-committer/SKILL.md)
