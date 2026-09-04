@@ -1,13 +1,13 @@
-# Nono
+# Highestop Agent
 
-My personal momo (claw/claude/codex agent).
+Personal rules and reusable skills for Claude Code, Codex, and other AI agents.
 
 ## Usage
 
 Recommended setup:
 
 - Clone this project under `~/` and name the directory `.agents`, so global agent environments such as claw, claude, and codex can all pick it up.
-- In the directory where you usually keep projects, such as `~/Workspace`, create a `nono` symlink that points to `~/.agents` for quick access to the Git project.
+- In the directory where you usually keep projects, such as `~/Workspace`, create a `highestop-agent` symlink that points to `~/.agents` for quick access to the Git project.
 - If you use zsh, add commonly used agent and workspace shortcuts to `~/.zshrc`:
 
   ```zsh
