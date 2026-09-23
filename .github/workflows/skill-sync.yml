@@ -4,7 +4,6 @@ on:
   pull_request:
     paths:
       - 'scripts/**'
-      - 'tests/**'
       - 'skills.json'
       - 'skills-lock.json'
       - '.gitignore'
@@ -13,7 +12,6 @@ on:
     branches: [main]
     paths:
       - 'scripts/**'
-      - 'tests/**'
       - 'skills.json'
       - 'skills-lock.json'
       - '.gitignore'
@@ -39,4 +37,4 @@ jobs:
             bash -n "$script"
           done
       - name: Test skill synchronization
-        run: python3 -m unittest discover -s tests -v
+        run: python3 scripts/test_skill_sync.py -v
