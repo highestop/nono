@@ -24,8 +24,5 @@
 !scripts
 !scripts/**
 
-!tests
-!tests/**
-
 /skills/.gitignore
 __pycache__/

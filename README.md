@@ -73,4 +73,4 @@ When startup cannot update, the launcher uses the last usable installation and r
 
 Removing a manifest entry stops its updates but does not uninstall it. To uninstall explicitly, remove only its generated `skills/<name>` link and its lock entry; cached snapshots can be removed separately. Keep customizations in an owned skill or fork, rather than editing generated snapshots.
 
-Run the offline integration tests with `python3 -m unittest discover -s tests -v`.
+Run the offline integration tests with `python3 scripts/test_skill_sync.py -v`.
