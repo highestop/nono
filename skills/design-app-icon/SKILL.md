@@ -32,7 +32,7 @@ platform, or output-format choices. A request for references only stays research
    If the user wants several finished alternatives, package each. Modify geometry,
    stroke weight, palette, spacing, and enclosure to suit this request. For a
    worked example with the original results, read
-   [the Relay case](references/relay-example.md). Its teal palette and selected
+   [the Relay case](example/example.md). Its teal palette and selected
    symbols are examples, not universal defaults.
 
 ## Use current macOS conventions

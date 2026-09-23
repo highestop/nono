@@ -1,21 +1,16 @@
 # Relay app icon example
 
 A worked example from the Relay design conversation, with the delivered files
-preserved in [assets/examples/relay](../assets/examples/relay/). Use it to understand
+preserved alongside this document. Use it to understand
 the progression from a brief to usable icon packages. The palette, symbols, and
 2026-09-23 material baseline belong to this example; refresh Apple's guidance for
 a new project.
 
 ## Brief
 
-The requests below consolidate the conversation into one example:
+The initial request:
 
-> 我做了个 Relay 的 app，在 macOS 最新系统上，帮我找个优雅的 icon。
->
-> 这两个图不错，直接给我 PNG 图标，注意适配 macOS 视网膜屏。
->
-> 再提供支持 Liquid Glass 的原生 `.icon` 和 SVG 等必要文件的下载包。
-> 如果有可用的本地 Mac Computer Use 能力，就生成原生预览；没有就跳过。
+> I built an app called Relay for the latest version of macOS; please help me find an elegant icon.
 
 ## Process and decisions
 
@@ -40,17 +35,17 @@ These are the original **static PNGs**, not Apple-rendered Liquid Glass previews
 
 | Relay Orbit | Relay Waypoints |
 | --- | --- |
-| ![Relay Orbit static icon](../assets/examples/relay/Relay-Orbit-1024.png) | ![Relay Waypoints static icon](../assets/examples/relay/Relay-Waypoints-1024.png) |
-| [Original Lucide SVG](../assets/examples/relay/lucide-orbit-original.svg) · [Customized app SVG](../assets/examples/relay/Relay-Orbit.svg) | [Original Lucide SVG](../assets/examples/relay/lucide-waypoints-original.svg) · [Customized app SVG](../assets/examples/relay/Relay-Waypoints.svg) |
+| ![Relay Orbit static icon](Relay-Orbit-1024.png) | ![Relay Waypoints static icon](Relay-Waypoints-1024.png) |
+| [Original Lucide SVG](lucide-orbit-original.svg) · [Customized app SVG](Relay-Orbit.svg) | [Original Lucide SVG](lucide-waypoints-original.svg) · [Customized app SVG](Relay-Waypoints.svg) |
 
-- [Static Retina bundle: Relay-macOS-Icons.zip](../assets/examples/relay/Relay-macOS-Icons.zip)
+- [Static Retina bundle: Relay-macOS-Icons.zip](Relay-macOS-Icons.zip)
   contains both designs' 1024 px PNGs, `.icns` files, `AppIcon.appiconset`, original
   and edited SVGs, Icon Composer import layers, menu-bar templates, integration
   notes, and license notices.
-- [Native bundle: Relay-Liquid-Glass.icon.zip](../assets/examples/relay/Relay-Liquid-Glass.icon.zip)
+- [Native bundle: Relay-Liquid-Glass.icon.zip](Relay-Liquid-Glass.icon.zip)
   contains `Relay-Orbit.icon` and `Relay-Waypoints.icon`, each with `icon.json`
   and its foreground asset, plus integration notes and license notices.
-- [Lucide license and inherited notices](../assets/examples/relay/LICENSE-Lucide.txt)
+- [Lucide license and inherited notices](LICENSE-Lucide.txt)
   apply to the copied source and derived artwork. They are also included in both
   archives.
 
@@ -61,7 +56,7 @@ recorded, so do not invent a pinned source revision for this historical example.
 Each static design has all 10 macOS app-icon slots: 16, 32, 128, 256, and 512 pt
 at both 1x and 2x, including the 1024 px Retina representation. Menu-bar templates
 are 18 px and 36 px for an 18 pt status item. See
-[macos-delivery.md](macos-delivery.md) for the size mapping and current workflow.
+[macos-delivery.md](../references/macos-delivery.md) for the size mapping and current workflow.
 
 ## Validation and handoff
 
