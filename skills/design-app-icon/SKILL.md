@@ -30,8 +30,10 @@ platform, or output-format choices. A request for references only stays research
 4. Follow an explicit selection. Otherwise recommend and proceed with a strong
    candidate when the brief is sufficient; do not introduce an approval gate.
    If the user wants several finished alternatives, package each. Modify geometry,
-   stroke weight, palette, spacing, and enclosure to suit this request. The Relay
-   teal palette from an earlier task is an example, not a universal default.
+   stroke weight, palette, spacing, and enclosure to suit this request. For a
+   worked example with the original results, read
+   [the Relay case](references/relay-example.md). Its teal palette and selected
+   symbols are examples, not universal defaults.
 
 ## Use current macOS conventions
 
