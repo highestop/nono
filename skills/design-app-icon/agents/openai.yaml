@@ -1,0 +1,6 @@
+interface:
+  display_name: "App Icon Designer"
+  short_description: "Lucide-based macOS icons with Liquid Glass bundles"
+  default_prompt: "Use $design-app-icon to find and customize a suitable SVG icon and deliver a macOS Liquid Glass icon package."
+policy:
+  allow_implicit_invocation: true
