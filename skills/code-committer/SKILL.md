@@ -60,7 +60,6 @@ description: Handle Git repository changes with verified commit identities, auto
 
 ## Create or update the PR
 
-- Manage PRs with `gh`.
 - Update the branch's existing PR when present; otherwise create one.
 - For a fork, open the PR against the original repository with `gh pr create --repo <upstream-owner>/<upstream-repo> --head <fork-owner>:<feature-branch>`.
 - Use an English Conventional Commit title.
