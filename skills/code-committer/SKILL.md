@@ -7,8 +7,16 @@ description: Handle Git repository changes with verified commit identities, auto
 
 ## GitHub command selection
 
-- Use high-level `gh` commands for routine GitHub operations.
-- If a high-level `gh` command is blocked by an unnecessary GraphQL scope or hidden preflight query, use the equivalent REST endpoint through `gh api` with the narrowest required permissions instead of broadening token scopes solely to satisfy the command.
+| Operation | Preferred interface |
+| --- | --- |
+| Authentication, repository cloning and basic viewing, routine Issue operations, workflow runs, ordinary lists and searches | `gh` CLI |
+| PR creation and CI check polling | `gh pr create`, `gh pr checks` |
+| Structured PR metadata, reviews, comments, and requested reviewers | `gh api` REST: `repos/<owner>/<repo>/pulls/<number>`, `/reviews`, and `/comments` |
+| PR title, body, or base updates | `gh api` REST: `PATCH repos/<owner>/<repo>/pulls/<number>` |
+| Direct PR merge and remote branch deletion | `gh api` REST: `PUT repos/<owner>/<repo>/pulls/<number>/merge`, `DELETE repos/<owner>/<repo>/git/refs/heads/<branch>` |
+| Merge-queue operations | `gh pr merge` |
+
+- For REST mutations, pass explicit methods and JSON inputs, bind a direct merge to the current head SHA, and do not broaden token scopes solely to satisfy a high-level command's hidden GraphQL query.
 
 ## Scope and authorization
 
@@ -52,7 +60,7 @@ description: Handle Git repository changes with verified commit identities, auto
 - After verification, stage only the intended files.
 - Write English Angular Conventional Commit messages, adding a concise scope when useful.
 - Append the inferred `Co-Authored-By` trailer after a blank line in the commit body.
-- Determine the PR target from `upstream` when present; otherwise use `gh repo view --json isFork,parent,nameWithOwner`.
+- Determine the PR target from `upstream` when present; otherwise use `gh repo view` for human-readable repository information or `gh api repos/<owner>/<repo>` when parsing fork and parent metadata.
 - Push the feature branch to the fork when working in a fork, or to the repository's remote otherwise.
 - For a non-fast-forward rejection, fetch and rebase, resolve conflicts within the task's scope, then retry a normal push.
 - Use `--force-with-lease` only when an intentional history rewrite requires it.
@@ -75,12 +83,12 @@ description: Handle Git repository changes with verified commit identities, auto
 
 ## Review and merge
 
-- Check CI and review status with `gh pr checks` and `gh pr view`.
+- Check CI with `gh pr checks`. Read PR state, mergeability, reviews, comments, and requested reviewers through `gh api` REST endpoints.
 - Fix task-related failures and valid blocking review issues with new commits that follow the same identity reporting and co-author rules.
 - Ask for direction when a review requires a material scope change or its resolution is unclear.
 - Merge only when required checks pass and no unresolved blocking review issues remain.
 - Require the user's authorization before merging; honor existing standing authorization without asking again, otherwise ask before merging.
-- Prefer the project's merge queue when enabled.
+- Prefer the project's merge queue when enabled; use `gh pr merge` to enqueue or complete it.
 - Prefer rebase merge.
 - Prefer feature branch deletion after merging.
 - Preserve commit messages and co-author trailers during the merge.
