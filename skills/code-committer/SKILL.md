@@ -5,6 +5,11 @@ description: Handle Git repository changes with verified commit identities, auto
 
 # Code committer
 
+## GitHub command selection
+
+- Use high-level `gh` commands for routine GitHub operations.
+- If a high-level `gh` command is blocked by an unnecessary GraphQL scope or hidden preflight query, use the equivalent REST endpoint through `gh api` with the narrowest required permissions instead of broadening token scopes solely to satisfy the command.
+
 ## Scope and authorization
 
 - Honor explicit requests not to commit, push, or submit a PR.
@@ -56,7 +61,6 @@ description: Handle Git repository changes with verified commit identities, auto
 ## Create or update the PR
 
 - Manage PRs with `gh`.
-- Prefer high-level `gh` commands for routine GitHub operations. If a high-level command is blocked by an unnecessary GraphQL scope or hidden preflight query, use the equivalent REST endpoint through `gh api` with the narrowest required permissions instead of broadening token scopes solely to satisfy the command.
 - Update the branch's existing PR when present; otherwise create one.
 - For a fork, open the PR against the original repository with `gh pr create --repo <upstream-owner>/<upstream-repo> --head <fork-owner>:<feature-branch>`.
 - Use an English Conventional Commit title.
