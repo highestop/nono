@@ -1,6 +1,7 @@
 *
 
 !.gitignore
+!skills-lock.json
 
 !AGENTS.md
 !SKILLS.md
