@@ -1,0 +1,6 @@
+interface:
+  display_name: "ModelTrace Attribution"
+  short_description: "Identify models with independent ModelTrace challenges"
+  default_prompt: "Use $model-trace-attribution to identify the most likely model from the ModelTrace challenge page."
+policy:
+  allow_implicit_invocation: true
