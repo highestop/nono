@@ -48,7 +48,7 @@ Use the bundled renderer after collecting evidence. It performs no network reque
       "registration": {"usd": "160.00", "years": 2},
       "renewal": {"usd": "160.00", "years": 2},
       "sources": ["https://cfdomainpricing.com/"],
-      "notes": "第三方参考价；尚未确认该域名可注册"
+      "notes": "Third-party reference price; domain availability is unconfirmed"
     }
   ]
 }
@@ -60,14 +60,14 @@ The numbers above are illustrative, not current quotes. `registrar` must be `Clo
 python3 <skill-dir>/scripts/rank_prices.py --quotes <temporary-quotes.json>
 ```
 
-The default output matches the user's Chinese table:
+The renderer defaults to Chinese. The equivalent English table is:
 
-| 排名 | 域名 | 较省渠道 | 首年 / 年续费（USD） | 备注 |
+| Rank | Domain | Lower-cost option | First year / annual renewal (USD) | Notes |
 |---|---|---|---|---|
 | `<rank>` | `<full domain>` | `<registrar or reference label>` | `<icon price> / <icon price>` | `<promotion, term, availability, or source limitation>` |
 
 - Color **each annual price**, not the combined cost: 🟢 `≤ $10`; 🟡 `> $10 and ≤ $20`; 🔴 `> $20`. Show `—` for unknown values, with no price icon.
-- The final column is **备注**. Do not add a three-year total, annualized three-year cost, or hidden score column. For multi-year registration, the first displayed figure is an annual allocation; note the required upfront payment and renewal cycle. With a two-year registration and renewal cycle, continuing into year three requires paying through year four; make this visible.
+- The final column is **Notes**, localized to the response language. Do not add a three-year total, annualized three-year cost, or hidden score column. For multi-year registration, the first displayed figure is an annual allocation; note the required upfront payment and renewal cycle. With a two-year registration and renewal cycle, continuing into year three requires paying through year four; make this visible.
 - State the check time, USD and tax assumptions, the internal ranking rule, and source links. Label references and incomplete comparisons visibly. Keep the main table to one row per watched domain; expand to all three registrars only if requested.
 - Review the renderer's notes against the evidence and add concise promotion conditions or source limitations it cannot infer. Match another response language if explicitly requested.
 

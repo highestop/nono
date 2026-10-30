@@ -1,6 +1,6 @@
 ---
 name: extract-xiaohongshu
-description: Extract a Xiaohongshu (XHS or 小红书) note's content and requested media using EMMMM for media discovery, with original-file verification. Use for full-note extraction, text-only requests, or selected original media without creating a Markdown archive.
+description: Extract a Xiaohongshu (XHS) note's content and requested media using EMMMM for media discovery, with original-file verification. Use for full-note extraction, text-only requests, or selected original media without creating a Markdown archive.
 ---
 
 # Extract Xiaohongshu

@@ -1,6 +1,6 @@
 ---
 name: extract-wechat
-description: Extract a WeChat Official Account (微信公众号) article's title, author, account, publication time, body, and selected original images from an mp.weixin.qq.com link. Use for full-article extraction, text-only requests, or individual original images without creating a Markdown archive.
+description: Extract a WeChat Official Account article's title, author, account, publication time, body, and selected original images from an mp.weixin.qq.com link. Use for full-article extraction, text-only requests, or individual original images without creating a Markdown archive.
 ---
 
 # Extract WeChat
