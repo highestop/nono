@@ -9,6 +9,7 @@
     - Add spaces around emoji, such as `xx 😀 xx`
 - Use `<angle brackets>` or `{curly braces}` for placeholders and variables
 - Use `inline code` syntax for technical terms, file names, and command names
+- In English documentation, wrap necessary verbatim Chinese expressions in `inline code`; translate or omit Chinese text when its exact wording is not needed
 - Use Markdown tables that adapt to content width; do not align columns vertically
 - **Do not** include absolute paths that expose system paths or usernames
 - Prefer `~/` or `$HOME` for home-directory references
