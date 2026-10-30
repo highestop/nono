@@ -18,7 +18,8 @@
 | [mweb-db-exporter](skills/mweb-db-exporter/SKILL.md) | Export all tables from an MWeb mainlib.db SQLite database as JSON with schema and record summaries. Use for MWeb data analysis, backup, migration, integration, or integrity debugging; operate read-only and do not use for non-MWeb databases or requests that require export files. |
 | [mweb-media-reference-checker](skills/mweb-media-reference-checker/SKILL.md) | Audit an MWeb document library for missing media references and unreferenced media files, then guide user-approved cleanup. Use for integrity checks, routine maintenance, or post-migration cleanup; do not modify documents or delete files without explicit confirmation. |
 | [mweb-to-obsidian-migrator](skills/mweb-to-obsidian-migrator/SKILL.md) | Migrate an MWeb library to an Obsidian vault by copying notes and attachments, recreating category paths, rewriting copied media links, and recording migration logs. Use when converting an MWeb root containing mainlib.db and docs/; never modify, move, or delete the original MWeb files. |
+| anatomy | https://github.com/wheresryan22/anatomy |
 
 ---
 
-*This document was automatically generated based on commit [`b5632c36ede7b97c429723094d886ddcfaca8074`](https://github.com/highestop/nono/commit/b5632c36ede7b97c429723094d886ddcfaca8074).*
+*This document was automatically generated based on commit [`f5f75840595468bce96e7faa2cee7319bd566a73`](https://github.com/highestop/nono/commit/f5f75840595468bce96e7faa2cee7319bd566a73).*
