@@ -7,6 +7,20 @@
       "sourceType": "github",
       "skillPath": "SKILL.md",
       "computedHash": "b243118c08624f740a28dc667c99a3536ff7ab98ececc6aa81e2473aaefedd08"
+    },
+    "hallmark": {
+      "source": "Nutlope/hallmark",
+      "ref": "4f6a46c6dc325d40ab268c93e25c7b96676ebccd",
+      "sourceType": "github",
+      "skillPath": "skills/hallmark/SKILL.md",
+      "computedHash": "611aa02a0444197b38896cb3073866ae9563f10005f7d14e7bf4baf8ab58f437"
+    },
+    "reverse-engineer-anything": {
+      "source": "morluto/rea",
+      "ref": "b1ff7cdacc03110d51bcac33da3cbb7850ac27fc",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/reverse-engineer-anything/SKILL.md",
+      "computedHash": "868501a5cd4a831da614893833f1efa8a9615a41877a4ccef6a9d7965aebf7d5"
     }
   }
 }
