@@ -15,7 +15,7 @@ description: Report the currently active Dota 2 The International (TI) from Liqu
 ## Workflow
 
 1. Verify that the current time falls within the edition's `Start Date` and `End Date` and that Liquipedia lists it as live or ongoing
-   - If no TI is active, respond only with the equivalent of `当前没有正在进行的 TI。` in the user's language and stop
+   - If no TI is active, respond only with the equivalent of `No TI is currently in progress.` in the user's language and stop
 2. Determine the current stage from the Overview tabs, format dates, completed results, and live or upcoming matches
    - Use `Group Stage` while that phase or its Elimination Round is current
    - Use `Main Event` after the Group Stage is complete and the Main Event or Playoffs bracket is current

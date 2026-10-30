@@ -1,6 +1,6 @@
 ---
 name: make-photo-gouache-poster
-description: "Turn user photos into soft-gouache posters with hand-painted titles, either as standalone paintings preserving each photo's aspect ratio or as square 50/50 photo-and-painting collages. Use for this established photo-to-gouache poster style, including 这种海报; do not apply to unrelated poster styles."
+description: "Turn user photos into soft-gouache posters with hand-painted titles, either as standalone paintings preserving each photo's aspect ratio or as square 50/50 photo-and-painting collages. Use for this established photo-to-gouache poster style; do not apply to unrelated poster styles."
 ---
 
 # Photo to gouache poster
@@ -11,8 +11,8 @@ Use the user's photo as the scene reference and [the approved gouache illustrati
 
 | Mode | User intent | Final image |
 | - | - | - |
-| `poster-only` | “只要海报”, “不用拼图”, standalone painting | A continuous painted scene with its title. Its aspect ratio matches the oriented source photo exactly. |
-| `collage` | “和原图拼在一起”, photo + painting | A square with an exact 50/50 split. The title appears only in the painted half. |
+| `poster-only` | “poster only”, “no collage”, standalone painting | A continuous painted scene with its title. Its aspect ratio matches the oriented source photo exactly. |
+| `collage` | “combine with the original photo”, photo + painting | A square with an exact 50/50 split. The title appears only in the painted half. |
 
 Follow the current request, then the established mode in the conversation. Without either, default to `collage`, the original approved format. Produce both modes only when requested. For multiple photos, apply the selected mode separately to each; do not combine unrelated photos into a contact sheet.
 
