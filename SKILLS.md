@@ -19,7 +19,9 @@
 | [mweb-media-reference-checker](skills/mweb-media-reference-checker/SKILL.md) | Audit an MWeb document library for missing media references and unreferenced media files, then guide user-approved cleanup. Use for integrity checks, routine maintenance, or post-migration cleanup; do not modify documents or delete files without explicit confirmation. |
 | [mweb-to-obsidian-migrator](skills/mweb-to-obsidian-migrator/SKILL.md) | Migrate an MWeb library to an Obsidian vault by copying notes and attachments, recreating category paths, rewriting copied media links, and recording migration logs. Use when converting an MWeb root containing mainlib.db and docs/; never modify, move, or delete the original MWeb files. |
 | anatomy | https://github.com/wheresryan22/anatomy |
+| hallmark | https://github.com/Nutlope/hallmark |
+| reverse-engineer-anything | https://github.com/morluto/rea |
 
 ---
 
-*This document was automatically generated based on commit [`e207808820e9fea29024d2177515e5168aa69856`](https://github.com/highestop/nono/commit/e207808820e9fea29024d2177515e5168aa69856).*
+*This document was automatically generated based on commit [`a6e86eb6a41c7538d5661fee8067a75dee7bcaea`](https://github.com/highestop/nono/commit/a6e86eb6a41c7538d5661fee8067a75dee7bcaea).*
