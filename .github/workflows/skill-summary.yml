@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'skills/**'
+      - 'skills-lock.json'
       - '.github/workflows/skill-summary.yml'
 
 jobs:
@@ -64,6 +65,17 @@ jobs:
               echo "| $skill_link | $description |" >> SKILLS.md
             fi
           done
+
+          # Append GitHub skills from the lock file to the same table
+          if [ -f skills-lock.json ]; then
+            jq -r '
+              (.skills // {})
+              | to_entries
+              | sort_by(.key)[]
+              | select(.value.sourceType == "github")
+              | "| \(.key) | https://github.com/\(.value.source) |"
+            ' skills-lock.json >> SKILLS.md
+          fi
 
           # Add footer with commit info
           cat >> SKILLS.md << EOF
