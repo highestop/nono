@@ -2,6 +2,7 @@
 
 | Skill | Description |
 |------|------|
+| [cleanup-project-worktrees](skills/cleanup-project-worktrees/SKILL.md) | Clean stale local Git worktrees and branches for the current project, archive their associated Codex chats, and report the results in tables. Use for project cleanup from inside a Git working directory, including leftover branches and chats whose worktrees were already removed. |
 | [code-committer](skills/code-committer/SKILL.md) | Handle Git repository changes with verified commit identities, automatic agent co-authorship, conventional commits, and GitHub PR management. When a Git workspace has changes, automatically commit, push, and create or update a PR without asking whether to submit it. |
 | [compare-domain-prices](skills/compare-domain-prices/SKILL.md) | Compare watched domain names across Cloudflare Registrar, Dynadot, and Porkbun using current registration and renewal prices. Use for domain affordability rankings, registrar price comparisons, or updates to the domain watchlist; show colored annual prices and promotion or purchase-term notes without a three-year cost column. |
 | [design-app-icon](skills/design-app-icon/SKILL.md) | Find, customize, or create app icons from Lucide SVGs and deliver a macOS Retina and Liquid Glass download bundle. Use for icon requests, defaulting to macOS app icons unless the user specifies another source, platform, or an inline UI icon. |
@@ -24,4 +25,4 @@
 
 ---
 
-*This document was automatically generated based on commit [`a6e86eb6a41c7538d5661fee8067a75dee7bcaea`](https://github.com/highestop/nono/commit/a6e86eb6a41c7538d5661fee8067a75dee7bcaea).*
+*This document was automatically generated based on commit [`5274c88d52441231c0a7d9267b89bf27b0655146`](https://github.com/highestop/nono/commit/5274c88d52441231c0a7d9267b89bf27b0655146).*
