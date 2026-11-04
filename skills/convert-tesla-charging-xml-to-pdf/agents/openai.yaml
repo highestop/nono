@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tesla Charging XML to PDF"
+  short_description: "Convert Tesla charging XML into styled PDF details"
+  default_prompt: "Use $convert-tesla-charging-xml-to-pdf to convert this Tesla charging invoice XML into the saved Chinese PDF layout."
