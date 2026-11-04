@@ -6,8 +6,10 @@ description: Clean stale local Git worktrees and branches for the current projec
 # Cleanup Project Worktrees
 
 Inspect one local repository, remove confirmed stale worktrees and local branches,
-and archive their completed Codex chats. A cleanup request authorizes these actions
-once the checks below pass. Honor an inspection-only request without mutations.
+archive their completed Codex chats, and finish on a clean, updated `main` branch.
+A cleanup request authorizes these actions once the checks below pass.
+Honor an inspection-only request without mutations, including branch switches,
+stashing, and pulls.
 
 ## Establish the repository and exclusions
 
@@ -29,10 +31,13 @@ requirement. Reject bare repositories and Git administrative directories.
   paths on the invocation's host. Include only worktrees sharing that identity.
 - Exclude `main` by default, the repository's actual default branch, and any extra
   branches or paths the user asks to keep. Apply exclusions to associated chats.
-- Always retain the primary worktree, the invocation worktree and its branch, and
-  the calling chat. Require a separate explicit request to remove protected items.
+- Always retain the primary worktree, the invocation worktree and its original
+  branch, and the calling chat. The final switch to `main` preserves the original
+  branch's protection. Require a separate explicit request to remove protected items.
 - Limit changes to local worktrees, local branches, obsolete remote-tracking refs,
-  and eligible Codex chat archive state. Remote branches and PR state are read-only.
+  preservation stashes, and eligible Codex chat archive state. The final step may
+  switch the invocation worktree to `main` and fast-forward it from its remote.
+  Remote branches and PR state are read-only.
 
 ## Collect evidence before cleanup
 
@@ -135,6 +140,13 @@ Always check for commits added after the PR merged.
 
 ## Clean up and archive
 
+Use the user's global `gbp` alias as a reference for refreshing remote refs before
+deleting local branches. Its implementation in `~/.zshrc` runs `git prune`,
+`git fetch --prune origin`, and a filtered `git branch -a` pipeline ending in
+`git branch -D`. Apply this skill's preservation checks to each candidate and use
+structured refs with exact branch exclusions. Skip the alias's loose-object pruning
+and bulk force deletion, which can remove recovery history or unmerged work.
+
 Summarize the concrete candidates, then execute the authorized cleanup. Recheck
 HEADs, worktree status, exclusions, PR state, and chat activity immediately before
 mutation. Stop that candidate if evidence changed. Process targets independently
@@ -167,6 +179,39 @@ Rerun the Git inventory after mutations. Confirm that retained worktrees and bra
 still exist. Make retries idempotent by checking current state before each action.
 Local cleanup alone creates no source changes to commit or PR to open.
 
+## Finish on a clean, updated main
+
+After cleanup, complete these steps in the invocation worktree, even when no stale
+targets were found. Skip them for inspection-only requests.
+
+1. Recheck repository identity, branch, status, and activity. If another task is
+   using this worktree, an operation such as a rebase or merge is in progress, or
+   `main` is checked out in another worktree, report the blocker and retain state.
+2. Inspect staged, unstaged, and all untracked files. For changes the user explicitly
+   authorized discarding, restore or remove only the identified paths. Otherwise
+   preserve any remaining changes with
+   `git stash push --include-untracked -m <unique-cleanup-label>`.
+   Record the stash commit ID, original branch or detached HEAD, and affected paths.
+   Verify the stash was created and status is empty before switching. Preserve
+   ignored files, submodules, and embedded repositories separately if they block
+   progress. A stash failure or remaining changes stop the finalization step.
+3. Before leaving a detached HEAD, preserve its commit with a named local branch
+   if no retained branch contains it, and report that branch. If needed, run
+   `git switch main`. If local `main` is absent, create it with
+   `git switch --track -c main <verified-remote>/main` only after confirming the
+   intended remote branch. Report an absent or ambiguous `main` as unresolved.
+   Verify that `HEAD` is on `main` and
+   `git status --porcelain=v1 -z --untracked-files=all` is empty.
+4. Resolve `main`'s configured remote and upstream branch and run
+   `git pull --ff-only <remote> <upstream-branch>`. If no upstream is configured,
+   use a verified, unambiguous remote `main`. Preserve local commits if the pull
+   fails or history diverges. Do not reset or rebase `main` to force synchronization.
+5. Verify the final branch is `main`, status is empty, and `HEAD` equals the fetched
+   upstream tip. Report local commits ahead of the upstream separately. Keep any
+   preservation stash available without applying or dropping it, and report its
+   commit ID so the user can recover the changes. Only claim full synchronization
+   when these checks pass.
+
 ## Report results
 
 Always finish with tables in the user's language, including retained and unresolved
@@ -174,6 +219,8 @@ items. State total worktrees before and after, whether the primary worktree is c
 and counts of removed worktrees, deleted branches, archived chats, and unresolved
 failures. Count failed attempts that later recovered separately from unresolved
 failures. Show missing directories as `missing` and unavailable evidence as `unknown`.
+Also report the final branch and commit, whether the worktree is clean, the pull
+result, and any preservation stash or finalization blocker.
 
 | Worktree / branch | Directory before | Local changes | Remote branch | PR and state | Decision / reason | Worktree / directory / branch result |
 | --- | --- | --- | --- | --- | --- | --- |
