@@ -28,10 +28,3 @@ Recommended setup:
   # workspace
   alias ws="cd ~/Workspace"
   ```
-
-## Source extraction skills
-
-- [extract-wechat](skills/extract-wechat/SKILL.md): extract WeChat Official Account content and selected original images.
-- [extract-xiaohongshu](skills/extract-xiaohongshu/SKILL.md): extract Xiaohongshu note content and selected original media.
-
-These skills return source content and selected media without creating Markdown archives.
