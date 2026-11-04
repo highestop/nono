@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cleanup Project Worktrees"
+  short_description: "Clean stale worktrees, branches, and Codex chats"
+  default_prompt: "Use $cleanup-project-worktrees in the current Git project, exclude main, clean verified stale worktrees and branches, archive their completed Codex chats, and report the results in tables."
