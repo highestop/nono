@@ -15,12 +15,26 @@
       "skillPath": "skills/hallmark/SKILL.md",
       "computedHash": "611aa02a0444197b38896cb3073866ae9563f10005f7d14e7bf4baf8ab58f437"
     },
+    "mobile-ios-design": {
+      "source": "wshobson/agents",
+      "ref": "4bde3168b43c0655c4d00ea2726e631719908a6d",
+      "sourceType": "github",
+      "skillPath": "plugins/ui-design/skills/mobile-ios-design/SKILL.md",
+      "computedHash": "3902f919488d8ddc983e157bbcd5f16b739b84eeaab57002bf52b7f9601ed6ad"
+    },
     "reverse-engineer-anything": {
       "source": "morluto/rea",
       "ref": "b1ff7cdacc03110d51bcac33da3cbb7850ac27fc",
       "sourceType": "github",
       "skillPath": ".agents/skills/reverse-engineer-anything/SKILL.md",
       "computedHash": "868501a5cd4a831da614893833f1efa8a9615a41877a4ccef6a9d7965aebf7d5"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "ref": "b7d5353e0130feb8c5574ef1251f8a1db1873ccb",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
+      "computedHash": "f9f7f8eb0ff50334c509c51b761f362db712ba99972748b1fc3a1dbc65873e80"
     }
   }
 }
