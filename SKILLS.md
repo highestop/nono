@@ -22,8 +22,10 @@
 | [mweb-to-obsidian-migrator](skills/mweb-to-obsidian-migrator/SKILL.md) | Migrate an MWeb library to an Obsidian vault by copying notes and attachments, recreating category paths, rewriting copied media links, and recording migration logs. Use when converting an MWeb root containing mainlib.db and docs/; never modify, move, or delete the original MWeb files. |
 | anatomy | https://github.com/wheresryan22/anatomy |
 | hallmark | https://github.com/Nutlope/hallmark |
+| mobile-ios-design | https://github.com/wshobson/agents |
 | reverse-engineer-anything | https://github.com/morluto/rea |
+| ui-ux-pro-max | https://github.com/nextlevelbuilder/ui-ux-pro-max-skill |
 
 ---
 
-*This document was automatically generated based on commit [`48d2c1e88b226133200a7daf070486b03b696ce3`](https://github.com/highestop/nono/commit/48d2c1e88b226133200a7daf070486b03b696ce3).*
+*This document was automatically generated based on commit [`d101ec1e4593977dd8ccd9677cf88d33e212e5e5`](https://github.com/highestop/nono/commit/d101ec1e4593977dd8ccd9677cf88d33e212e5e5).*
