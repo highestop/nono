@@ -2,3 +2,4 @@
 - Behavior: see [@rules/behavior](/rules/behavior.md)
 - Content format: see [@rules/format](/rules/format.md)
 - Pull request & commit: see [@skills/code-committer](/skills/code-committer/SKILL.md).
+- For iOS, iPadOS, macOS, or tvOS app work, follow [@rules/apple-apps](/rules/apple-apps.md).
