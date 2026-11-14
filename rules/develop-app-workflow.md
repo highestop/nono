@@ -2,6 +2,20 @@
 
 This reusable workflow applies to developing a new app from an existing reference app or from screenshots, text and videos of a reference product.
 
+```mermaid
+flowchart TD
+    discover["1. Discover from the user's perspective<br/>Operate the app; otherwise review supplied material<br/>Record evidence; no code research or inferred features"]
+    discover --> report["Stop and report findings and evidence<br/>Present a concrete product feature list"]
+    report --> approval{"Does the user explicitly<br/>approve the feature list?"}
+    approval -->|Changes needed| revise["Apply the user's keep / remove / adjust decisions<br/>Update the list and collect further evidence as needed"]
+    revise --> report
+    approval -->|Yes| baseline["Save the approved list, revision and decisions"]
+    baseline --> develop["2. Research implementation and develop<br/>Use packages, source and developer tools<br/>Implement the approved feature list"]
+    develop -. Scope or behavior changes .-> discover
+    develop -->|Implementation complete| acceptance["3. Write and review GWT cases and shared fixtures<br/>Then implement caseId-mapped tests<br/>Run the full acceptance suite"]
+    acceptance -->|All approved cases pass| deliver["Deliver the app, approved feature list,<br/>evidence and acceptance results"]
+```
+
 **Mandatory order: (1) observe and record the reference product from the user's perspective, without reading implementation code or inferring features; stop to report the findings and evidence, revise the product feature list with the user, and obtain their explicit approval → (2) research implementation where useful and implement the approved product feature list → (3) write GWT cases against every feature and scenario in that approved list, with no omissions, and align every Then expected result with the Stage 1 evidence and any explicitly approved product adjustments; then implement automated acceptance and pass every case. Complete each stage before starting any work in the next stage. Do not overlap stages or treat partial completion as permission to proceed.**
 
 ## Stage 1 — Discover features and collect evidence
