@@ -27,3 +27,10 @@
 - Use `design-app-icon` as an optional reference for icon exploration or asset preparation. Choose a mark that fits the app's name and purpose, and follow Apple's icon guidance for the target. [App icons](https://developer.apple.com/design/human-interface-guidelines/app-icons)
 
 Build for the supported targets and verify the main workflow and relevant failure or retry states. Check material, motion, and input behavior on the target platform when evaluating the visual experience.
+
+## Reuse one Preview app during development
+
+- Use one fixed Preview app name, install path, and bundle identifier per project. Quit the running app before updating that same app in place; do not create a new app identity for every build or test run.
+- Keep only one Preview app instance open. Quit it when verification finishes, and reopen it only when another check needs it.
+- Reuse the user's existing authorization for Preview app testing and computer use. Do not ask for permission again for each build or test run; honor any approval enforced by the host.
+- Keep test data and run evidence isolated even though the app identity stays fixed. Preserve the tested source revision and build record for each run.
