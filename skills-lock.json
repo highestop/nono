@@ -22,13 +22,6 @@
       "skillPath": ".agents/skills/impeccable/SKILL.md",
       "computedHash": "a5f950edfc57b65cd314153852f0e76e3712d972ba0b843393e85576cdc2e644"
     },
-    "mobile-ios-design": {
-      "source": "wshobson/agents",
-      "ref": "4bde3168b43c0655c4d00ea2726e631719908a6d",
-      "sourceType": "github",
-      "skillPath": "plugins/ui-design/skills/mobile-ios-design/SKILL.md",
-      "computedHash": "3902f919488d8ddc983e157bbcd5f16b739b84eeaab57002bf52b7f9601ed6ad"
-    },
     "reverse-engineer-anything": {
       "source": "morluto/rea",
       "ref": "b1ff7cdacc03110d51bcac33da3cbb7850ac27fc",

@@ -23,7 +23,6 @@
 | anatomy | https://github.com/wheresryan22/anatomy |
 | hallmark | https://github.com/Nutlope/hallmark |
 | impeccable | https://github.com/pbakaus/impeccable |
-| mobile-ios-design | https://github.com/wshobson/agents |
 | reverse-engineer-anything | https://github.com/morluto/rea |
 | ui-ux-pro-max | https://github.com/nextlevelbuilder/ui-ux-pro-max-skill |
 

@@ -21,6 +21,5 @@
 !rules/**
 
 /skills/.system/
-/skills/mobile-ios-design/
 /skills/ui-ux-pro-max/
 __pycache__/
