@@ -23,7 +23,7 @@
 ## Read before designing or changing the interface
 
 - Consult the current Apple Human Interface Guidelines for the target platform and the Apple documentation for the APIs you intend to use. [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
-- Read both installed skills, `mobile-ios-design` and `ui-ux-pro-max`. Use the first for native mobile patterns and the second for layout, interaction, and accessibility review. Apply their suggestions in the context of the target platform's Apple guidance.
+- Read the installed `ui-ux-pro-max` skill for layout, interaction, and accessibility review. Apply its suggestions in the context of the target platform's Apple guidance.
 - Use `design-app-icon` as an optional reference for icon exploration or asset preparation. Choose a mark that fits the app's name and purpose, and follow Apple's icon guidance for the target. [App icons](https://developer.apple.com/design/human-interface-guidelines/app-icons)
 
 Build for the supported targets and verify the main workflow and relevant failure or retry states. Check material, motion, and input behavior on the target platform when evaluating the visual experience.
