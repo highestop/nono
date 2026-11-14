@@ -4,3 +4,4 @@
 - Pull request & commit: see [@skills/code-committer](/skills/code-committer/SKILL.md). (Commit automatically when making changes in a Git repository)
 - For iOS, iPadOS, macOS, or tvOS app work, follow [@rules/develop-apple-apps](/rules/develop-apple-apps.md).
 - For app development, follow [@rules/develop-app-workflow](/rules/develop-app-workflow.md).
+- For every code project, apply the case, fixture and automated acceptance requirements in Stage 3 of [@rules/develop-app-workflow](/rules/develop-app-workflow.md): write GWT cases and prepare shared fixture data before implementation, then verify every case after implementation with automated tests mapped one-to-one by `caseId`.
