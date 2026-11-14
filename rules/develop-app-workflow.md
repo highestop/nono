@@ -33,7 +33,9 @@ Keep the reference inventory and evidence intact. Save the reviewed product feat
 
 ## Stage 2 — Implement the app from the recorded specification
 
-- Start only after Stage 1, including explicit user approval of the product feature list, is complete. Where reference implementation code is available, inspect it now to understand dependencies, source locations and implementation techniques, and prepare the implementation plan. Record unavailable code as a limitation. This research guides how to implement the approved behavior; it does not establish or replace product behavior evidence.
+- Start only after Stage 1, including explicit user approval of the product feature list, is complete.
+- At this stage, use all available implementation details as technical references. For locally installed apps, inspect their application packages or bundles, metadata, dependencies, bundled code, configuration and resources. For web apps and desktop apps that wrap web content, use developer tools to inspect their code, DOM and styles, available source maps, network behavior and runtime execution. Source repositories, technical documentation and other available implementation materials can also inform the work.
+- Record the reference version, source locations, useful findings and any unavailable details. Use this research to prepare the implementation plan and guide architecture, dependency choices and implementation techniques. The approved product feature list remains the behavior baseline; implementation research does not establish or replace Stage 1 product behavior evidence.
 - Implement every retained or adjusted feature and scenario against the approved Stage 1 list and its final expected behavior. Do not reintroduce removed features or change the approved scope on your own.
 - Associate implementation work with the product feature/scenario identifiers. Meet the specified platform, integration, extension, performance and delivery requirements.
 - Keep the Stage 1 documents and attachments in the app project throughout development. Keep implementation details separate from the evidence of what the reference does.
