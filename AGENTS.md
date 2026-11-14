@@ -1,7 +1,7 @@
-- Language preferences: see [@rules/language](/rules/language.md)
-- Behavior: see [@rules/behavior](/rules/behavior.md)
-- Content format: see [@rules/format](/rules/format.md)
-- Pull request & commit: see [@skills/code-committer](/skills/code-committer/SKILL.md). (Commit automatically when making changes in a Git repository)
-- For iOS, iPadOS, macOS, or tvOS app work, follow [@rules/develop-apple-apps](/rules/develop-apple-apps.md).
-- For app development, follow [@rules/develop-app-workflow](/rules/develop-app-workflow.md).
-- For every code project, apply the case, fixture and automated acceptance requirements in Stage 3 of [@rules/develop-app-workflow](/rules/develop-app-workflow.md): write GWT cases and prepare shared fixture data before implementation, then verify every case after implementation with automated tests mapped one-to-one by `caseId`.
+- **Language:** follow [@rules/language](/rules/language.md) for communication, documentation, code comments, and commit and PR text.
+- **Format:** follow [@rules/format](/rules/format.md) for Markdown structure, spacing, and file links.
+- **Behavior:** follow [@rules/behavior](/rules/behavior.md) for task execution, evidence, and self-review.
+- **Git changes:** follow [@skills/code-committer](/skills/code-committer/SKILL.md) for identity verification, commits, and PRs. Automatically commit and push task-related changes and create or update the PR; merge only with the user's authorization.
+- **All code projects:** apply the case, fixture, and automated acceptance requirements in Stage 3 of [@rules/develop-app-workflow](/rules/develop-app-workflow.md). Write GWT cases and prepare shared fixture data before implementation; afterward, verify every case with automated tests mapped one-to-one by `caseId`.
+- **App development:** additionally follow the full [@rules/develop-app-workflow](/rules/develop-app-workflow.md). Complete reference discovery and obtain the user's approval of the product feature list before implementation; use the approved list as the development and acceptance baseline.
+- **Apple apps:** for iOS, iPadOS, macOS, or tvOS, also follow [@rules/develop-apple-apps](/rules/develop-apple-apps.md) for native interfaces and platform-specific design and implementation.
