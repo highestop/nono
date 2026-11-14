@@ -1,4 +1,4 @@
-# Apple app design and development
+# Develop Apple apps
 
 ## Keep the app small and focused
 
