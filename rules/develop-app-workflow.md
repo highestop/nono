@@ -16,7 +16,13 @@ flowchart TD
     acceptance -->|All approved cases pass| deliver["Deliver the app, approved feature list,<br/>evidence and acceptance results"]
 ```
 
-**Mandatory order: (1) observe and record the reference product from the user's perspective, without reading implementation code or inferring features; stop to report the findings and evidence, revise the product feature list with the user, and obtain their explicit approval → (2) research implementation where useful and implement the approved product feature list → (3) write GWT cases against every feature and scenario in that approved list, with no omissions, and align every Then expected result with the Stage 1 evidence and any explicitly approved product adjustments; then implement automated acceptance and pass every case. Complete each stage before starting any work in the next stage. Do not overlap stages or treat partial completion as permission to proceed.**
+**Mandatory order:**
+
+1. Observe and record the reference product from the user's perspective, without reading implementation code or inferring features. Stop to report the findings and evidence, revise the product feature list with the user, and obtain their explicit approval.
+2. Research implementation where useful and implement the approved product feature list.
+3. Write GWT cases against every feature and scenario in that approved list, with no omissions. Align every Then expected result with the Stage 1 evidence and any explicitly approved product adjustments, then implement automated acceptance and pass every case.
+
+**Complete each stage before starting any work in the next stage. Do not overlap stages or treat partial completion as permission to proceed.**
 
 ## Stage 1 — Discover features and collect evidence
 
