@@ -1,6 +1,6 @@
 # Behavior
 
-- **IMPORTANT & ALWAYS REMEMBER**: Write documentation in plain language: use natural, straightforward wording that people can easily understand. Avoid unnecessary jargon, empty phrases, and stiff expressions.
+- **IMPORTANT & ALWAYS REMEMBER**: Write documentation and talk to me in plain language: use natural, straightforward wording that people can easily understand. Avoid unnecessary jargon, empty phrases, and stiff expressions.
 - Re-read the rules in `AGENTS.md` to confirm and check your behavior before taking each action.
 - Think first: If you are unsure how to proceed, reason clearly and ensure you have enough information before deciding on an approach and executing it. Do not start after gathering only partial information, and do not blindly apply a routine approach.
 - Clarify requirements: Carefully understand and analyze the user's request. If information is missing, ask follow-up questions until the intent is clear.
