@@ -15,6 +15,13 @@
       "skillPath": "skills/hallmark/SKILL.md",
       "computedHash": "611aa02a0444197b38896cb3073866ae9563f10005f7d14e7bf4baf8ab58f437"
     },
+    "impeccable": {
+      "source": "pbakaus/impeccable",
+      "ref": "acb4cfe14470b1fdf51e855431af618d936b7db8",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/impeccable/SKILL.md",
+      "computedHash": "a5f950edfc57b65cd314153852f0e76e3712d972ba0b843393e85576cdc2e644"
+    },
     "mobile-ios-design": {
       "source": "wshobson/agents",
       "ref": "4bde3168b43c0655c4d00ea2726e631719908a6d",
